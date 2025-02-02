@@ -1,0 +1,62 @@
+version: '3.1'
+
+services:
+    nginx:
+        image: nginx:latest
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/local:/etc/nginx/conf.d
+        ports:
+            - 8080:80
+        depends_on:
+            - app
+        container_name: ecert_nginx
+        networks:
+            - ecert-network
+
+    app:
+        container_name: ecert_app
+        build:
+            context: .
+            dockerfile: ./docker/php-fpm/Dockerfile
+        image: ecert_app
+        environment:
+            WWWUSER: '1000'
+            APP_KEY: ${APP_KEY}
+            APP_NAME: ${APP_NAME}
+            APP_ENV: ${APP_ENV}
+            APP_URL: ${APP_URL}
+            APP_DEBUG: ${APP_DEBUG}
+            CONTAINER_ROLE: app
+        volumes:
+            - ./:/var/www
+        working_dir: /var/www
+        depends_on:
+            - postgres
+#        ports:
+#            - '8080:8080'
+        networks:
+            - ecert-network
+
+    postgres:
+        image: ecert_db
+        build:
+            context: .
+            dockerfile: ./docker/postgres/Dockerfile
+        restart: always
+        volumes:
+            - './docker/db/data:/var/lib/postgresql/data'
+        environment:
+            POSTGRES_DB: 'ecert_db'
+            POSTGRES_ROOT_PASSWORD: 'root'
+            POSTGRES_USER: 'root'
+            POSTGRES_PASSWORD: 'root'
+        ports:
+            - 5432:5432
+        container_name: ecert_db
+        networks:
+            - ecert-network
+
+networks:
+    ecert-network:
+        driver: bridge
