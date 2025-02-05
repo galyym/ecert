@@ -16,7 +16,7 @@ RUN docker-php-ext-install bcmath \
     && docker-php-ext-install zip \
     && docker-php-ext-install exif \
     && docker-php-ext-install pdo \
-    && docker-php-ext-install pdo_pgsql \
+    && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install pcntl
 
 COPY ./docker/php-fpm/php.ini /usr/local/etc/php/conf.d/php.ini
