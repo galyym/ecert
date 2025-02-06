@@ -2,18 +2,15 @@
 
 namespace App\Services\TelegramBots\InfoBot\Commands\User;
 
-use App\Models\User;
+use App\Models\CertificateRequest;
 use App\Services\Telegram\TelegramService;
-use App\Services\TelegramBots\InfoBot\Keyboards\Doc24\Doc24Keyboard;
+use App\Services\TelegramBots\InfoBot\Keyboards\StartKeyboard\ReRegistrationKeyboard;
 use App\Services\TelegramBots\InfoBot\Traits\ImageSelector;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Conversation;
 use Longman\TelegramBot\Entities\Keyboard;
-use Longman\TelegramBot\Entities\KeyboardButton;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Request;
 
@@ -23,14 +20,14 @@ class RegisterUserCommand extends UserCommand
 
     protected $name = 'register_user';
     protected $description = 'Регистрация';
-    protected $usage = 'register_user [параметры]';
+    protected $usage = 'register_user';
     protected $version = '0.4.0';
     protected $need_mysql = true;
     protected $private_only = true;
 
     protected $conversation;
 
-    public function execute(): ServerResponse
+    public function execute($reRegister = false): ServerResponse
     {
         $message = $this->getMessage();
         $chat = $message->getChat();
@@ -44,11 +41,12 @@ class RegisterUserCommand extends UserCommand
             ->where('user_id', $user_id)
             ->where('status', 'stopped')
             ->first();
-        if ($registered) {
+        if ($registered && !$reRegister) {
             TelegramService::deleteLastMessage($chat_id);
             return Request::sendMessage([
                 'chat_id' => $chat_id,
-                'text'    => __('telegram.main.exists')
+                'text'    => 'Вы уже зарегистрированы!',
+                'reply_markup' => ReRegistrationKeyboard::make()->getKeyboard(),
             ]);
         }
 
@@ -70,103 +68,153 @@ class RegisterUserCommand extends UserCommand
         switch ($state) {
             case 0:
                 if ($text === '') {
-                    TelegramService::deleteLastMessage($chat_id);
                     $notes['state'] = 0;
                     $this->conversation->update();
-                    $data['text'] = __('telegram.main.send_iin');
+                    $data['text'] = 'Пожалуйста, введите вашу фамилию';
                     $result = Request::sendMessage($data);
                     break;
                 }
-
-                $validator = preg_match('/^\d{12}$/', $text);
-                if (strlen($text) != 12 || !$validator) {
-                    $data['text'] = __('telegram.main.iin_max_12');
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $users = User::getUserByIinBin($text);
-                if ($users) {
-                    return Request::sendMessage([
-                        'chat_id' => $chat_id,
-                        'text'    => __('telegram.main.iin_exists')
-                    ]);
-                }
-
-                $notes['iin_bin'] = $text;
+                $notes['last_name'] = $text;
+                $text = '';
                 $notes['state'] = 1;
                 $this->conversation->update();
-                $text = '';
-
+            // no break
             case 1:
-                if ($message->getContact() === null) {
-                    $notes['state'] = 1;
-                    $this->conversation->update();
-
-                    $data['reply_markup'] = (new Keyboard(
-                        (new KeyboardButton(__('telegram.main.share_contact')))->setRequestContact(true)
-                    ))
-                        ->setOneTimeKeyboard(true)
-                        ->setResizeKeyboard(true)
-                        ->setSelective(true);
-
-                    $data['text'] = __('telegram.main.your_phone');
-                    if ($text !== '') {
-                        $data['text'] = __('telegram.main.button_share_contact');
-                    }
-                    TelegramService::deleteLastMessage($chat_id);
+                if ($text === '') {
+                    $data['text'] = 'Пожалуйста, введите ваше имя';
                     $result = Request::sendMessage($data);
                     break;
                 }
-
-                $phoneNumber = $message->getContact()->getPhoneNumber();
-                $users = User::getUserByPhoneNumber($phoneNumber);
-                if ($users) {
-                    return Request::sendMessage([
-                        'chat_id' => $chat_id,
-                        'text'    => __('telegram.main.phone_exists')
-                    ]);
-                }
-                $notes['phone_number'] = $phoneNumber;
+                $notes['first_name'] = $text;
+                $text = '';
                 $notes['state'] = 2;
                 $this->conversation->update();
-
-                $data['text'] = __('telegram.main.successfully_registered');
-                $data['reply_markup'] = Keyboard::remove();
-                TelegramService::deleteLastMessage($chat_id);
-                $result = Request::sendMessage($data);
-
-                $text = '';
-
+            // no break
             case 2:
                 if ($text === '') {
-                    $notes['state'] = 2;
-                    $this->conversation->update();
-                    if ($user->notes) {
-                        $notes = json_decode($user->notes);
-                        if (config('setting.with_qr_code')) {
-                            $salesRepId = Cache::get("qr_{$chat_id}");
-                            if (!$salesRepId) {
-                                return Request::sendMessage([
-                                    'chat_id' => $chat_id,
-                                    'text' => __('telegram.sales_rep.not_fount_in_db')
-                                ]);
-                            }
-                        }
-                        if ($notes->state == \App\Models\Conversation::STATE_2) {
-                            User::updateIinPhoneNumber($user_id, $notes->iin_bin ?? null, $notes->phone_number ?? null, $salesRepId ?? null);
-                        }
-                    }
-
-                    $keyboard = Doc24Keyboard::make()->getKeyboard();
-
-                    $data['text'] = __('telegram.main.menu');
-                    $data['reply_markup'] = $keyboard;
-                    TelegramService::deleteLastMessage($chat_id);
+                    $data['text'] = 'Пожалуйста, введите ваше отчество';
                     $result = Request::sendMessage($data);
-
-                    $this->conversation->stop();
                     break;
                 }
+                $notes['middle_name'] = $text;
+                $text = '';
+                $notes['state'] = 3;
+                $this->conversation->update();
+            // no break
+            case 3:
+                if ($text === '') {
+                    $data['text'] = 'Пожалуйста, введите ваш ИИН';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                if (!preg_match('/^\d{12}$/', $text)) {
+                    $data['text'] = 'ИИН должен состоять из 12 цифр. Пожалуйста, введите ваш ИИН снова.';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                $notes['iin'] = $text;
+                $text = '';
+                $notes['state'] = 4;
+                $this->conversation->update();
+            // no break
+            case 4:
+                if ($text === '') {
+                    $data['text'] = 'Пожалуйста, введите ваш вид деятельности';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                $notes['activity_type'] = $text;
+                $text = '';
+                $notes['state'] = 5;
+                $this->conversation->update();
+            // no break
+            case 5:
+                if ($text === '') {
+                    $data['text'] = 'Пожалуйста, введите вашу специальность';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                $notes['specialty'] = $text;
+                $text = '';
+                $notes['state'] = 6;
+                $this->conversation->update();
+            // no break
+            case 6:
+                if ($text === '') {
+                    $data['text'] = 'Пожалуйста, введите ваш контактный телефон';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                if (!preg_match('/^\+?\d{10,15}$/', $text)) {
+                    $data['text'] = 'Некорректный номер телефона. Пожалуйста, введите ваш контактный телефон снова.';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                $notes['phone'] = $text;
+                $text = '';
+                $notes['state'] = 7;
+                $this->conversation->update();
+            // no break
+            case 7:
+                if ($text === '') {
+                    $data['text'] = 'Пожалуйста, введите ваше место работы';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                $notes['workplace'] = $text;
+                $text = '';
+                $notes['state'] = 8;
+                $this->conversation->update();
+            // no break
+            case 8:
+                if ($text === '') {
+                    $data['text'] = 'Пожалуйста, введите имя отправителя';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                $notes['sender_name'] = $text;
+                $text = '';
+                $notes['state'] = 9;
+                $this->conversation->update();
+            // no break
+            case 9:
+                if ($message->getDocument() === null) {
+                    $data['text'] = 'Пожалуйста, отправьте копию документа';
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+                $notes['document'] = $message->getDocument()->getFileId();
+                $notes['state'] = 10;
+                $this->conversation->update();
+            // no break
+            case 10:
+                $data['text'] = 'Регистрация завершена!';
+                $result = Request::sendMessage($data);
+
+                // Сохранение данных пользователя в базу данных
+                $certificate = CertificateRequest::create([
+                    'last_name' => $notes['last_name'],
+                    'first_name' => $notes['first_name'],
+                    'middle_name' => $notes['middle_name'],
+                    'iin' => $notes['iin'],
+                    'activity_type' => $notes['activity_type'],
+                    'specialty' => $notes['specialty'],
+                    'phone' => $notes['phone'],
+                    'workplace' => $notes['workplace'],
+                    'sender_name' => $notes['sender_name'],
+                    'document' => $notes['document'],
+                    'chat_id' => $chat_id,
+                    'user_id' => $user_id,
+                ]);
+
+                if ($certificate) {
+                    Log::channel('certificate_log')->info('Certificate request created', [
+                        'certificate' => $certificate,
+                    ]);
+                }
+
+                $this->conversation->stop();
+                break;
         }
 
         return $result;

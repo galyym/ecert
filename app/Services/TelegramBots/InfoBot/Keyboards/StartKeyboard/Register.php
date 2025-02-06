@@ -3,12 +3,16 @@
 namespace App\Services\TelegramBots\InfoBot\Keyboards\StartKeyboard;
 
 use App\Services\Telegram\TelegramService;
+use App\Services\TelegramBots\InfoBot\Commands\User\RegisterUserCommand;
 use App\Services\TelegramBots\InfoBot\Entities\TelegramButton;
-use App\Services\TelegramBots\InfoBot\Keyboards\RegKeyboard\RegKeyboard;
+use Illuminate\Support\Str;
 use Longman\TelegramBot\Entities\CallbackQuery;
+use Longman\TelegramBot\Entities\Message;
 use Longman\TelegramBot\Entities\ServerResponse;
+use Longman\TelegramBot\Entities\Update;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
+use Longman\TelegramBot\Telegram;
 
 class Register extends TelegramButton
 {
@@ -19,7 +23,7 @@ class Register extends TelegramButton
     public function __construct()
     {
         parent::__construct();
-        $this->buttonText = 'Регистрация';
+        $this->buttonText = 'Получить сертификат';
     }
 
     /**
@@ -29,7 +33,27 @@ class Register extends TelegramButton
     {
         $accountInfo = $query->getMessage()->getChat();
         $chatId = $accountInfo->getId();
-        TelegramService::deleteLastMessage($chatId);
-        return $this->telegram->executeCommand('register_user');
+        $fakeMessageData = [
+            'message_id' => Str::uuid(),
+            'from' => [
+                'id' => $chatId,
+                'first_name' => $accountInfo->first_name,
+                'username' => $accountInfo->username,
+            ],
+            'chat' => [
+                'id' => $chatId,
+                'type' => 'private'
+            ],
+            'date' => time(),
+            'text' => ''
+        ];
+        $fakeMessage = new Message($fakeMessageData);
+        $fakeUpdate = new Update(['message' => $fakeMessage]);
+        $telegram = new Telegram(config('telegram.bot_api_key'), config('telegram.bot_username'));
+
+
+        $command = new RegisterUserCommand($telegram, $fakeUpdate);
+        $command->execute();
+        return Request::emptyResponse();
     }
 }

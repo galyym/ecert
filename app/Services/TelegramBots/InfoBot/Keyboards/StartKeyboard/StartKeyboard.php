@@ -10,9 +10,11 @@ class StartKeyboard extends TelegramKeyboard
 {
     public function buildKeyboard(string $value = ''): Keyboard
     {
-        
         return new InlineKeyboard(
-            [$this->inlineButton(new Register())],
+            [
+                $this->inlineButton(new Register()),
+                $this->inlineButton(new Services()),
+            ],
         );
     }
 }

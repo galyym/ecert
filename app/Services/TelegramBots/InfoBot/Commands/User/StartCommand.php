@@ -4,6 +4,7 @@ namespace App\Services\TelegramBots\InfoBot\Commands\User;
 
 use App\Models\Message;
 use App\Models\Setting;
+use App\Models\Start;
 use App\Models\User;
 use App\Services\Telegram\TelegramService;
 use App\Services\TelegramBots\InfoBot\Keyboards\MainMenyKeyboard\MenuKeyboard;
@@ -55,8 +56,10 @@ class StartCommand extends UserCommand
         $chat    = $message->getChat();
         $chat_id = $chat->getId();
 
+        $startText = Start::all()->first()->name;
+
         return $this->send(
-            'Добро пожаловать! Для продолжения работы с ботом, пожалуйста, ознакомьтесь с правилами и условиями использования бота.',
+            $startText,
             $chat_id,
             StartKeyboard::make()->getKeyboard()
         );
@@ -67,7 +70,6 @@ class StartCommand extends UserCommand
      */
     private function send(string $text, int $chatId, Keyboard $keyboard): ServerResponse
     {
-        TelegramService::deleteLastMessage($chatId);
         return Request::sendMessage([
             'chat_id'       => $chatId,
             'text'          => $text,

@@ -34,6 +34,9 @@ use MoonShine\Laravel\Resources\MoonShineUserResource;
 use MoonShine\Laravel\Resources\MoonShineUserRoleResource;
 use MoonShine\MenuManager\MenuGroup;
 use MoonShine\MenuManager\MenuItem;
+use App\MoonShine\Resources\MainResource;
+use App\MoonShine\Resources\ServicesResource;
+use App\MoonShine\Resources\CertificateRequestResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -57,6 +60,11 @@ final class MoonShineLayout extends AppLayout
                     MoonShineUserRoleResource::class
                 ),
             ])->translatable(),
+            MenuGroup::make('Refernces', [
+                MenuItem::make('MainPage', MainResource::class),
+                MenuItem::make('Services', ServicesResource::class),
+            ]),
+            MenuItem::make('CertificateRequests', CertificateRequestResource::class),
         ];
     }
 
