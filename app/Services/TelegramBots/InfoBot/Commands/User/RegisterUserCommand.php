@@ -4,13 +4,15 @@ namespace App\Services\TelegramBots\InfoBot\Commands\User;
 
 use App\Models\CertificateRequest;
 use App\Services\Telegram\TelegramService;
-use App\Services\TelegramBots\InfoBot\Keyboards\StartKeyboard\ReRegistrationKeyboard;
+use App\Services\TelegramBots\InfoBot\Keyboards\RegisterKeyboard\ReRegistrationKeyboard;
 use App\Services\TelegramBots\InfoBot\Traits\ImageSelector;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Conversation;
+use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Entities\Keyboard;
+use Longman\TelegramBot\Entities\KeyboardButton;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Request;
 
@@ -30,25 +32,26 @@ class RegisterUserCommand extends UserCommand
     public function execute($reRegister = false): ServerResponse
     {
         $message = $this->getMessage();
-        $chat = $message->getChat();
-        $user = $message->getFrom();
-        $text = trim($message->getText(true));
+        $callback_query = $this->getCallbackQuery();
+        $chat = $message ? $message->getChat() : $callback_query->getMessage()->getChat();
+        $user = $message ? $message->getFrom() : $callback_query->getFrom();
+        $text = trim($message ? $message->getText(true) : '');
         $chat_id = $chat->getId();
         $user_id = $user->getId();
 
         // Проверка, зарегистрирован ли уже пользователь
-        $registered = DB::table('conversation')
-            ->where('user_id', $user_id)
-            ->where('status', 'stopped')
-            ->first();
-        if ($registered && !$reRegister) {
-            TelegramService::deleteLastMessage($chat_id);
-            return Request::sendMessage([
-                'chat_id' => $chat_id,
-                'text'    => 'Вы уже зарегистрированы!',
-                'reply_markup' => ReRegistrationKeyboard::make()->getKeyboard(),
-            ]);
-        }
+//        $registered = DB::table('conversation')
+//            ->where('user_id', $user_id)
+//            ->where('status', 'stopped')
+//            ->first();
+//        if ($registered && !$reRegister) {
+//            TelegramService::deleteLastMessage($chat_id);
+//            return Request::sendMessage([
+//                'chat_id' => $chat_id,
+//                'text'    => 'Вы уже зарегистрированы!',
+//                'reply_markup' => ReRegistrationKeyboard::make()->getKeyboard(),
+//            ]);
+//        }
 
         $data = [
             'chat_id'      => $chat_id,
@@ -56,6 +59,13 @@ class RegisterUserCommand extends UserCommand
         ];
 
         $this->conversation = new Conversation($user_id, $chat_id, $this->getName());
+        if ($text == 'Отменить заявку') {
+            $this->conversation->stop();
+            return Request::sendMessage([
+                'chat_id' => $chat_id,
+                'text'    => 'Регистрация отменена',
+            ]);
+        }
 
         $notes = &$this->conversation->notes;
         !is_array($notes) && $notes = [];
@@ -71,6 +81,9 @@ class RegisterUserCommand extends UserCommand
                     $notes['state'] = 0;
                     $this->conversation->update();
                     $data['text'] = 'Пожалуйста, введите вашу фамилию';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -82,6 +95,9 @@ class RegisterUserCommand extends UserCommand
             case 1:
                 if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите ваше имя';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить заявку', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -93,6 +109,9 @@ class RegisterUserCommand extends UserCommand
             case 2:
                 if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите ваше отчество';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -104,6 +123,9 @@ class RegisterUserCommand extends UserCommand
             case 3:
                 if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите ваш ИИН';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -120,6 +142,9 @@ class RegisterUserCommand extends UserCommand
             case 4:
                 if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите ваш вид деятельности';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -131,6 +156,9 @@ class RegisterUserCommand extends UserCommand
             case 5:
                 if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите вашу специальность';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить заявку', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -142,6 +170,9 @@ class RegisterUserCommand extends UserCommand
             case 6:
                 if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите ваш контактный телефон';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -158,6 +189,9 @@ class RegisterUserCommand extends UserCommand
             case 7:
                 if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите ваше место работы';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -169,6 +203,9 @@ class RegisterUserCommand extends UserCommand
             case 8:
                 if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите имя отправителя';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -178,21 +215,33 @@ class RegisterUserCommand extends UserCommand
                 $this->conversation->update();
             // no break
             case 9:
-                if ($message->getDocument() === null) {
-                    $data['text'] = 'Пожалуйста, отправьте копию документа';
+                if ($message->getDocument() === null && $text != 'Пропустить') {
+                    $data['text'] = 'Пожалуйста, отправьте копию документа или нажмите "Пропустить"';
+                    $data['reply_markup'] = new Keyboard([
+                        ['text' => 'Пропустить', 'callback_data' => 'Пропустить', 'resize_keyboard' => true],
+                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+
+                    ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
-                $notes['document'] = $message->getDocument()->getFileId();
+                if ($text === 'Пропустить') {
+                    $notes['document'] = null;
+                } else {
+                    $notes['document'] = $message->getDocument()->getFileId() ?? null;
+                }
                 $notes['state'] = 10;
                 $this->conversation->update();
-            // no break
             case 10:
-                $data['text'] = 'Регистрация завершена!';
+                $data['text'] = 'Регистрация завершена! Ваша заявка принята на обработку. Ожидайте ответа.';
                 $result = Request::sendMessage($data);
 
                 // Сохранение данных пользователя в базу данных
-                $certificate = CertificateRequest::create([
+                $certificate = CertificateRequest::updateOrCreate([
+                    'iin' => $notes['iin'],
+                    'chat_id' => $chat_id,
+                    'user_id' => $user_id,
+                ],[
                     'last_name' => $notes['last_name'],
                     'first_name' => $notes['first_name'],
                     'middle_name' => $notes['middle_name'],
@@ -202,7 +251,7 @@ class RegisterUserCommand extends UserCommand
                     'phone' => $notes['phone'],
                     'workplace' => $notes['workplace'],
                     'sender_name' => $notes['sender_name'],
-                    'document' => $notes['document'],
+                    'document' => $notes['document'] ?? null,
                     'chat_id' => $chat_id,
                     'user_id' => $user_id,
                 ]);

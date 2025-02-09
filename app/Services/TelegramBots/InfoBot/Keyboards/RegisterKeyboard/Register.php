@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Services\TelegramBots\InfoBot\Keyboards\StartKeyboard;
+namespace App\Services\TelegramBots\InfoBot\Keyboards\RegisterKeyboard;
 
-use App\Services\Telegram\TelegramService;
 use App\Services\TelegramBots\InfoBot\Commands\User\RegisterUserCommand;
 use App\Services\TelegramBots\InfoBot\Entities\TelegramButton;
 use Illuminate\Support\Str;
@@ -14,16 +13,16 @@ use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
 use Longman\TelegramBot\Telegram;
 
-class ReRegister extends TelegramButton
+class Register extends TelegramButton
 {
-    protected string $buttonKey = 're_register';
+    protected string $buttonKey = 'register';
 
     protected string $buttonText = '';
 
     public function __construct()
     {
         parent::__construct();
-        $this->buttonText = 'Перерегистрация';
+        $this->buttonText = 'Получить сертификат';
     }
 
     /**
@@ -53,7 +52,7 @@ class ReRegister extends TelegramButton
 
 
         $command = new RegisterUserCommand($telegram, $fakeUpdate);
-        $command->execute(true);
+        $command->execute();
         return Request::emptyResponse();
     }
 }

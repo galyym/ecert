@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\TelegramBots\InfoBot\Keyboards\StartKeyboard;
+namespace App\Services\TelegramBots\InfoBot\Keyboards\CertificateKeyboard;
 
 use App\Services\TelegramBots\InfoBot\Entities\TelegramButton;
 use Longman\TelegramBot\Entities\CallbackQuery;

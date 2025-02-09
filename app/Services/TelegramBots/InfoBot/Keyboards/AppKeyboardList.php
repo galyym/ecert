@@ -2,17 +2,15 @@
 
 namespace App\Services\TelegramBots\InfoBot\Keyboards;
 
-use App\Services\TelegramBots\InfoBot\Keyboards\Doc24\Doc24instruct;
-use App\Services\TelegramBots\InfoBot\Keyboards\Doc24\Doc24Keyboard;
 use App\Services\TelegramBots\InfoBot\Keyboards\MainMenyKeyboard\MenuKeyboard;
+use App\Services\TelegramBots\InfoBot\Keyboards\RegisterKeyboard\ReRegistrationKeyboard;
 use App\Services\TelegramBots\InfoBot\Keyboards\StartKeyboard\StartKeyboard;
-use App\Services\TelegramBots\InfoBot\Keyboards\RegKeyboard\RegKeyboard;
 
 class AppKeyboardList
 {
     private array $keyboards = [
         StartKeyboard::class,
-        MenuKeyboard::class
+        ReregistrationKeyboard::class
     ];
 
     /**

@@ -48,6 +48,13 @@ class CallbackqueryCommand extends SystemCommand
             }
         }
 
+        $callback_data = $callback_query->getData();
+
+//        if ($callback_data === 're_register') {
+//            $button = new \App\Services\TelegramBots\InfoBot\Keyboards\RegisterKeyboard\ReRegister();
+//            return $button->handle($callback_query);
+//        }
+
         return ($answer instanceof ServerResponse) ? $answer : $callback_query->answer();
     }
 
