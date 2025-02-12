@@ -37,6 +37,7 @@ use MoonShine\MenuManager\MenuItem;
 use App\MoonShine\Resources\MainResource;
 use App\MoonShine\Resources\ServicesResource;
 use App\MoonShine\Resources\CertificateRequestResource;
+use App\MoonShine\Resources\PositionResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -60,11 +61,12 @@ final class MoonShineLayout extends AppLayout
                     MoonShineUserRoleResource::class
                 ),
             ])->translatable(),
-            MenuGroup::make('Refernces', [
+            MenuGroup::make('References', [
                 MenuItem::make('MainPage', MainResource::class),
                 MenuItem::make('Services', ServicesResource::class),
             ]),
             MenuItem::make('CertificateRequests', CertificateRequestResource::class),
+            MenuItem::make('Positions', PositionResource::class),
         ];
     }
 

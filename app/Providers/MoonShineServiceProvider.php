@@ -15,6 +15,7 @@ use App\MoonShine\Pages\MainPage;
 use App\MoonShine\Resources\MainResource;
 use App\MoonShine\Resources\ServicesResource;
 use App\MoonShine\Resources\CertificateRequestResource;
+use App\MoonShine\Resources\PositionResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 MainResource::class,
                 ServicesResource::class,
                 CertificateRequestResource::class,
+                PositionResource::class,
             ])
             ->pages([
                 ...$config->getPages(),

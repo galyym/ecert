@@ -17,13 +17,13 @@ use Longman\TelegramBot\Entities\KeyboardButton;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Request;
 
-class RegisterUserCommand extends UserCommand
+class CheckCertCommand extends UserCommand
 {
     use ImageSelector;
 
-    protected $name = 'register_user';
-    protected $description = 'Регистрация';
-    protected $usage = 'register_user';
+    protected $name = 'check_cert';
+    protected $description = 'Проверка сертификата';
+    protected $usage = 'check_cert';
     protected $version = '0.4.0';
     protected $need_mysql = true;
     protected $private_only = true;
@@ -40,34 +40,12 @@ class RegisterUserCommand extends UserCommand
         $chat_id = $chat->getId();
         $user_id = $user->getId();
 
-        // Проверка, зарегистрирован ли уже пользователь
-//        $registered = DB::table('conversation')
-//            ->where('user_id', $user_id)
-//            ->where('status', 'stopped')
-//            ->first();
-//        if ($registered && !$reRegister) {
-//            TelegramService::deleteLastMessage($chat_id);
-//            return Request::sendMessage([
-//                'chat_id' => $chat_id,
-//                'text'    => 'Вы уже зарегистрированы!',
-//                'reply_markup' => ReRegistrationKeyboard::make()->getKeyboard(),
-//            ]);
-//        }
-
         $data = [
             'chat_id'      => $chat_id,
             'reply_markup' => Keyboard::remove(['selective' => true]),
         ];
 
         $this->conversation = new Conversation($user_id, $chat_id, $this->getName());
-        if ($text == 'Отменить заявку') {
-            $this->conversation->stop();
-            return Request::sendMessage([
-                'chat_id' => $chat_id,
-                'text'    => 'Регистрация отменена',
-            ]);
-        }
-
         $notes = &$this->conversation->notes;
         !is_array($notes) && $notes = [];
 

@@ -10,7 +10,7 @@ use Longman\TelegramBot\Request;
 
 class CheckCertificate extends TelegramButton
 {
-    protected string $buttonKey = 'services';
+    protected string $buttonKey = 'check_certification';
 
     protected string $buttonText = '';
 

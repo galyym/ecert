@@ -12,7 +12,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "longman/telegram-bot": "^0.83.1",
-        "moonshine/moonshine": "^3.3",
+        "moonshine/moonshine": "^3.5",
         "moonshine/tinymce": "^1.0",
         "phpoffice/phpword": "^1.3"
     },

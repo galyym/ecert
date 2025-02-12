@@ -5,7 +5,7 @@ services:
             - ./:/var/www/ecert
             - ./docker/nginx/local:/etc/nginx/conf.d
         ports:
-            - 8008:80
+            - 8080:80
         depends_on:
             - app
         container_name: ecert_nginx
@@ -50,7 +50,7 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - ./docker/mysql/db:/var/lib/mysql
+            - mysql_data:/var/lib/mysql
         networks:
             - ecert-network
 
@@ -59,5 +59,5 @@ networks:
         driver: bridge
 
 volumes:
-    db:
+    mysql_data:
         driver: local
