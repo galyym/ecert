@@ -8,7 +8,12 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
-    curl
+    curl \
+    libreoffice \
+    libreoffice-writer \
+    libxml2-dev
+
+RUN apt install -y default-jre
 
 # Установка расширений PHP
 RUN docker-php-ext-install bcmath \
@@ -21,7 +26,7 @@ RUN docker-php-ext-install bcmath \
 
 COPY ./docker/php-fpm/php.ini /usr/local/etc/php/conf.d/php.ini
 
-COPY . /var/www/
+COPY . /var/www/ecert
 
 COPY composer.*  ./
 
@@ -46,7 +51,11 @@ RUN composer install \
 
 RUN composer dump-autoload  --no-scripts --optimize --no-dev
 
-WORKDIR /var/www
+# Создание директории для конфигурации LibreOffice
+RUN mkdir -p /var/www/.config/libreoffice
+RUN chown -R www-data:www-data /var/www/.config
+
+WORKDIR /var/www/ecert
 
 EXPOSE 9000
 CMD ["php-fpm"]
