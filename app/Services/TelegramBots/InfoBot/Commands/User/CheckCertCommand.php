@@ -57,50 +57,6 @@ class CheckCertCommand extends UserCommand
         switch ($state) {
             case 0:
                 if ($text === '') {
-                    $notes['state'] = 0;
-                    $this->conversation->update();
-                    $data['text'] = 'Пожалуйста, введите вашу фамилию';
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
-                    ]);
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $notes['last_name'] = $text;
-                $text = '';
-                $notes['state'] = 1;
-                $this->conversation->update();
-            // no break
-            case 1:
-                if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваше имя';
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить заявку', 'resize_keyboard' => true]
-                    ]);
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $notes['first_name'] = $text;
-                $text = '';
-                $notes['state'] = 2;
-                $this->conversation->update();
-            // no break
-            case 2:
-                if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваше отчество';
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
-                    ]);
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $notes['middle_name'] = $text;
-                $text = '';
-                $notes['state'] = 3;
-                $this->conversation->update();
-            // no break
-            case 3:
-                if ($text === '') {
                     $data['text'] = 'Пожалуйста, введите ваш ИИН';
                     $data['reply_markup'] = new Keyboard([
                         ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
@@ -113,160 +69,26 @@ class CheckCertCommand extends UserCommand
                     $result = Request::sendMessage($data);
                     break;
                 }
-                $notes['iin'] = $text;
-                $text = '';
-                $notes['state'] = 4;
-                $this->conversation->update();
-            // no break
-            case 4:
-                if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваш вид деятельности';
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
-                    ],
-                    [
-                        ['text' => 'ПД', 'callback_data' => 'ПД'],
-                        ['text' => 'CMP', 'callback_data' => 'CMP']
-                    ]);
 
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $notes['activity_type'] = $text;
-                $text = '';
-                $notes['state'] = 5;
-                $this->conversation->update();
-            // no break
-            case 5:
-                if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите вашу специальность';
-                    if ($this->conversation->notes['activity_type'] == 'ПД') {
-                        $keyboards = $this->getPositions();
-                        Log::info('keyboards: ' , $keyboards);
-                        $keyboards[] = ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true];
-                        $data['reply_markup'] = new Keyboard($keyboards);
-                    }
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $notes['specialty'] = $text;
-                $text = '';
-                $notes['state'] = 6;
-                $this->conversation->update();
-            // no break
-            case 6:
-                if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваш контактный телефон';
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                $certificate = CertificateRequest::where('iin', $text)
+                    ->orderByDesc('created_at')
+                    ->first();
+                if ($certificate->certificate_file) {
+                    Request::sendDocument([
+                        'chat_id'       => $chat_id,
+                        'document'      => \Storage::disk('public')->path($certificate->certificate_file),
+                        'caption' => "Номер сертификата: ".$certificate->certificate_number,
                     ]);
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                if (!preg_match('/^\+?\d{10,15}$/', $text)) {
-                    $data['text'] = 'Некорректный номер телефона. Пожалуйста, введите ваш контактный телефон снова.';
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $notes['phone'] = $text;
-                $text = '';
-                $notes['state'] = 7;
-                $this->conversation->update();
-            // no break
-            case 7:
-                if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваше место работы';
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
-                    ]);
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $notes['workplace'] = $text;
-                $text = '';
-                $notes['state'] = 8;
-                $this->conversation->update();
-            // no break
-            case 8:
-                if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите имя отправителя';
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
-                    ]);
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                $notes['sender_name'] = $text;
-                $text = '';
-                $notes['state'] = 9;
-                $this->conversation->update();
-            // no break
-            case 9:
-                if ($message->getDocument() === null && $text != 'Пропустить') {
-                    $data['text'] = 'Пожалуйста, отправьте копию документа или нажмите "Пропустить"';
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Пропустить', 'callback_data' => 'Пропустить', 'resize_keyboard' => true],
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
-
-                    ]);
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                if ($text === 'Пропустить') {
-                    $notes['document'] = null;
                 } else {
-                    $notes['document'] = $message->getDocument()->getFileId() ?? null;
+                    $data["text"] = "Ваш зарос все еще в обработке";
+                    Request::sendMessage($data);
                 }
-                $notes['state'] = 10;
+
                 $this->conversation->update();
-            case 10:
-                $data['text'] = 'Регистрация завершена! Ваша заявка принята на обработку. Ожидайте ответа.';
-                $result = Request::sendMessage($data);
-
-                // Сохранение данных пользователя в базу данных
-                $certificate = CertificateRequest::updateOrCreate([
-                    'iin' => $notes['iin'],
-                    'chat_id' => $chat_id,
-                    'user_id' => $user_id,
-                ],[
-                    'last_name' => $notes['last_name'],
-                    'first_name' => $notes['first_name'],
-                    'middle_name' => $notes['middle_name'],
-                    'iin' => $notes['iin'],
-                    'activity_type' => $notes['activity_type'],
-                    'specialty' => $notes['specialty'],
-                    'phone' => $notes['phone'],
-                    'workplace' => $notes['workplace'],
-                    'sender_name' => $notes['sender_name'],
-                    'document' => $notes['document'] ?? null,
-                    'chat_id' => $chat_id,
-                    'user_id' => $user_id,
-                ]);
-
-                if ($certificate) {
-                    Log::channel('certificate_log')->info('Certificate request created', [
-                        'certificate' => $certificate,
-                    ]);
-                }
-
                 $this->conversation->stop();
                 break;
         }
 
         return $result;
-    }
-
-    private function getPositions(): array
-    {
-        $positions = Position::all();
-        $buttonPositions = [];
-        foreach ($positions as $position) {
-            $buttonPositions[][] = [
-                'text' => $position->name,
-                'callback_data' => $position->name,
-                'resize_keyboard' => true
-            ];
-        }
-        return $buttonPositions;
     }
 }

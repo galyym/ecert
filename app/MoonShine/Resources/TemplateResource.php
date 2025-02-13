@@ -30,7 +30,7 @@ class TemplateResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
-            File::make('Шаблон', 'path')->required()
+            File::make('Шаблон', 'path')->required()->removable()
         ];
     }
 
@@ -42,7 +42,7 @@ class TemplateResource extends ModelResource
         return [
             Box::make([
                 ID::make()->sortable(),
-                File::make('Шаблон', 'path')->required()
+                File::make('Шаблон', 'path')->required()->removable()
             ])
         ];
     }
@@ -54,7 +54,7 @@ class TemplateResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
-            File::make('Шаблон', 'path')->required()
+            File::make('Шаблон', 'path')->required()->removable()
         ];
     }
 

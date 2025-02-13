@@ -146,9 +146,9 @@ class CertificateRequestResource extends ModelResource
     {
         $certificateRequest = CertificateRequest::find($request->getItemID());
 
-//        if ($certificateRequest->certificate_file) {
-//            return MoonShineJsonResponse::make()->toast("Сертификат уже существует", ToastType::ERROR);
-//        }
+        if ($certificateRequest->certificate_file) {
+            return MoonShineJsonResponse::make()->toast("Сертификат уже существует", ToastType::ERROR);
+        }
 
         $template = Template::all()->first();
         $templatePath = Storage::disk('public')->path($template->path);
