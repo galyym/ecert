@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Models\Template;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CertificateRequest;
@@ -26,6 +27,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Fields\Text;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @extends ModelResource<CertificateRequest>
@@ -144,20 +146,21 @@ class CertificateRequestResource extends ModelResource
     {
         $certificateRequest = CertificateRequest::find($request->getItemID());
 
-        if ($certificateRequest->certificate_file) {
-            return MoonShineJsonResponse::$statusTexts[208];
-        }
+//        if ($certificateRequest->certificate_file) {
+//            return MoonShineJsonResponse::make()->toast("Сертификат уже существует", ToastType::ERROR);
+//        }
 
-        $templatePath = Storage::disk('public')->path('example.docx');
+        $template = Template::all()->first();
+        $templatePath = Storage::disk('public')->path($template->path);
         $templateProcessor = new TemplateProcessor($templatePath);
+        $uuidFileName = Str::uuid();
 
-        $this->setValues($templateProcessor, $certificateRequest);
+        $this->setValues($templateProcessor, $certificateRequest, $uuidFileName);
 
         if (!file_exists(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month))){
             mkdir(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month), 0755, true);
         }
 
-        $uuidFileName = Str::uuid();
         $filledDocxPath = Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month.'/'.$uuidFileName.'.docx');
         $templateProcessor->saveAs($filledDocxPath);
 
@@ -170,8 +173,9 @@ class CertificateRequestResource extends ModelResource
         if ($code === 0) {
             $certificateRequest->certificate_file = 'generated/'.now()->year.'/'.now()->month.'/'.$uuidFileName.'.pdf';
             $certificateRequest->status = 'confirmed';
+            $certificateRequest->certificate_number = $uuidFileName;
             $certificateRequest->save();
-            return MoonShineJsonResponse::make()->toast("Success", ToastType::ERROR);
+            return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
         } else {
             $errorMessage = "Ошибка при создании PDF (код: $code). ";
             $errorMessage .= "Вывод команды: " . implode("\n", $output);
@@ -187,14 +191,14 @@ class CertificateRequestResource extends ModelResource
         return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
     }
 
-    private function setValues(TemplateProcessor $templateProcessor, $certificateRequest): void
+    private function setValues(TemplateProcessor $templateProcessor, Model $certificateRequest, UuidInterface $uuidFileName): void
     {
         $templateProcessor->setValue('{{no_cert}}', "KZ29VVV00019826");
         $templateProcessor->setValue('{{full_name_kz}}', sprintf("%s %s %s", $certificateRequest->las_name, $certificateRequest->name, $certificateRequest->first_name));
         $templateProcessor->setValue('{{full_name_ru}}', sprintf("%s %s %s", $certificateRequest->las_name, $certificateRequest->name, $certificateRequest->first_name));
         $templateProcessor->setValue('{{status_kz}}', $certificateRequest->status);
         $templateProcessor->setValue('{{status_ru}}', $certificateRequest->status);
-        $templateProcessor->setValue('{{doc_no}}', $certificateRequest->certificate_number);
+        $templateProcessor->setValue('{{doc_no}}', $uuidFileName);
         $templateProcessor->setValue('{{position_kz}}', $certificateRequest->specialty);
         $templateProcessor->setValue('{{position_ru}}', $certificateRequest->specialty);
         $templateProcessor->setValue('{{city_date_kz}}', sprintf("Астана қаласы %s.$%s.%s жылы", now()->day, now()->month, now()->year));

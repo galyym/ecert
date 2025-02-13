@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use App\MoonShine\Resources\TemplateResource;
 use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\ColorManager\ColorManager;
 use MoonShine\Contracts\ColorManager\ColorManagerContract;
@@ -64,6 +65,7 @@ final class MoonShineLayout extends AppLayout
             MenuGroup::make('References', [
                 MenuItem::make('MainPage', MainResource::class),
                 MenuItem::make('Services', ServicesResource::class),
+                MenuItem::make('Templates', TemplateResource::class),
             ]),
             MenuItem::make('CertificateRequests', CertificateRequestResource::class),
             MenuItem::make('Positions', PositionResource::class),
