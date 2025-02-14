@@ -30,7 +30,7 @@ class CheckCertificate extends TelegramButton
 
         return Request::sendMessage([
             'chat_id' => $chatId,
-            'text' => 'Введите ИИН и номер сертификата'
+            'text' => __('certificate.enter_iin')
         ]);
     }
 }

@@ -57,15 +57,15 @@ class CheckCertCommand extends UserCommand
         switch ($state) {
             case 0:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваш ИИН';
+                    $data['text'] = __('certificate.enter_iin');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
                     ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
                 if (!preg_match('/^\d{12}$/', $text)) {
-                    $data['text'] = 'ИИН должен состоять из 12 цифр. Пожалуйста, введите ваш ИИН снова.';
+                    $data['text'] = __('certificate.iin_length_error');
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -77,10 +77,10 @@ class CheckCertCommand extends UserCommand
                     Request::sendDocument([
                         'chat_id'       => $chat_id,
                         'document'      => \Storage::disk('public')->path($certificate->certificate_file),
-                        'caption' => "Номер сертификата: ".$certificate->certificate_number,
+                        'caption' => __('certificate.certificate_number') .$certificate->certificate_number,
                     ]);
                 } else {
-                    $data["text"] = "Ваш зарос все еще в обработке";
+                    $data["text"] = __('certificate.request_pending');
                     Request::sendMessage($data);
                 }
 

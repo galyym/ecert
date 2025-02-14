@@ -60,11 +60,11 @@ class RegisterUserCommand extends UserCommand
         ];
 
         $this->conversation = new Conversation($user_id, $chat_id, $this->getName());
-        if ($text == 'Отменить заявку') {
+        if ($text == __('certificate.cancel_request')) {
             $this->conversation->stop();
             return Request::sendMessage([
                 'chat_id' => $chat_id,
-                'text'    => 'Регистрация отменена',
+                'text'    => __('certificate.registration_cancelled'),
             ]);
         }
 
@@ -81,9 +81,9 @@ class RegisterUserCommand extends UserCommand
                 if ($text === '') {
                     $notes['state'] = 0;
                     $this->conversation->update();
-                    $data['text'] = 'Пожалуйста, введите вашу фамилию';
+                    $data['text'] = __('certificate.enter_surname');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
                     ]);
                     $result = Request::sendMessage($data);
                     break;
@@ -95,9 +95,9 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 1:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваше имя';
+                    $data['text'] = __('certificate.enter_name');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить заявку', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel_request'), 'resize_keyboard' => true]
                     ]);
                     $result = Request::sendMessage($data);
                     break;
@@ -109,9 +109,9 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 2:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваше отчество';
+                    $data['text'] = __('certificate.enter_patronymic');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
                     ]);
                     $result = Request::sendMessage($data);
                     break;
@@ -123,15 +123,15 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 3:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваш ИИН';
+                    $data['text'] = __('certificate.enter_iin');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
                     ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
                 if (!preg_match('/^\d{12}$/', $text)) {
-                    $data['text'] = 'ИИН должен состоять из 12 цифр. Пожалуйста, введите ваш ИИН снова.';
+                    $data['text'] = __('certificate.iin_length_error');
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -142,13 +142,13 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 4:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваш вид деятельности';
+                    $data['text'] = __('certificate.enter_activity_type');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
                     ],
                     [
-                        ['text' => 'ПД', 'callback_data' => 'ПД'],
-                        ['text' => 'CMP', 'callback_data' => 'CMP']
+                        ['text' => __('certificate.pd'), 'callback_data' => __('certificate.pd')],
+                        ['text' => __('certificate.cmp'), 'callback_data' => __('certificate.cmp')]
                     ]);
 
                     $result = Request::sendMessage($data);
@@ -161,11 +161,11 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 5:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите вашу специальность';
+                    $data['text'] = __('certificate.enter_specialty');
                     if ($this->conversation->notes['activity_type'] == 'ПД') {
                         $keyboards = $this->getPositions();
                         Log::info('keyboards: ' , $keyboards);
-                        $keyboards[] = ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true];
+                        $keyboards[] = ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true];
                         $data['reply_markup'] = new Keyboard($keyboards);
                     }
                     $result = Request::sendMessage($data);
@@ -178,15 +178,15 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 6:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваш контактный телефон';
+                    $data['text'] = __('certificate.enter_phone');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
                     ]);
                     $result = Request::sendMessage($data);
                     break;
                 }
                 if (!preg_match('/^\+?\d{10,15}$/', $text)) {
-                    $data['text'] = 'Некорректный номер телефона. Пожалуйста, введите ваш контактный телефон снова.';
+                    $data['text'] = __('certificate.invalid_phone');
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -197,9 +197,9 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 7:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите ваше место работы';
+                    $data['text'] = __('certificate.enter_workplace');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
                     ]);
                     $result = Request::sendMessage($data);
                     break;
@@ -211,9 +211,9 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 8:
                 if ($text === '') {
-                    $data['text'] = 'Пожалуйста, введите имя отправителя';
+                    $data['text'] = __('certificate.enter_sender_name');
                     $data['reply_markup'] = new Keyboard([
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
                     ]);
                     $result = Request::sendMessage($data);
                     break;
@@ -225,10 +225,10 @@ class RegisterUserCommand extends UserCommand
             // no break
             case 9:
                 if ($message->getDocument() === null && $text != 'Пропустить') {
-                    $data['text'] = 'Пожалуйста, отправьте копию документа или нажмите "Пропустить"';
+                    $data['text'] = __('certificate.upload_document');
                     $data['reply_markup'] = new Keyboard([
                         ['text' => 'Пропустить', 'callback_data' => 'Пропустить', 'resize_keyboard' => true],
-                        ['text' => 'Отменить заявку', 'callback_data' => 'Отменить', 'resize_keyboard' => true]
+                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
 
                     ]);
                     $result = Request::sendMessage($data);
@@ -242,7 +242,7 @@ class RegisterUserCommand extends UserCommand
                 $notes['state'] = 10;
                 $this->conversation->update();
             case 10:
-                $data['text'] = 'Регистрация завершена! Ваша заявка принята на обработку. Ожидайте ответа.';
+                $data['text'] = __('certificate.registration_complete');
                 $result = Request::sendMessage($data);
 
                 // Сохранение данных пользователя в базу данных

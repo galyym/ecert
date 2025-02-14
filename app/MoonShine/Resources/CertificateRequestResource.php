@@ -53,14 +53,14 @@ class CertificateRequestResource extends ModelResource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Фамилия', 'last_name'),
-            Text::make('Имя', 'first_name'),
-            Text::make('ИИН', 'iin'),
-            Text::make('Телефон', 'phone'),
+            Text::make(__('certificate.surname'), 'last_name'),
+            Text::make(__('certificate.name'), 'first_name'),
+            Text::make(__('certificate.iin'), 'iin'),
+            Text::make(__('certificate.phone'), 'phone'),
             Text::make('Chat ID', 'chat_id'),
             Text::make('Статус', 'status'),
-            Text::make('Номер сертификата', 'certificate_number'),
-            File::make('Файл сертификата', 'certificate_file'),
+            Text::make(__('certificate.certificate_number'), 'certificate_number'),
+            File::make(__('certificate.certificate_file'), 'certificate_file'),
         ];
     }
 
@@ -72,20 +72,20 @@ class CertificateRequestResource extends ModelResource
         return [
             Box::make([
                 ID::make(),
-                Text::make('Фамилия', 'last_name'),
-                Text::make('Имя', 'first_name'),
-                Text::make('Отчество', 'middle_name'),
-                Text::make('ИИН', 'iin'),
-                Text::make('Вид деятельности', 'activity_type'),
-                Text::make('Специальность', 'specialty'),
-                Text::make('Телефон', 'phone'),
-                Text::make('Место работы', 'workplace'),
-                Text::make('Имя отправителя', 'sender_name'),
-                Text::make('Документ', 'document'),
+                Text::make(__('certificate.surname'), 'last_name'),
+                Text::make(__('certificate.name'), 'first_name'),
+                Text::make(__('certificate.patronymic'), 'middle_name'),
+                Text::make(__('certificate.iin'), 'iin'),
+                Text::make(__('certificate.activity_type'), 'activity_type'),
+                Text::make(__('certificate.specialty'), 'specialty'),
+                Text::make(__('certificate.phone'), 'phone'),
+                Text::make(__('certificate.workplace'), 'workplace'),
+                Text::make(__('certificate.sender_name'), 'sender_name'),
+                Text::make(__('certificate.document'), 'document'),
                 Text::make('Chat ID', 'chat_id')->disabled(),
                 Text::make('Статус', 'status'),
-                Text::make('Номер сертификата', 'certificate_number')->disabled(),
-                File::make('Файл сертификата', 'certificate_file')->removable(),
+                Text::make(__('certificate.certificate_number'), 'certificate_number')->disabled(),
+                File::make(__('certificate.certificate_file'), 'certificate_file')->removable(),
                 Text::make('User ID', 'user_id')->disabled(),
             ])
         ];
@@ -98,20 +98,20 @@ class CertificateRequestResource extends ModelResource
     {
         return [
             ID::make(),
-            Text::make('Фамилия', 'last_name'),
-            Text::make('Имя', 'first_name'),
-            Text::make('Отчество', 'middle_name'),
-            Text::make('ИИН', 'iin'),
-            Text::make('Вид деятельности', 'activity_type'),
-            Text::make('Специальность', 'specialty'),
-            Text::make('Телефон', 'phone'),
-            Text::make('Место работы', 'workplace'),
-            Text::make('Имя отправителя', 'sender_name'),
-            Text::make('Документ', 'document'),
+            Text::make(__('certificate.surname'), 'last_name'),
+            Text::make(__('certificate.name'), 'first_name'),
+            Text::make(__('certificate.patronymic'), 'middle_name'),
+            Text::make(__('certificate.iin'), 'iin'),
+            Text::make(__('certificate.activity_type'), 'activity_type'),
+            Text::make(__('certificate.specialty'), 'specialty'),
+            Text::make(__('certificate.phone'), 'phone'),
+            Text::make(__('certificate.workplace'), 'workplace'),
+            Text::make(__('certificate.sender_name'), 'sender_name'),
+            Text::make(__('certificate.document'), 'document'),
             Text::make('Chat ID', 'chat_id'),
             Text::make('Статус', 'status'),
-            Text::make('Номер сертификата', 'certificate_number'),
-            File::make('Файл сертификата', 'certificate_file')->disk('public'),
+            Text::make(__('certificate.certificate_number'), 'certificate_number')->disabled(),
+            File::make(__('certificate.certificate_file'), 'certificate_file')->disk('public'),
             Text::make('User ID', 'user_id'),
         ];
     }
@@ -147,7 +147,7 @@ class CertificateRequestResource extends ModelResource
         $certificateRequest = CertificateRequest::find($request->getItemID());
 
         if ($certificateRequest->certificate_file) {
-            return MoonShineJsonResponse::make()->toast("Сертификат уже существует", ToastType::ERROR);
+            return MoonShineJsonResponse::make()->toast(__('certificate.certificate_exists'), ToastType::ERROR);
         }
 
         $template = Template::all()->first();
@@ -177,8 +177,8 @@ class CertificateRequestResource extends ModelResource
             $certificateRequest->save();
             return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
         } else {
-            $errorMessage = "Ошибка при создании PDF (код: $code). ";
-            $errorMessage .= "Вывод команды: " . implode("\n", $output);
+            $errorMessage = __('certificate.pdf_error');
+            $errorMessage .= __('certificate.command_output') . implode("\n", $output);
             return MoonShineJsonResponse::make()->toast($errorMessage, ToastType::ERROR);
         }
     }
