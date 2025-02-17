@@ -62,13 +62,13 @@ final class MoonShineLayout extends AppLayout
                     MoonShineUserRoleResource::class
                 ),
             ])->translatable(),
-            MenuGroup::make('References', [
-                MenuItem::make('MainPage', MainResource::class),
-                MenuItem::make('Services', ServicesResource::class),
-                MenuItem::make('Templates', TemplateResource::class),
+            MenuGroup::make(__('moonshine::menu.references'), [
+                MenuItem::make(__('moonshine::menu.main'), MainResource::class),
+                MenuItem::make(__('moonshine::menu.services'), ServicesResource::class),
+                MenuItem::make(__('moonshine::menu.templates'), TemplateResource::class),
+                MenuItem::make(__('moonshine::menu.position'), PositionResource::class),
             ]),
-            MenuItem::make('CertificateRequests', CertificateRequestResource::class),
-            MenuItem::make('Positions', PositionResource::class),
+            MenuItem::make(__('moonshine::menu.certificate_request'), CertificateRequestResource::class),
         ];
     }
 

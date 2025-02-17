@@ -131,10 +131,10 @@ class CertificateRequestResource extends ModelResource
     {
         if ($this->item->status !== 'confirmed') {
             return parent::detailButtons()
-                ->add(ActionButton::make('Accept')
+                ->add(ActionButton::make(__('moonshine::buttons.accept'))
                     ->method('acceptCertificateRequest')
                 )
-                ->add(ActionButton::make('Reject')
+                ->add(ActionButton::make(__('moonshine::buttons.Reject'))
                     ->method('rejectCertificateRequest')
                 );
         } else {

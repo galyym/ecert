@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin Builder
+ */
 class Position extends Model
 {
     protected $fillable = [
         'name_kk',
         'name_ru',
+        'type'
     ];
 
     public function getNameAttribute()

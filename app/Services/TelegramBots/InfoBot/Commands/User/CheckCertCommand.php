@@ -73,14 +73,16 @@ class CheckCertCommand extends UserCommand
                 $certificate = CertificateRequest::where('iin', $text)
                     ->orderByDesc('created_at')
                     ->first();
-                if ($certificate->certificate_file) {
+
+                if ($certificate->certificate_file && $certificate->status == 'confirmed') {
                     Request::sendDocument([
                         'chat_id'       => $chat_id,
                         'document'      => \Storage::disk('public')->path($certificate->certificate_file),
                         'caption' => __('certificate.certificate_number') .$certificate->certificate_number,
                     ]);
                 } else {
-                    $data["text"] = __('certificate.request_pending');
+//                    if ($certificate->status == 'reject')
+                    $data["text"] = __('certificate.request_reject');
                     Request::sendMessage($data);
                 }
 

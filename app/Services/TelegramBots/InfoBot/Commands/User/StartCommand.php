@@ -56,10 +56,9 @@ class StartCommand extends UserCommand
         $chat    = $message->getChat();
         $chat_id = $chat->getId();
 
-        $startText = Start::all()->first()->name;
-
+        $startText = Start::all()->first();
         return $this->send(
-            $startText,
+            $startText->name_kk,
             $chat_id,
             StartKeyboard::make()->getKeyboard()
         );
@@ -70,6 +69,7 @@ class StartCommand extends UserCommand
      */
     private function send(string $text, int $chatId, Keyboard $keyboard): ServerResponse
     {
+        Log::info('Send message to ' . $chatId);
         return Request::sendMessage([
             'chat_id'       => $chatId,
             'text'          => $text,

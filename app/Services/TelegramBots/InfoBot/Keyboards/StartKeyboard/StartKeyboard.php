@@ -2,6 +2,7 @@
 
 namespace App\Services\TelegramBots\InfoBot\Keyboards\StartKeyboard;
 
+use App\Services\TelegramBots\InfoBot\Keyboards\CertificateKeyboard\CheckCertificate;
 use App\Services\TelegramBots\InfoBot\Keyboards\RegisterKeyboard\Register;
 use App\Services\TelegramBots\InfoBot\Keyboards\TelegramKeyboard;
 use Longman\TelegramBot\Entities\InlineKeyboard;
@@ -14,8 +15,11 @@ class StartKeyboard extends TelegramKeyboard
         return new InlineKeyboard(
             [
                 $this->inlineButton(new Register()),
+            ],[
                 $this->inlineButton(new Services()),
-            ],
+            ],[
+                $this->inlineButton(new CheckCertificate()),
+            ]
         );
     }
 }

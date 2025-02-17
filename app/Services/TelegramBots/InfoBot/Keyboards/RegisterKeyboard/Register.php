@@ -30,6 +30,7 @@ class Register extends TelegramButton
      */
     public function handle(CallbackQuery $query): ServerResponse
     {
+        \Log::info('init', ['init in register']);
         $accountInfo = $query->getMessage()->getChat();
         $chatId = $accountInfo->getId();
         $fakeMessageData = [
@@ -49,7 +50,6 @@ class Register extends TelegramButton
         $fakeMessage = new Message($fakeMessageData);
         $fakeUpdate = new Update(['message' => $fakeMessage]);
         $telegram = new Telegram(config('telegram.bot_api_key'), config('telegram.bot_username'));
-
 
         $command = new RegisterUserCommand($telegram, $fakeUpdate);
         $command->execute();

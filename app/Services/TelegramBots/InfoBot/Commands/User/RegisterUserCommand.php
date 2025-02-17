@@ -32,6 +32,7 @@ class RegisterUserCommand extends UserCommand
 
     public function execute($reRegister = false): ServerResponse
     {
+        Log::info('execute: ' . $this->getName());
         $message = $this->getMessage();
         $callback_query = $this->getCallbackQuery();
         $chat = $message ? $message->getChat() : $callback_query->getMessage()->getChat();
@@ -154,20 +155,23 @@ class RegisterUserCommand extends UserCommand
                     $result = Request::sendMessage($data);
                     break;
                 }
+
+                if  ($text !== __('certificate.pd') && $text !== __('certificate.cmp')) {
+                    $data['text'] = __('certificate.invalid_activity_type');
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+
                 $notes['activity_type'] = $text;
                 $text = '';
                 $notes['state'] = 5;
                 $this->conversation->update();
-            // no break
             case 5:
                 if ($text === '') {
                     $data['text'] = __('certificate.enter_specialty');
-                    if ($this->conversation->notes['activity_type'] == 'ПД') {
-                        $keyboards = $this->getPositions();
-                        Log::info('keyboards: ' , $keyboards);
-                        $keyboards[] = ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true];
-                        $data['reply_markup'] = new Keyboard($keyboards);
-                    }
+                    $keyboards = $this->getPositions($this->conversation->notes['activity_type']);
+                    Log::info('keyboards', $keyboards);
+                    $data['reply_markup'] = new Keyboard(...$keyboards);
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -177,16 +181,18 @@ class RegisterUserCommand extends UserCommand
                 $this->conversation->update();
             // no break
             case 6:
-                if ($text === '') {
-                    $data['text'] = __('certificate.enter_phone');
-                    $data['reply_markup'] = new Keyboard([
-                        ['text' => __('certificate.cancel_request'), 'callback_data' => __('certificate.cancel'), 'resize_keyboard' => true]
-                    ]);
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-                if (!preg_match('/^\+?\d{10,15}$/', $text)) {
-                    $data['text'] = __('certificate.invalid_phone');
+                if ($message->getContact() === null) {
+                    $data['reply_markup'] = (new Keyboard(
+                        (new KeyboardButton(__('telegram.main.share_contact')))->setRequestContact(true)
+                    ))
+                        ->setOneTimeKeyboard(true)
+                        ->setResizeKeyboard(true)
+                        ->setSelective(true);
+
+                    $data['text'] = __('telegram.main.your_phone');
+                    if ($text !== '') {
+                        $data['text'] = __('telegram.main.button_share_contact');
+                    }
                     $result = Request::sendMessage($data);
                     break;
                 }
@@ -278,15 +284,18 @@ class RegisterUserCommand extends UserCommand
         return $result;
     }
 
-    private function getPositions(): array
+    private function getPositions($type): array
     {
-        $positions = Position::all();
+        $type = $type == __('certificate.pd') ? __('certificate.pd') : __('certificate.cmp');
+        $positions = Position::where('type', $type)->get();
         $buttonPositions = [];
         foreach ($positions as $position) {
-            $buttonPositions[][] = [
-                'text' => $position->name,
-                'callback_data' => $position->name,
-                'resize_keyboard' => true
+            $buttonPositions[] = [
+                [
+                    'text' => $position->name_kk,
+                    'callback_data' => $position->name_kk,
+                    'resize_keyboard' => true
+                ]
             ];
         }
         return $buttonPositions;
