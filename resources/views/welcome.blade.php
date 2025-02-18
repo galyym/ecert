@@ -935,25 +935,25 @@
                     <tbody id="tableOrder">
                     <tr id="row1">
                         <td>1</td>
-                        <td><input type="text" class="form-control" name="SecondName" required></td>
-                        <td><input type="text" class="form-control" name="FirstName" required></td>
-                        <td><input type="text" class="form-control" name="ThirdName"></td>
-                        <td><input type="text" class="form-control" name="iinKZ" pattern="\d{12}" required></td>
+                        <td><input type="text" class="form-control" name="last_name" required></td>
+                        <td><input type="text" class="form-control" name="first_name" required></td>
+                        <td><input type="text" class="form-control" name="middle_name"></td>
+                        <td><input type="text" class="form-control" name="iin" pattern="\d{12}" required></td>
                         <td>
-                            <select class="form-select" name="vd" required>
+                            <select class="form-select" name="activity_type" required>
                                 <option value="" disabled selected>Выберите</option>
                                 <option value="PD">ПД</option>
                                 <option value="SMR">СМР</option>
                             </select>
                         </td>
                         <td>
-                            <select class="form-select" name="SpecId" required>
+                            <select class="form-select" name="specialty" required>
                                 <option value="" disabled selected>Выберите</option>
                             </select>
                         </td>
                         <td><input type="tel" class="form-control" name="phone" required></td>
-                        <td><input type="text" class="form-control" name="WorkPlace"></td>
-                        <td><input type="text" class="form-control" name="senderName" required></td>
+                        <td><input type="text" class="form-control" name="workplace"></td>
+                        <td><input type="text" class="form-control" name="sender_name" required></td>
                         <td>
                             <div class="documents-container">
                                 <div class="document-item">
@@ -965,6 +965,12 @@
                                            class="form-control doc-file"
                                            name="docFile[]"
                                            accept="image/*,.pdf">
+                                    <button type="button"
+                                            class="btn-remove-doc"
+                                            onclick="removeDocumentField(this)"
+                                            style="display: none;">
+                                        ×
+                                    </button>
                                 </div>
                             </div>
                             <button type="button"
@@ -979,7 +985,7 @@
             </div>
 
             <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" onclick="addRow()">
+                <button type="button" class="btn btn-info" onclick="addRow()">
                     <i class="bi bi-plus-circle"></i> Добавить строку
                 </button>
                 <button type="button" class="btn btn-primary" onclick="addOrder()">
@@ -1171,15 +1177,15 @@
             });
 
             const data = {
-                SecondName: row.querySelector('.SecondName').value,
-                FirstName: row.querySelector('.FirstName').value,
-                ThirdName: row.querySelector('.ThirdName').value,
-                iinKZ: row.querySelector('.iinKZ').value,
-                vd: row.querySelector('.vd').value,
-                SpecId: row.querySelector('.SpecId').value,
+                last_name: row.querySelector('.last_name').value,
+                first_name: row.querySelector('.first_name').value,
+                middle_name: row.querySelector('.middle_name').value,
+                iin: row.querySelector('.iin').value,
+                activity_type: row.querySelector('.activity_type').value,
+                specialty: row.querySelector('.specialty').value,
                 phone: row.querySelector('.phone').value,
-                WorkPlace: row.querySelector('.WorkPlace').value,
-                senderName: row.querySelector('.senderName').value,
+                workplace: row.querySelector('.workplace').value,
+                sender_name: row.querySelector('.sender_name').value,
                 docFile: row.querySelector('.docFile').value,
                 documents: docs
             };
@@ -1224,26 +1230,95 @@
         document.getElementById('applicationModal').style.display = 'none';
     });
 
-    // Очистка при отправке
-    function addOrder() {
-        localStorage.removeItem('savedForm');
-        document.getElementById('applicationModal').style.display = 'none';
+    async function addOrder() {
+        const submitBtn = document.querySelector('.btn-primary');
+        try {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Отправка...';
 
-        document.querySelectorAll('.doc-file').forEach(fileInput => {
-            if(fileInput.value && !fileInput.previousElementSibling.value) {
-                alert('Укажите название для документа');
-                return;
+            const formData = new FormData();
+            const rows = document.querySelectorAll('#tableOrder tr');
+
+            formData.append('_token', '{{ csrf_token() }}');
+
+            rows.forEach((row, rowIndex) => {
+                const inputs = row.querySelectorAll('input:not([type="file"]), select');
+                inputs.forEach(input => {
+                    formData.append(`requests[${rowIndex}][${input.name}]`, input.value);
+                });
+
+                row.querySelectorAll('.document-item').forEach((doc, docIndex) => {
+                    const nameInput = doc.querySelector('.doc-name');
+                    const fileInput = doc.querySelector('.doc-file');
+
+                    if (nameInput.value || fileInput.files[0]) {
+                        formData.append(`documents[${rowIndex}][${docIndex}][name]`, nameInput.value);
+                        if (fileInput.files[0]) {
+                            formData.append(`documents[${rowIndex}][${docIndex}][file]`, fileInput.files[0]);
+                        }
+                    }
+                });
+            });
+
+            const response = await fetch('{{ route("cert_request") }}', {
+                method: 'POST',
+                body: formData
+            });
+
+            const contentType = response.headers.get('content-type');
+            let result;
+
+            if (contentType && contentType.includes('application/json')) {
+                result = await response.json();
+            } else {
+                throw new Error('Неверный формат ответа от сервера');
             }
-        });
 
-        // Ваша логика отправки
+            if (!response.ok) throw new Error(result.message || 'Ошибка сервера');
+
+            // Очистка формы
+            document.getElementById('applicationModal').style.display = 'none';
+            document.querySelectorAll('#tableOrder tr:not(:first-child)').forEach(row => row.remove());
+            document.querySelectorAll('.document-item').forEach((item, index) => {
+                if (index > 0) item.remove();
+            });
+            document.querySelectorAll('input').forEach(input => {
+                if (input.type !== 'button') input.value = '';
+            });
+            document.querySelectorAll('select').forEach(select => {
+                select.selectedIndex = 0;
+            });
+
+            alert('Заявка успешно отправлена!');
+        } catch (error) {
+            console.error('Ошибка:', error);
+            alert(error.message || 'Произошла ошибка при отправке');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Отправить заявку';
+        }
     }
 
     function addDocumentField(button) {
         const container = button.previousElementSibling;
         const newItem = container.firstElementChild.cloneNode(true);
         newItem.querySelectorAll('input').forEach(input => input.value = '');
+
+        // Показываем кнопку удаления для новых элементов
+        newItem.querySelector('.btn-remove-doc').style.display = 'block';
+
         container.appendChild(newItem);
+    }
+
+    function removeDocumentField(button) {
+        const container = button.closest('.documents-container');
+        const items = container.querySelectorAll('.document-item');
+
+        if(items.length > 1) {
+            if(confirm('Удалить этот документ?')) {
+                button.closest('.document-item').remove();
+            }
+        }
     }
 </script>
 

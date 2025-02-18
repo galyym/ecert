@@ -2614,3 +2614,42 @@ section,
     text-align: center;
     letter-spacing: 2px;
 }
+
+.document-item {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.btn-remove-doc {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    display: none; /* Скрываем для первого элемента */
+}
+
+.document-item:not(:first-child) .btn-remove-doc {
+    display: block; /* Показываем для добавленных элементов */
+}
+
+.btn-remove-doc {
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-remove-doc:hover {
+    background: #cc0000;
+}
