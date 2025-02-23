@@ -2449,9 +2449,10 @@ section,
     margin: 5% auto;
     padding: 25px;
     width: 90%;
-    max-width: 1200px;
+    max-width: 90vw;
     border-radius: 10px;
     position: relative;
+    overflow-x: auto;
 }
 
 .modal-scrollable {
@@ -2472,6 +2473,7 @@ section,
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
+    min-width: 100%;
 }
 
 .responsive-table th,
@@ -2479,6 +2481,15 @@ section,
     padding: 12px;
     border: 1px solid #dee2e6;
     min-width: 120px;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.responsive-table input,
+.responsive-table select {
+    width: auto; /* Ширина подстраивается под содержимое */
+    min-width: 100px; /* Минимальная ширина для читаемости */
+    box-sizing: border-box; /* Учитываем padding и border в ширине */
 }
 
 .responsive-table th {
@@ -2652,4 +2663,99 @@ section,
 
 .btn-remove-doc:hover {
     background: #cc0000;
+}
+
+.responsive-table td:nth-child(7) {
+    max-width: 250px; /* Фиксированная максимальная ширина */
+    min-width: 150px; /* Минимальная ширина */
+    width: 200px; /* Желаемая ширина */
+}
+
+/* Стили для выпадающего списка */
+.specialty {
+    max-width: 100% !important; /* Ограничение по ширине ячейки */
+    white-space: normal !important; /* Разрешаем перенос текста */
+    word-wrap: break-word; /* Перенос длинных слов */
+}
+
+/* Стили для опций в выпадающем списке */
+.specialty option {
+    white-space: normal; /* Перенос текста в опциях */
+    overflow-wrap: break-word; /* Перенос длинных слов */
+}
+
+@media (max-width: 768px) {
+    .responsive-table td:nth-child(7) {
+        max-width: 180px;
+        min-width: 120px;
+        width: 150px;
+    }
+
+    .specialty {
+        font-size: 14px; /* Уменьшаем размер шрифта */
+    }
+}
+
+     /* Стили секции */
+ .clients-section {
+     padding: 60px 0;
+     background: #f8f9fa;
+ }
+
+/* Контейнер для бегущей строки */
+.logos-scroll-container {
+    overflow: hidden;
+    position: relative;
+    margin: 0 -15px;
+}
+
+/* Трек с логотипами */
+.logos-track {
+    display: inline-flex;
+    animation: scroll 30s linear infinite;
+    will-change: transform;
+}
+
+/* Анимация для оригинальных + клонированных логотипов */
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Стили логотипов */
+.logo-item {
+    padding: 0 15px;
+    flex-shrink: 0;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.logo-item img {
+    max-width: 100%;
+    height: auto;
+    filter: grayscale(100%);
+    transition: 0.3s;
+}
+
+.logo-item:hover img {
+    filter: grayscale(0);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.modal-actions .btn {
+    flex: 1 1 auto;
+    min-width: 200px;
+}
+
+@media (max-width: 768px) {
+    .modal-actions .btn {
+        min-width: 100%;
+    }
 }
