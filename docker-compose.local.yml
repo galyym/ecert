@@ -34,8 +34,6 @@ services:
         working_dir: /var/www/ecert
         depends_on:
             - mysql
-#        ports:
-#            - '8080:8080'
         networks:
             - ecert-network
 
@@ -57,10 +55,22 @@ services:
         networks:
             - ecert-network
 
+    certbot:
+      image: certbot/certbot
+      volumes:
+        - certbot-etc:/etc/letsencrypt
+        - certbot-var:/var/lib/letsencrypt
+        - ./ssl_certs:/ssl
+      command: certonly --webroot --webroot-path=/ssl --email ermek_ospanov@mail.ru --agree-tos --no-eff-email --force-renewal -d vsestroi.kz -d www.vsestroi.kz
+      networks:
+        - ecert-network
+
 networks:
     ecert-network:
         driver: bridge
 
 volumes:
+    certbot-etc:
+    certbot-var:
     mysql_data:
         driver: local
