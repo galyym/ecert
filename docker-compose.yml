@@ -4,13 +4,15 @@ services:
         volumes:
             - ./:/var/www/ecert
             - ./docker/nginx/prod:/etc/nginx/conf.d
-            - ./ssl_certs:/etc/letsencrypt # Монтируем SSL-сертификаты
+            - ./ssl_certs/live/vsestroi.kz:/etc/letsencrypt/live/vsestroi.kz
             - ./ssl_certs:/var/www/certbot
+            - certbot-etc:/etc/letsencrypt
         ports:
             - 80:80
             - 443:443
         depends_on:
             - app
+            - certbot
         container_name: ecert_nginx
         networks:
             - ecert-network
