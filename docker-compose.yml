@@ -57,11 +57,10 @@ services:
             - ecert-network
 
     certbot:
-      image: certbot/certbot
+      image: certbot/certbot:latest
       volumes:
         - /tmp/acme-challenge:/var/www/certbot
         - /etc/letsencrypt:/etc/letsencrypt
-      command: certonly --webroot --webroot-path=/ssl --email ermek_ospanov@mail.ru --agree-tos --no-eff-email --force-renewal -d vsestroi.kz -d www.vsestroi.kz
       networks:
         - ecert-network
 
