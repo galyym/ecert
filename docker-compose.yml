@@ -6,9 +6,8 @@ services:
         volumes:
             - ./:/var/www/ecert
             - ./docker/nginx/prod:/etc/nginx/conf.d
-            - ./ssl_certs/live/vsestroi.kz:/etc/letsencrypt/live/vsestroi.kz
-            - ./ssl_certs:/var/www/certbot
-            - certbot-etc:/etc/letsencrypt
+            - /tmp/acme-challenge:/var/www/certbot
+            - /etc/letsencrypt:/etc/nginx/ssl
         ports:
             - 80:80
             - 443:443
@@ -62,9 +61,8 @@ services:
     certbot:
       image: certbot/certbot
       volumes:
-        - certbot-etc:/etc/letsencrypt
-        - certbot-var:/var/lib/letsencrypt
-        - ./ssl_certs:/ssl
+        - /tmp/acme-challenge:/var/www/certbot
+        - /etc/letsencrypt:/etc/letsencrypt
       command: certonly --webroot --webroot-path=/ssl --email ermek_ospanov@mail.ru --agree-tos --no-eff-email --force-renewal -d vsestroi.kz -d www.vsestroi.kz
       networks:
         - ecert-network
