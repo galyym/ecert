@@ -1,6 +1,8 @@
 services:
     nginx:
-        image: nginx:latest
+        build:
+          context: .
+          dockerfile: docker/nginx/Dockerfile
         volumes:
             - ./:/var/www/ecert
             - ./docker/nginx/prod:/etc/nginx/conf.d
