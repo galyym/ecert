@@ -29,6 +29,17 @@ class MainController extends Controller
             'status' => "new",
         ]);
 
-        return redirect()->back()->with('success', 'Your request has been sent. We will contact you soon.');
+        if ($request->hasFile('document')) {
+            $file = $request->file('document');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads'), $filename);
+            $addRequest->document = $filename;
+            $addRequest->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Заявка успешно отправлена'
+        ]);
     }
 }

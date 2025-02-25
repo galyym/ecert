@@ -3,12 +3,9 @@ services:
         image: nginx:latest
         volumes:
             - ./:/var/www/ecert
-            - ./docker/nginx/prod:/etc/nginx/conf.d
-            - ./ssl_certs:/etc/letsencrypt # Монтируем SSL-сертификаты
-            - ./ssl_certs:/var/www/certbot
+            - ./docker/nginx/local:/etc/nginx/conf.d
         ports:
-            - 80:80
-            - 443:443
+            - 8080:80
         depends_on:
             - app
         container_name: ecert_nginx
@@ -34,6 +31,8 @@ services:
         working_dir: /var/www/ecert
         depends_on:
             - mysql
+#        ports:
+#            - '8080:8080'
         networks:
             - ecert-network
 
@@ -55,22 +54,10 @@ services:
         networks:
             - ecert-network
 
-    certbot:
-      image: certbot/certbot
-      volumes:
-        - certbot-etc:/etc/letsencrypt
-        - certbot-var:/var/lib/letsencrypt
-        - ./ssl_certs:/ssl
-      command: certonly --webroot --webroot-path=/ssl --email ermek_ospanov@mail.ru --agree-tos --no-eff-email --force-renewal -d vsestroi.kz -d www.vsestroi.kz
-      networks:
-        - ecert-network
-
 networks:
     ecert-network:
         driver: bridge
 
 volumes:
-    certbot-etc:
-    certbot-var:
     mysql_data:
         driver: local

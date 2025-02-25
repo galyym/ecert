@@ -291,6 +291,12 @@
                     <div class="logo-item">
                         <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">
                     </div>
+                    <div class="logo-item">
+                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">
+                    </div>
+                    <div class="logo-item">
+                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">
+                    </div>
                 </div>
             </div>
         </div>
@@ -332,8 +338,7 @@
                             </div>
                             <div class="content">
                                 <h4>Телефон</h4>
-                                <p>+7 (777) 123-45-67</p>
-                                <p>+7 (7172) 55-88-99</p>
+                                <p>+7 (702) 512-23-00</p>
                             </div>
                         </div>
 
@@ -389,17 +394,14 @@
                     </thead>
                     <tbody id="tableOrder">
                     <tr id="row1">
+{{--                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
                         <td>1</td>
                         <td><input type="text" class="form-control" name="last_name" required></td>
                         <td><input type="text" class="form-control" name="first_name" required></td>
                         <td><input type="text" class="form-control" name="middle_name"></td>
                         <td><input type="text" class="form-control" name="iin" pattern="\d{12}" required></td>
                         <td>
-                            <select class="form-select activity_type" name="activity_type" required>
-                                <option value="" disabled selected>Выберите</option>
-                                <option value="ПД">ПД</option>
-                                <option value="СМР">СМР</option>
-                            </select>
+                            
                         </td>
                         <td>
                             <select class="form-select specialty" name="specialty" required>
@@ -533,18 +535,6 @@
     }
 
     // select
-    const specialtyOptions = {
-        "PD": [
-            { value: "architect", text: "Архитектор" },
-            { value: "constructor", text: "Инженер-конструктор" },
-            { value: "electrician", text: "Инженер-электрик" }
-        ],
-        "SMR": [
-            { value: "builder", text: "Строитель" },
-            { value: "installer", text: "Монтажник" },
-            { value: "electrician", text: "Электрик" }
-        ]
-    };
 
     const positions = @json($positions);
 
@@ -740,14 +730,7 @@
                 body: formData
             });
 
-            const contentType = response.headers.get('content-type');
             let result;
-
-            if (contentType && contentType.includes('application/json')) {
-                result = await response.json();
-            } else {
-                throw new Error('Неверный формат ответа от сервера');
-            }
 
             if (!response.ok) throw new Error(result.message || 'Ошибка сервера');
 
