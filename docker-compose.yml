@@ -2,7 +2,7 @@ services:
     nginx:
         build:
           context: .
-          dockerfile: docker/nginx/Dockerfile
+          dockerfile: ./docker/nginx/prod/Dockerfile
         volumes:
             - ./:/var/www/ecert
             - ./docker/nginx/prod:/etc/nginx/conf.d
