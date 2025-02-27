@@ -1,20 +1,19 @@
 services:
     nginx:
-        image: nginx:latest
-        volumes:
-            - ./:/var/www/ecert
-            - ./docker/nginx/prod:/etc/nginx/conf.d
-            - /tmp/acme-challenge:/var/www/certbot
-            - /etc/letsencrypt:/etc/nginx/ssl
-        ports:
-            - 80:80
-            - 443:443
-        depends_on:
-            - app
-            - certbot
-        container_name: ecert_nginx
-        networks:
-            - ecert-network
+      image: nginx:latest
+      ports:
+        - 80:80
+        - 443:443
+      restart: always
+      volumes:
+        - ./nginx/conf/:/etc/nginx/conf.d/:ro
+        - ./certbot/www:/var/www/certbot/:ro
+        - ./certbot/conf/:/etc/nginx/ssl/:ro
+    certbot:
+      image: certbot/certbot:latest
+      volumes:
+        - ./certbot/www/:/var/www/certbot/:rw
+        - ./certbot/conf/:/etc/letsencrypt/:rw
 
     app:
         container_name: ecert_app
@@ -56,20 +55,10 @@ services:
         networks:
             - ecert-network
 
-    certbot:
-      image: certbot/certbot:latest
-      volumes:
-        - /tmp/acme-challenge:/var/www/certbot
-        - /etc/letsencrypt:/etc/letsencrypt
-      networks:
-        - ecert-network
-
 networks:
     ecert-network:
         driver: bridge
 
 volumes:
-    certbot-etc:
-    certbot-var:
     mysql_data:
         driver: local
