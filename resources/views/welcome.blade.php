@@ -394,14 +394,18 @@
                     </thead>
                     <tbody id="tableOrder">
                     <tr id="row1">
-{{--                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <td>1</td>
                         <td><input type="text" class="form-control" name="last_name" required></td>
                         <td><input type="text" class="form-control" name="first_name" required></td>
                         <td><input type="text" class="form-control" name="middle_name"></td>
                         <td><input type="text" class="form-control" name="iin" pattern="\d{12}" required></td>
                         <td>
-                            
+                            <select class="form-select activity_type" name="activity_type" required>
+                                <option value="" disabled selected>Выберите</option>
+                                <option value="ПД">ПД</option>
+                                <option value="СМР">СМР</option>
+                            </select>
                         </td>
                         <td>
                             <select class="form-select specialty" name="specialty" required>
