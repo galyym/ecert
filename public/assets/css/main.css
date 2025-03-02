@@ -2759,3 +2759,91 @@ section,
         min-width: 100%;
     }
 }
+
+/* Добавьте в ваш CSS-файл */
+.is-invalid {
+    border-color: #dc3545 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.error-message {
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+}
+
+/* Стили для результатов поиска */
+.search-results-container {
+    display: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.cert-result {
+    font-size: 16px;
+}
+
+.cert-result p {
+    margin-bottom: 0.8rem;
+}
+
+.badge {
+    padding: 0.4em 0.75em;
+    border-radius: 0.25rem;
+}
+
+/* Стили для модального окна поиска */
+.search-results {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.certificate-item {
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+}
+
+.certificate-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.certificate-link {
+    color: #0d6efd;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s;
+}
+
+.certificate-link:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+
+.cert-date {
+    color: #6c757d;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bi-file-pdf {
+    color: #dc3545;
+    font-size: 1.2em;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 0.5rem;
+}

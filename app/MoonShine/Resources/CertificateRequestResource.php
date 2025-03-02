@@ -155,7 +155,19 @@ class CertificateRequestResource extends ModelResource
         $templateProcessor = new TemplateProcessor($templatePath);
         $uuidFileName = Str::uuid();
 
-        $this->setValues($templateProcessor, $certificateRequest, $uuidFileName);
+//        $this->setValues($templateProcessor, $certificateRequest, $uuidFileName);
+        $templateProcessor->setValue('no_cert', "KZ29VVV00019826");
+        $templateProcessor->setValue('full_name_kz', sprintf("%s %s %s", $certificateRequest->last_name, $certificateRequest->first_name, $certificateRequest->middle_name));
+        $templateProcessor->setValue('full_name_ru', sprintf("%s %s %s", $certificateRequest->last_name, $certificateRequest->first_name, $certificateRequest->middle_name));
+        $templateProcessor->setValue('status_kz', $certificateRequest->status);
+        $templateProcessor->setValue('status_ru', $certificateRequest->status);
+        $templateProcessor->setValue('doc_no', $uuidFileName);
+        $templateProcessor->setValue('position_kz', $certificateRequest->specialty);
+        $templateProcessor->setValue('position_ru', $certificateRequest->specialty);
+        $templateProcessor->setValue('city_date_kz', sprintf("Астана қаласы %s.%s.%s жылы", now()->day, now()->month, now()->year));
+        $templateProcessor->setValue('city_date_ru', sprintf("город Астана %s.%s.%s года", now()->day, now()->month, now()->year));
+
+//        dd($templateProcessor);
 
         if (!file_exists(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month))){
             mkdir(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month), 0755, true);
@@ -191,17 +203,17 @@ class CertificateRequestResource extends ModelResource
         return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
     }
 
-    private function setValues(TemplateProcessor $templateProcessor, Model $certificateRequest, UuidInterface $uuidFileName): void
+    private function setValues(TemplateProcessor &$templateProcessor, Model $certificateRequest, UuidInterface $uuidFileName): void
     {
-        $templateProcessor->setValue('{{no_cert}}', "KZ29VVV00019826");
-        $templateProcessor->setValue('{{full_name_kz}}', sprintf("%s %s %s", $certificateRequest->las_name, $certificateRequest->name, $certificateRequest->first_name));
-        $templateProcessor->setValue('{{full_name_ru}}', sprintf("%s %s %s", $certificateRequest->las_name, $certificateRequest->name, $certificateRequest->first_name));
-        $templateProcessor->setValue('{{status_kz}}', $certificateRequest->status);
-        $templateProcessor->setValue('{{status_ru}}', $certificateRequest->status);
-        $templateProcessor->setValue('{{doc_no}}', $uuidFileName);
-        $templateProcessor->setValue('{{position_kz}}', $certificateRequest->specialty);
-        $templateProcessor->setValue('{{position_ru}}', $certificateRequest->specialty);
-        $templateProcessor->setValue('{{city_date_kz}}', sprintf("Астана қаласы %s.$%s.%s жылы", now()->day, now()->month, now()->year));
-        $templateProcessor->setValue('{{city_date_ru}}', sprintf("город Астана %s.%s.%s года", now()->day, now()->month, now()->year));
+        $templateProcessor->setValue('no_cert', "KZ29VVV00019826");
+        $templateProcessor->setValue('full_name_kz', sprintf("%s %s %s", $certificateRequest->las_name, $certificateRequest->name, $certificateRequest->first_name));
+        $templateProcessor->setValue('full_name_ru', sprintf("%s %s %s", $certificateRequest->las_name, $certificateRequest->name, $certificateRequest->first_name));
+        $templateProcessor->setValue('status_kz', $certificateRequest->status);
+        $templateProcessor->setValue('status_ru', $certificateRequest->status);
+        $templateProcessor->setValue('doc_no', $uuidFileName);
+        $templateProcessor->setValue('position_kz', $certificateRequest->specialty);
+        $templateProcessor->setValue('position_ru', $certificateRequest->specialty);
+        $templateProcessor->setValue('city_date_kz', sprintf("Астана қаласы %s.$%s.%s жылы", now()->day, now()->month, now()->year));
+        $templateProcessor->setValue('city_date_ru', sprintf("город Астана %s.%s.%s года", now()->day, now()->month, now()->year));
     }
 }

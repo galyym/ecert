@@ -278,30 +278,30 @@
     </section>
 
     <!-- Секция "Наши клиенты" -->
-    <section class="clients-section">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Наши клиенты</h2>
+{{--    <section class="clients-section">--}}
+{{--        <div class="container">--}}
+{{--            <h2 class="section-title" data-aos="fade-up">Наши клиенты</h2>--}}
 
-            <!-- Бегущая строка с логотипами -->
-            <div class="logos-scroll-container">
-                <div class="logos-track">
-                    <!-- Оригинальные логотипы -->
-                    <div class="logo-item">
-                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">
-                    </div>
-                    <div class="logo-item">
-                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">
-                    </div>
-                    <div class="logo-item">
-                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">
-                    </div>
-                    <div class="logo-item">
-                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+{{--            <!-- Бегущая строка с логотипами -->--}}
+{{--            <div class="logos-scroll-container">--}}
+{{--                <div class="logos-track">--}}
+{{--                    <!-- Оригинальные логотипы -->--}}
+{{--                    <div class="logo-item">--}}
+{{--                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">--}}
+{{--                    </div>--}}
+{{--                    <div class="logo-item">--}}
+{{--                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">--}}
+{{--                    </div>--}}
+{{--                    <div class="logo-item">--}}
+{{--                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">--}}
+{{--                    </div>--}}
+{{--                    <div class="logo-item">--}}
+{{--                        <img src="{{ asset('assets/img/logo.png') }}" alt="Логотип клиента">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </section>--}}
 
     <!-- Contact Section -->
     <section id="contact" class="contact section light-background">
@@ -394,7 +394,7 @@
                     </thead>
                     <tbody id="tableOrder">
                     <tr id="row1">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+{{--                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
                         <td>1</td>
                         <td><input type="text" class="form-control" name="last_name" required></td>
                         <td><input type="text" class="form-control" name="first_name" required></td>
@@ -568,8 +568,8 @@
     });
 
     // Функция для очистки формы
-    function resetForm() {
-        if (!confirm('Вы уверены, что хотите очистить всю форму?')) return;
+    function resetForm(isModal = false) {
+        if (!isModal && !confirm('Вы уверены, что хотите очистить всю форму?')) return;
 
         // Удаляем все строки, кроме первой
         const table = document.getElementById('tableOrder');
@@ -606,7 +606,7 @@
         localStorage.removeItem('savedForm');
         formData = [];
 
-        alert('Форма успешно очищена!');
+        if (!isModal) alert('Форма успешно очищена!');
     }
 </script>
 
@@ -614,22 +614,37 @@
     // Хранилище данных
     let formData = [];
 
-    // Функция добавления строки
+    // Функция добавления строки (исправленная)
     function addRow() {
         const table = document.getElementById('tableOrder');
         const rows = table.getElementsByTagName('tr');
         const newRow = rows[rows.length - 1].cloneNode(true);
 
-        // Очистка значений и обновление номера
-        const newNumber = rows.length + 1;
-        newRow.id = `row${newNumber}`;
-        newRow.querySelector('td:first-child').textContent = newNumber;
-        newRow.querySelectorAll('input').forEach(input => input.value = '');
+        // Обновляем индексы для новой строки
+        const newIndex = rows.length;
+        newRow.id = `row${newIndex + 1}`;
+
+        // Обновляем номер строки
+        newRow.querySelector('td:first-child').textContent = newIndex + 1;
+
+        // Очищаем значения
+        newRow.querySelectorAll('input').forEach(input => {
+            if (input.type !== 'button') input.value = '';
+            if (input.type === 'hidden') return; // Не трогаем CSRF токен
+        });
+
         newRow.querySelectorAll('select').forEach(select => {
             select.selectedIndex = 0;
             if(select.classList.contains('specialty')) {
                 select.innerHTML = '<option value="" disabled selected>Выберите</option>';
             }
+        });
+
+        // Обновляем атрибуты name для полей
+        const inputs = newRow.querySelectorAll('[name]');
+        inputs.forEach(input => {
+            const name = input.getAttribute('name').replace(/\[\d\]/, `[${newIndex}]`);
+            input.setAttribute('name', name);
         });
 
         table.appendChild(newRow);
@@ -716,7 +731,8 @@
                 activity_type: 'Выберите вид деятельности',
                 specialty: 'Выберите специальность',
                 phone: 'Телефон обязателен для заполнения',
-                workplace: 'Место работы обязательно для заполнения'
+                sender_name: 'Поле "Отправитель" обязательно для заполнения',
+                workplace: 'Поле "Место работы" обязательно для заполнения',
             };
 
             // Проверка обязательных полей
@@ -725,12 +741,12 @@
                 const value = element?.value.trim();
 
                 if (!value) {
-                    errors.push(`Строка ${rowIndex + 1}: ${message}`);
+                    errors.push(`${message}`);
                 }
 
                 // Специальная проверка для ИИН
                 if (field === 'iin' && value && !/^\d{12}$/.test(value)) {
-                    errors.push(`Строка ${rowIndex + 1}: ИИН должен содержать ровно 12 цифр`);
+                    errors.push(`ИИН должен содержать ровно 12 цифр`);
                 }
             });
 
@@ -750,6 +766,32 @@
         return errors;
     }
 
+    function clearErrors() {
+        document.querySelectorAll('.error-message').forEach(el => el.remove());
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+    }
+
+    function markError(element, message) {
+        if (!element) return;
+
+        // Создаем контейнер для ошибки
+        const errorContainer = document.createElement('div');
+        errorContainer.className = 'error-message text-danger small mt-1';
+        errorContainer.textContent = message;
+
+        // Добавляем стиль полю с ошибкой
+        element.classList.add('is-invalid');
+
+        // Вставляем сообщение после элемента
+        element.parentNode.appendChild(errorContainer);
+
+        // Удаляем сообщение при исправлении
+        element.addEventListener('input', () => {
+            element.classList.remove('is-invalid');
+            errorContainer.remove();
+        });
+    }
+
     // Функция для отправки данных
     async function addOrder() {
         const submitBtn = document.querySelector('.btn-primary');
@@ -757,27 +799,26 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Отправка...';
 
-            // Валидация формы
-            const validationErrors = validateForm();
-            if (validationErrors.length > 0) {
-                throw new Error(validationErrors.join('\n'));
+            // Очищаем предыдущие ошибки
+            clearErrors();
+
+            // Валидация
+            const errors = validateForm();
+            if (errors.length > 0) {
+                const errorMessage = errors.join('\n');
+                alert(`Исправьте ошибки:\n\n${errorMessage}`);
+                throw new Error('Validation failed');
             }
 
-            // Проверка CSRF-токена
-            const csrfMeta = document.querySelector('meta[name="csrf-token"]');
-            if (!csrfMeta) {
-                throw new Error('CSRF token not found');
-            }
-            const csrfToken = csrfMeta.content;
 
             const formData = new FormData();
             const rows = document.querySelectorAll('#tableOrder tr');
 
             // Добавляем CSRF-токен
-            formData.append('_token', csrfToken);
+            formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
 
             // Собираем данные
-            rows.forEach((row, rowIndex) => {
+            rows.forEach((row, index) => {
                 // Основные поля
                 const fields = [
                     'last_name', 'first_name', 'middle_name', 'iin',
@@ -785,9 +826,9 @@
                 ];
 
                 fields.forEach(field => {
-                    const element = row.querySelector(`[name="${field}"]`);
-                    if (element) {
-                        formData.append(field, element.value.trim());
+                    const input = row.querySelector(`[name="${field}"]`);
+                    if (input) {
+                        formData.append(`requests[${index}][${field}]`, input.value.trim());
                     }
                 });
 
@@ -797,8 +838,8 @@
                     const fileInput = doc.querySelector('.doc-file');
 
                     if (nameInput.value && fileInput.files[0]) {
-                        formData.append(`documents[${docIndex}][name]`, nameInput.value.trim());
-                        formData.append(`documents[${docIndex}][file]`, fileInput.files[0]);
+                        formData.append(`requests[${index}][documents][${docIndex}][name]`, nameInput.value.trim());
+                        formData.append(`requests[${index}][documents][${docIndex}][file]`, fileInput.files[0]);
                     }
                 });
             });
@@ -810,16 +851,16 @@
                 }
             });
 
-            if (response.data.success) {
-                alert('Заявка успешно отправлена!');
+            if (response.data.status) {
+                alert('Заявки успешно отправлены!');
                 document.getElementById('applicationModal').style.display = 'none';
-                resetForm();
-            } else {
-                throw new Error(response.data.message || 'Ошибка сервера');
+                resetForm(true);
             }
         } catch (error) {
-            console.error('Ошибка:', error);
-            alert(error.response?.data?.message || error.message || 'Ошибка при отправке');
+            if (error.message !== 'Validation failed') {
+                console.error('Ошибка:', error);
+                alert(error.response?.data?.message || error.message || 'Ошибка при отправке');
+            }
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Отправить заявку';
@@ -862,16 +903,154 @@
         document.getElementById('searchModal').style.display = 'none';
     }
 
-    // Обработка отправки формы
-    function handleSearch(e) {
+    async function handleSearch(e) {
         e.preventDefault();
-        const iin = e.target.iin.value;
+        const form = e.target;
+        const iinInput = form.querySelector('[name="iin"]');
+        const iin = iinInput.value.trim();
+        const resultsContainer = form.querySelector('.search-results');
 
-        // Здесь добавить логику поиска
-        console.log('Поиск по ИИН:', iin);
+        // Очищаем предыдущие результаты
+        if (resultsContainer) resultsContainer.innerHTML = '';
 
-        // Закрыть модалку после отправки
-        closeSearchModal();
+        // Валидация ИИН
+        if (!/^\d{12}$/.test(iin)) {
+            showSearchError(iinInput, 'ИИН должен состоять из 12 цифр');
+            return;
+        }
+
+        try {
+            // Показываем индикатор загрузки
+            const searchBtn = form.querySelector('button[type="submit"]');
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Поиск...';
+
+            // Отправляем запрос
+            const response = await axios.get('/check-cert', { params: { iin } });
+
+            // Создаем контейнер для результатов
+            const results = document.createElement('div');
+            results.className = 'search-results mt-3';
+
+            if (response.data.status) {
+                if (response.data.data && response.data.data.length > 0) {
+                    // Отображаем найденные сертификаты
+                    results.innerHTML = `
+                    <div class="certificate-list">
+                        ${response.data.data.map(cert => `
+                            <div class="certificate-item mb-3">
+                                <div class="certificate-info">
+                                    ${cert.certificate_date ? `
+                                        <div class="cert-date">
+                                            <i class="bi bi-calendar"></i>
+                                            ${new Date(cert.certificate_date).toLocaleDateString()}
+                                        </div>
+                                    ` : ''}
+                                    <a href="${cert.certificate_file}"
+                                       class="certificate-link"
+                                       download="Сертификат_${cert.certificate_number}.pdf">
+                                        <i class="bi bi-file-pdf"></i>
+                                        Скачать сертификат (${cert.certificate_number})
+                                    </a>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                } else {
+                    results.innerHTML = `
+                    <div class="alert alert-info mb-0">
+                        Сертификаты не найдены
+                    </div>
+                `;
+                }
+            } else {
+                results.innerHTML = `
+                <div class="alert alert-danger mb-0">
+                    ${response.data.message}
+                </div>
+            `;
+            }
+
+            form.appendChild(results);
+
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'Ошибка при выполнении поиска';
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-danger mt-3';
+            alert.textContent = errorMessage;
+            form.appendChild(alert);
+        } finally {
+            const searchBtn = form.querySelector('button[type="submit"]');
+            searchBtn.disabled = false;
+            searchBtn.innerHTML = 'Поиск';
+        }
+    }
+
+    function showSearchError(input, message) {
+        const error = document.createElement('div');
+        error.className = 'invalid-feedback d-block';
+        error.textContent = message;
+        input.parentNode.appendChild(error);
+
+        // Удаляем сообщение при новом вводе
+        input.addEventListener('input', () => error.remove(), { once: true });
+    }
+
+    // Функция отображения информации о сертификате
+    function showCertInfo(cert) {
+        // Создаем модальное окно или используем существующее
+        const resultDiv = document.createElement('div');
+        resultDiv.className = 'cert-result p-4';
+
+        resultDiv.innerHTML = `
+        <h4 class="mb-3">Данные сертификата</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>ФИО:</strong> ${cert.last_name} ${cert.first_name} ${cert.middle_name || ''}</p>
+                <p><strong>ИИН:</strong> ${cert.iin}</p>
+                <p><strong>Вид деятельности:</strong> ${cert.activity_type}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Специальность:</strong> ${cert.specialty}</p>
+                <p><strong>Телефон:</strong> ${cert.phone}</p>
+                <p><strong>Статус:</strong> <span class="badge ${getStatusBadgeClass(cert.status)}">${cert.status}</span></p>
+            </div>
+        </div>
+    `;
+
+        // Показываем результат
+        const container = document.querySelector('.search-results-container') || createResultsContainer();
+        container.innerHTML = '';
+        container.appendChild(resultDiv);
+        container.style.display = 'block';
+    }
+
+    // Вспомогательные функции
+    function getStatusBadgeClass(status) {
+        const statusClasses = {
+            'new': 'bg-secondary',
+            'in_progress': 'bg-warning text-dark',
+            'completed': 'bg-success'
+        };
+        return statusClasses[status] || 'bg-secondary';
+    }
+
+    function createResultsContainer() {
+        const container = document.createElement('div');
+        container.className = 'search-results-container mt-4';
+        document.querySelector('main').appendChild(container);
+        return container;
+    }
+
+    function showNotFoundMessage() {
+        const container = document.querySelector('.search-results-container') || createResultsContainer();
+        container.innerHTML = `
+        <div class="alert alert-warning" role="alert">
+            Сертификат с указанным ИИН не найден
+        </div>
+    `;
+        container.style.display = 'block';
     }
 
     // Закрытие при клике вне окна

@@ -22,16 +22,25 @@ class CertificateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'last_name' => 'required|string',
-            'first_name' => 'required|string',
-            'middle_name' => 'string',
-            'iin' => 'required|min_digits:12|max_digits:12',
-            'activity_type' => 'required',
-            'specialty' => 'required|string',
-            'phone' => 'required',
-            'workplace' => 'required',
-            'sender_name' => 'string',
-            'document' => 'nullable',
+            'requests' => 'required|array',
+            'requests.*.last_name' => 'required|string|max:255',
+            'requests.*.first_name' => 'required|string|max:255',
+            'requests.*.middle_name' => 'nullable|string|max:255',
+            'requests.*.iin' => 'required|digits:12',
+            'requests.*.activity_type' => 'required|in:ПД,СМР',
+            'requests.*.specialty' => 'required|string|max:255',
+            'requests.*.phone' => 'required|string|max:20',
+            'requests.*.workplace' => 'required|string|max:255',
+            'requests.*.sender_name' => 'required|string|max:255',
+            'requests.*.documents' => 'nullable|array',
+            'requests.*.documents.*.file' => 'file|max:5120', // 5MB
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'requests.*.documents.*.file.max' => 'Максимальные размер файла ',
         ];
     }
 }
