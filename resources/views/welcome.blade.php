@@ -4,9 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>ВсеСтрой</title>
+    <title>ТОО ВсеСтрой</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
@@ -32,7 +33,7 @@
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
         <a href="{{ route('home') }}" class="logo d-flex align-items-center me-auto me-xl-0">
-            <h1 class="sitename">ВсеСтрой</h1>
+            <h1 class="sitename">TOO ВсеСтрой</h1>
         </a>
 
         <nav id="navmenu" class="navmenu">
@@ -137,12 +138,12 @@
 
                 <div class="col-xl-5" data-aos="fade-up" data-aos-delay="200">
                     <h2 class="about-title">НАША КОМАНДА — ВАША НАДЕЖНОСТЬ</h2>
-                    <p class="about-description">ТОО VseStroi — ваш надежный партнёр в сфере аттестации и сертификации с 2019 года. Несмотря на молодой возраст, мы уже заслужили доверие сотен компаний Казахстана благодаря профессионализму, оперативности и строгому соблюдению стандартов. Каждый наш эксперт проходит ежегодную аттестацию, чтобы гарантировать вам актуальные знания и соответствие международным стандартам.</p>
+                    <p class="about-description">ТОО ВсеСтрой — ваш надежный партнёр в сфере аттестации и сертификации с 2013 года. Несмотря на молодой возраст, мы уже заслужили доверие сотен компаний Казахстана благодаря профессионализму, оперативности и строгому соблюдению стандартов. Каждый наш эксперт проходит ежегодную аттестацию, чтобы гарантировать вам актуальные знания и соответствие международным стандартам.</p>
 
                     <div class="row feature-list-wrapper">
                         <div class="col-md-6">
                             <ul class="feature-list">
-                                <li><i class="bi bi-check-circle-fill"></i> Аттестация за 5 рабочих дней</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Аттестация за 1 рабочих дней</li>
                                 <li><i class="bi bi-check-circle-fill"></i> Лицензии I–III категорий</li>
                                 <li><i class="bi bi-check-circle-fill"></i> Гарантия соответствия ГОСТ и ISO</li>
                             </ul>
@@ -163,7 +164,7 @@
                                     <i class="bi bi-telephone-fill"></i>
                                     <div>
                                         <p class="contact-label">Контакты</p>
-                                        <p class="contact-number">+7 (777) 555-12-34</p>
+                                        <p class="contact-number">+7 (702) 912-23-00</p>
                                     </div>
                                 </div>
                             </div>
@@ -326,8 +327,8 @@
                             </div>
                             <div class="content">
                                 <h4>Наш адрес</h4>
-                                <p>г. Актау, 23а мкр</p>
-                                <p>БЦ "АБК", офис 102</p>
+                                <p>г. Актау, 29а мкр, 145</p>
+                                <p>БЦ "АБК", офис 103</p>
                             </div>
                         </div>
 
@@ -338,7 +339,7 @@
                             </div>
                             <div class="content">
                                 <h4>Телефон</h4>
-                                <p>+7 (702) 512-23-00</p>
+                                <p>+7 (702) 912-23-00</p>
                             </div>
                         </div>
 
@@ -349,8 +350,7 @@
                             </div>
                             <div class="content">
                                 <h4>Электронная почта</h4>
-                                <p>info@vsestroi.kz</p>
-                                <p>support@vsestroi.kz</p>
+                                <p>ermek_ospanov@mail.ru</p>
                             </div>
                         </div>
                     </div>
@@ -492,6 +492,7 @@
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
@@ -566,31 +567,32 @@
         }
     });
 
+    // Функция для очистки формы
     function resetForm() {
-        if(!confirm('Вы уверены что хотите очистить всю форму?')) return;
+        if (!confirm('Вы уверены, что хотите очистить всю форму?')) return;
 
-        // Удаляем все строки кроме первой
+        // Удаляем все строки, кроме первой
         const table = document.getElementById('tableOrder');
-        while(table.rows.length > 1) {
+        while (table.rows.length > 1) {
             table.deleteRow(1);
         }
 
         // Сбрасываем значения в первой строке
         const firstRow = document.getElementById('row1');
         firstRow.querySelectorAll('input').forEach(input => {
-            if(input.type !== 'button') input.value = '';
+            if (input.type !== 'button') input.value = '';
         });
         firstRow.querySelectorAll('select').forEach(select => {
             select.selectedIndex = 0;
-            if(select.classList.contains('specialty')) {
+            if (select.classList.contains('specialty')) {
                 select.innerHTML = '<option value="" disabled selected>Выберите</option>';
             }
         });
 
-        // Удаляем все документы кроме первого
+        // Удаляем все документы, кроме первого
         const docContainers = document.querySelectorAll('.documents-container');
         docContainers.forEach(container => {
-            while(container.children.length > 1) {
+            while (container.children.length > 1) {
                 container.lastChild.remove();
             }
             // Сбрасываем первый документ
@@ -699,62 +701,125 @@
         document.getElementById('applicationModal').style.display = 'none';
     });
 
+    // Функция для валидации данных
+    function validateForm() {
+        const errors = [];
+        const rows = document.querySelectorAll('#tableOrder tr');
+
+        // Проверка каждой строки
+        rows.forEach((row, rowIndex) => {
+            // Обязательные поля
+            const requiredFields = {
+                last_name: 'Фамилия обязательна для заполнения',
+                first_name: 'Имя обязательно для заполнения',
+                iin: 'ИИН должен состоять из 12 цифр',
+                activity_type: 'Выберите вид деятельности',
+                specialty: 'Выберите специальность',
+                phone: 'Телефон обязателен для заполнения',
+                workplace: 'Место работы обязательно для заполнения'
+            };
+
+            // Проверка обязательных полей
+            Object.entries(requiredFields).forEach(([field, message]) => {
+                const element = row.querySelector(`[name="${field}"]`);
+                const value = element?.value.trim();
+
+                if (!value) {
+                    errors.push(`Строка ${rowIndex + 1}: ${message}`);
+                }
+
+                // Специальная проверка для ИИН
+                if (field === 'iin' && value && !/^\d{12}$/.test(value)) {
+                    errors.push(`Строка ${rowIndex + 1}: ИИН должен содержать ровно 12 цифр`);
+                }
+            });
+
+            // Проверка документов
+            const docItems = row.querySelectorAll('.document-item');
+            docItems.forEach((doc, docIndex) => {
+                const nameInput = doc.querySelector('.doc-name');
+                const fileInput = doc.querySelector('.doc-file');
+
+                if ((nameInput.value && !fileInput.files[0]) ||
+                    (!nameInput.value && fileInput.files[0])) {
+                    errors.push(`Строка ${rowIndex + 1}: Для документа ${docIndex + 1} необходимо заполнить и название, и файл`);
+                }
+            });
+        });
+
+        return errors;
+    }
+
+    // Функция для отправки данных
     async function addOrder() {
         const submitBtn = document.querySelector('.btn-primary');
         try {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Отправка...';
 
+            // Валидация формы
+            const validationErrors = validateForm();
+            if (validationErrors.length > 0) {
+                throw new Error(validationErrors.join('\n'));
+            }
+
+            // Проверка CSRF-токена
+            const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+            if (!csrfMeta) {
+                throw new Error('CSRF token not found');
+            }
+            const csrfToken = csrfMeta.content;
+
             const formData = new FormData();
             const rows = document.querySelectorAll('#tableOrder tr');
 
-            formData.append('_token', '{{ csrf_token() }}');
+            // Добавляем CSRF-токен
+            formData.append('_token', csrfToken);
 
+            // Собираем данные
             rows.forEach((row, rowIndex) => {
-                const inputs = row.querySelectorAll('input:not([type="file"]), select');
-                inputs.forEach(input => {
-                    formData.append(`requests[${rowIndex}][${input.name}]`, input.value);
+                // Основные поля
+                const fields = [
+                    'last_name', 'first_name', 'middle_name', 'iin',
+                    'activity_type', 'specialty', 'phone', 'workplace', 'sender_name'
+                ];
+
+                fields.forEach(field => {
+                    const element = row.querySelector(`[name="${field}"]`);
+                    if (element) {
+                        formData.append(field, element.value.trim());
+                    }
                 });
 
+                // Документы
                 row.querySelectorAll('.document-item').forEach((doc, docIndex) => {
                     const nameInput = doc.querySelector('.doc-name');
                     const fileInput = doc.querySelector('.doc-file');
 
-                    if (nameInput.value || fileInput.files[0]) {
-                        formData.append(`documents[${rowIndex}][${docIndex}][name]`, nameInput.value);
-                        if (fileInput.files[0]) {
-                            formData.append(`documents[${rowIndex}][${docIndex}][file]`, fileInput.files[0]);
-                        }
+                    if (nameInput.value && fileInput.files[0]) {
+                        formData.append(`documents[${docIndex}][name]`, nameInput.value.trim());
+                        formData.append(`documents[${docIndex}][file]`, fileInput.files[0]);
                     }
                 });
             });
 
-            const response = await fetch('{{ route("cert_request") }}', {
-                method: 'POST',
-                body: formData
+            // Отправка данных
+            const response = await axios.post('{{ route("cert_request") }}', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
-            let result;
-
-            if (!response.ok) throw new Error(result.message || 'Ошибка сервера');
-
-            // Очистка формы
-            document.getElementById('applicationModal').style.display = 'none';
-            document.querySelectorAll('#tableOrder tr:not(:first-child)').forEach(row => row.remove());
-            document.querySelectorAll('.document-item').forEach((item, index) => {
-                if (index > 0) item.remove();
-            });
-            document.querySelectorAll('input').forEach(input => {
-                if (input.type !== 'button') input.value = '';
-            });
-            document.querySelectorAll('select').forEach(select => {
-                select.selectedIndex = 0;
-            });
-
-            alert('Заявка успешно отправлена!');
+            if (response.data.success) {
+                alert('Заявка успешно отправлена!');
+                document.getElementById('applicationModal').style.display = 'none';
+                resetForm();
+            } else {
+                throw new Error(response.data.message || 'Ошибка сервера');
+            }
         } catch (error) {
             console.error('Ошибка:', error);
-            alert(error.message || 'Произошла ошибка при отправке');
+            alert(error.response?.data?.message || error.message || 'Ошибка при отправке');
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Отправить заявку';

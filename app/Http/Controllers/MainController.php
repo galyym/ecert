@@ -15,18 +15,20 @@ class MainController extends Controller
 
     public function certRequest(CertificateRequest $request)
     {
+        $validData = $request->validated();
         $addRequest = \App\Models\CertificateRequest::create([
-            'last_name' => $request->last_name,
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'iin' => $request->iin,
-            'activity_type' => $request->activity_type,
-            'specialty' => $request->specialty,
-            'phone' => $request->phone,
-            'workplace' => $request->workplace,
-            'sender_name' => $request->sender_name,
-            'document' => $request->document,
+            'last_name' => $validData['last_name'],
+            'first_name' => $validData['first_name'],
+            'middle_name' => $validData['middle_name'] ?? null,
+            'iin' => $validData['iin'],
+            'activity_type' => $validData['activity_type'],
+            'specialty' => $validData['specialty'],
+            'phone' => $validData['phone'],
+            'workplace' => $validData['workplace'] ?? null,
+            'sender_name' => $validData['sender_name'] ?? null,
+            'document' => $validData['document'] ?? null,
             'status' => "new",
+            'chat_id' => 0
         ]);
 
         if ($request->hasFile('document')) {
