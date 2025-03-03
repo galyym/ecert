@@ -6,9 +6,9 @@ services:
         - 443:443
       restart: always
       volumes:
-        - ./docker/nginx/prod:/etc/nginx/conf.d
-        - /tmp/acme-challenge:/var/www/certbot
-        - /etc/letsencrypt:/etc/nginx/ssl
+          - ./docker/nginx/prod:/etc/nginx/conf.d
+          - /tmp/acme-challenge:/var/www/certbot
+          - /etc/letsencrypt:/etc/nginx/ssl
       networks:
           - ecert-network
 
@@ -62,7 +62,6 @@ services:
 
 networks:
     ecert-network:
-        driver: bridge
 
 volumes:
     mysql_data:
