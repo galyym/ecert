@@ -9,12 +9,16 @@ services:
         - ./docker/nginx/prod/:/etc/nginx/conf.d
         - /tmp/acme-challenge:/var/www/certbot
         - /etc/letsencrypt:/etc/nginx/ssl
+      networks:
+          - ecert-network
 
     certbot:
       image: certbot/certbot:latest
       volumes:
         - /tmp/acme-challenge:/var/www/certbot
         - /etc/letsencrypt:/etc/letsencrypt
+      networks:
+          - ecert-network
 
     app:
         container_name: ecert_app
