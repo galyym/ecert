@@ -6,7 +6,7 @@ services:
         - 443:443
       restart: always
       volumes:
-        - ./docker/nginx/prod/:/etc/nginx/conf.d
+        - ./docker/nginx/prod/nginx.conf:/etc/nginx/conf.d
         - /tmp/acme-challenge:/var/www/certbot
         - /etc/letsencrypt:/etc/nginx/ssl
       networks:
