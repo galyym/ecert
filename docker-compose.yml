@@ -6,7 +6,7 @@ services:
         - 443:443
       restart: always
       volumes:
-        - ./docker/nginx/prod/nginx.conf:/etc/nginx/conf.d
+        - ./docker/nginx/prod:/etc/nginx/conf.d
         - /tmp/acme-challenge:/var/www/certbot
         - /etc/letsencrypt:/etc/nginx/ssl
       networks:
@@ -35,8 +35,8 @@ services:
             APP_DEBUG: ${APP_DEBUG}
             CONTAINER_ROLE: app
         volumes:
-            - ./:/var/www/ecert
-        working_dir: /var/www/ecert
+            - ./:/var/www
+        working_dir: /var/www
         depends_on:
             - mysql
         networks:

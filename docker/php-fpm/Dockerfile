@@ -55,7 +55,7 @@ RUN composer dump-autoload  --no-scripts --optimize --no-dev
 RUN mkdir -p /var/www/.config/libreoffice
 RUN chown -R www-data:www-data /var/www/.config
 
-WORKDIR /var/www/ecert
+WORKDIR /var/www
 
 EXPOSE 9000
 CMD ["php-fpm"]
