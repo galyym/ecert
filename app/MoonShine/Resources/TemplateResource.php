@@ -42,7 +42,7 @@ class TemplateResource extends ModelResource
         return [
             Box::make([
                 ID::make()->sortable(),
-                File::make('Шаблон', 'path')->required()->removable()
+                File::make('Шаблон', 'path')->required()->removable()->keepOriginalFileName()
             ])
         ];
     }

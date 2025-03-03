@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources;
 
 use App\Models\Template;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CertificateRequest;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use MoonShine\ImportExport\Contracts\HasImportExportContract;
+use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Enums\Action;
+use MoonShine\Laravel\Handlers\Handler;
 use MoonShine\Laravel\Http\Responses\MoonShineJsonResponse;
 use MoonShine\Laravel\MoonShineRequest;
 use MoonShine\Laravel\Resources\ModelResource;
-use MoonShine\Support\Enums\HttpMethod;
 use MoonShine\Support\Enums\ToastType;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
-use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\Contracts\UI\FieldContract;
@@ -32,13 +33,13 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @extends ModelResource<CertificateRequest>
  */
-class CertificateRequestResource extends ModelResource
+class CertificateRequestResource extends ModelResource implements HasImportExportContract
 {
+    use ImportExportConcern;
+
     protected string $model = CertificateRequest::class;
 
     protected string $title = 'CertificateRequests';
-
-//    protected bool $detailInModal = true;
 
     protected function activeActions(): ListOf
     {
@@ -55,12 +56,13 @@ class CertificateRequestResource extends ModelResource
             ID::make()->sortable(),
             Text::make(__('certificate.surname'), 'last_name'),
             Text::make(__('certificate.name'), 'first_name'),
-            Text::make(__('certificate.iin'), 'iin'),
-            Text::make(__('certificate.phone'), 'phone'),
-            Text::make('Chat ID', 'chat_id'),
+            Text::make(__('certificate.iin'), 'iin')->sortable(),
+            Text::make(__('certificate.phone'), 'phone')->sortable(),
             Text::make('Статус', 'status'),
-            Text::make(__('certificate.certificate_number'), 'certificate_number'),
+            Text::make(__('certificate.sender_name'), 'sender_name')->sortable(),
+            Text::make(__('certificate.certificate_number'), 'certificate_number')->sortable(),
             File::make(__('certificate.certificate_file'), 'certificate_file'),
+            Date::make('Дата создания', 'created_at')->sortable()->format('d.m.Y H:i:s'),
         ];
     }
 
@@ -127,6 +129,44 @@ class CertificateRequestResource extends ModelResource
         return [];
     }
 
+    protected function filters(): iterable
+    {
+        return [
+            Text::make(__('certificate.iin'), 'iin'),
+            Text::make(__('certificate.sender_name'), 'sender_name'),
+            Text::make(__('certificate.certificate_number'), 'certificate_number'),
+            Text::make(__('certificate.workplace'), 'workplace'),
+            Date::make('Дата создания', 'created_at')
+        ];
+    }
+
+    protected function import(): ?Handler
+    {
+        return null;
+    }
+
+    protected function exportFields(): iterable
+    {
+        return [
+            ID::make(),
+            Text::make(__('certificate.surname'), 'last_name'),
+            Text::make(__('certificate.patronymic'), 'middle_name'),
+            Text::make(__('certificate.iin'), 'iin'),
+            Text::make(__('certificate.activity_type'), 'activity_type'),
+            Text::make(__('certificate.specialty'), 'specialty'),
+            Text::make(__('certificate.phone'), 'phone'),
+            Text::make(__('certificate.workplace'), 'workplace'),
+            Text::make(__('certificate.sender_name'), 'sender_name'),
+            Text::make(__('certificate.certificate_number'), 'certificate_number'),
+            File::make(__('certificate.certificate_file'), 'certificate_file'),
+        ];
+    }
+
+    public function afterExported(mixed $item): mixed
+    {
+        dd(123);
+    }
+
     protected function detailButtons(): ListOf
     {
         if ($this->item->status !== 'confirmed') {
@@ -153,21 +193,11 @@ class CertificateRequestResource extends ModelResource
         $template = Template::all()->first();
         $templatePath = Storage::disk('public')->path($template->path);
         $templateProcessor = new TemplateProcessor($templatePath);
-        $uuidFileName = Str::uuid();
+        $certNumber = CertificateRequest::get('certificate_number')->sortByDesc('certificate_number')->first();
+        $certNumber = Str::padLeft(intval($certNumber->certificate_number) + 1, 5, '0');
+        $uuidFileName = Str::uuid()->toString();
 
-//        $this->setValues($templateProcessor, $certificateRequest, $uuidFileName);
-        $templateProcessor->setValue('no_cert', "KZ29VVV00019826");
-        $templateProcessor->setValue('full_name_kz', sprintf("%s %s %s", $certificateRequest->last_name, $certificateRequest->first_name, $certificateRequest->middle_name));
-        $templateProcessor->setValue('full_name_ru', sprintf("%s %s %s", $certificateRequest->last_name, $certificateRequest->first_name, $certificateRequest->middle_name));
-        $templateProcessor->setValue('status_kz', $certificateRequest->status);
-        $templateProcessor->setValue('status_ru', $certificateRequest->status);
-        $templateProcessor->setValue('doc_no', $uuidFileName);
-        $templateProcessor->setValue('position_kz', $certificateRequest->specialty);
-        $templateProcessor->setValue('position_ru', $certificateRequest->specialty);
-        $templateProcessor->setValue('city_date_kz', sprintf("Астана қаласы %s.%s.%s жылы", now()->day, now()->month, now()->year));
-        $templateProcessor->setValue('city_date_ru', sprintf("город Астана %s.%s.%s года", now()->day, now()->month, now()->year));
-
-//        dd($templateProcessor);
+        $this->setValues($templateProcessor, $certificateRequest, $certNumber);
 
         if (!file_exists(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month))){
             mkdir(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month), 0755, true);
@@ -185,7 +215,7 @@ class CertificateRequestResource extends ModelResource
         if ($code === 0) {
             $certificateRequest->certificate_file = 'generated/'.now()->year.'/'.now()->month.'/'.$uuidFileName.'.pdf';
             $certificateRequest->status = 'confirmed';
-            $certificateRequest->certificate_number = $uuidFileName;
+            $certificateRequest->certificate_number = $certNumber;
             $certificateRequest->save();
             return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
         } else {
@@ -203,17 +233,15 @@ class CertificateRequestResource extends ModelResource
         return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
     }
 
-    private function setValues(TemplateProcessor &$templateProcessor, Model $certificateRequest, UuidInterface $uuidFileName): void
+    private function setValues(TemplateProcessor $templateProcessor, Model $certificateRequest, $certNumber): void
     {
-        $templateProcessor->setValue('no_cert', "KZ29VVV00019826");
-        $templateProcessor->setValue('full_name_kz', sprintf("%s %s %s", $certificateRequest->las_name, $certificateRequest->name, $certificateRequest->first_name));
-        $templateProcessor->setValue('full_name_ru', sprintf("%s %s %s", $certificateRequest->las_name, $certificateRequest->name, $certificateRequest->first_name));
-        $templateProcessor->setValue('status_kz', $certificateRequest->status);
-        $templateProcessor->setValue('status_ru', $certificateRequest->status);
-        $templateProcessor->setValue('doc_no', $uuidFileName);
+        $templateProcessor->setValue('cert_no', "KZ29VVV00019826");
+        $templateProcessor->setValue('full_name_kz', sprintf("%s %s %s", $certificateRequest->last_name, $certificateRequest->first_name, $certificateRequest->middle_name));
+        $templateProcessor->setValue('full_name_ru', sprintf("%s %s %s", $certificateRequest->last_name, $certificateRequest->first_name, $certificateRequest->middle_name));
+        $templateProcessor->setValue('number_doc', $certNumber);
         $templateProcessor->setValue('position_kz', $certificateRequest->specialty);
         $templateProcessor->setValue('position_ru', $certificateRequest->specialty);
-        $templateProcessor->setValue('city_date_kz', sprintf("Астана қаласы %s.$%s.%s жылы", now()->day, now()->month, now()->year));
+        $templateProcessor->setValue('city_date_kz', sprintf("Астана қаласы %s.%s.%s жылы", now()->day, now()->month, now()->year));
         $templateProcessor->setValue('city_date_ru', sprintf("город Астана %s.%s.%s года", now()->day, now()->month, now()->year));
     }
 }
