@@ -55,7 +55,7 @@ RUN composer dump-autoload  --no-scripts --optimize --no-dev
 RUN mkdir -p /var/www/.config/libreoffice
 RUN chown -R www-data:www-data /var/www/.config
 
-WORKDIR /var/www
+WORKDIR /var/www/ecert
 
 COPY ./docker/php-fpm/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

@@ -35,8 +35,8 @@ services:
             APP_DEBUG: ${APP_DEBUG}
             CONTAINER_ROLE: app
         volumes:
-            - ./:/var/www
-        working_dir: /var/www
+            - ./:/var/www/ecert
+        working_dir: /var/www/ecert
         depends_on:
             - mysql
         networks:
