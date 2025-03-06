@@ -25,7 +25,7 @@ services:
             - ecert-network
         depends_on:
             - nginx
-        command: certonly --webroot --webroot-path=/var/www/certbot --email ermek_ospanov@mail.ru --agree-tos --no-eff-email --dry-run -d vsestroi.kz -d www.vsestroi.kz
+        command: certonly --webroot --webroot-path=/var/www/certbot --email ermek_ospanov@mail.ru --agree-tos --no-eff-email -d vsestroi.kz -d www.vsestroi.kz
 
     app:
         container_name: ecert_app
