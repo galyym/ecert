@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Jobs\CertificateJob;
 use App\Models\Template;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CertificateRequest;
@@ -190,39 +191,13 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
             return MoonShineJsonResponse::make()->toast(__('certificate.certificate_exists'), ToastType::ERROR);
         }
 
-        $template = Template::all()->first();
-        $templatePath = Storage::disk('public')->path($template->path);
-        $templateProcessor = new TemplateProcessor($templatePath);
-        $certNumber = CertificateRequest::get('certificate_number')->sortByDesc('certificate_number')->first();
-        $certNumber = Str::padLeft(intval($certNumber->certificate_number) + 1, 5, '0');
-        $uuidFileName = Str::uuid()->toString();
-
-        $this->setValues($templateProcessor, $certificateRequest, $certNumber);
-
-        if (!file_exists(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month))){
-            mkdir(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month), 0755, true);
-        }
-
-        $filledDocxPath = Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month.'/'.$uuidFileName.'.docx');
-        $templateProcessor->saveAs($filledDocxPath);
-
-        $pdfPath = Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month.'/'.$uuidFileName.'.pdf');
-        $command = "libreoffice --headless --convert-to pdf --outdir " . dirname($pdfPath) . " " . $filledDocxPath;
-        $output = null;
-        $code = null;
-        exec($command, $output, $code);
-
-        if ($code === 0) {
-            $certificateRequest->certificate_file = 'generated/'.now()->year.'/'.now()->month.'/'.$uuidFileName.'.pdf';
-            $certificateRequest->status = 'confirmed';
-            $certificateRequest->certificate_number = $certNumber;
+        if (in_array($certificateRequest->status, ['confirmed', 'new'])) {
+            CertificateJob::dispatch($certificateRequest);
+            $certificateRequest->status = 'converting';
             $certificateRequest->save();
-            return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
-        } else {
-            $errorMessage = __('certificate.pdf_error');
-            $errorMessage .= __('certificate.command_output') . implode("\n", $output);
-            return MoonShineJsonResponse::make()->toast($errorMessage, ToastType::ERROR);
+            return MoonShineJsonResponse::make()->toast("Ваш документ поставлен в очередь на конвертацию. Как только процесс завершится, мы вам сообщим.", ToastType::SUCCESS);
         }
+        return MoonShineJsonResponse::make()->toast("Ваш документ уже в очереди на обработку. Как только конвертация завершится, мы вас оповестим.", ToastType::INFO);
     }
 
     public function rejectCertificateRequest(MoonShineRequest $request): MoonShineJsonResponse
@@ -231,17 +206,5 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
         $certificateRequest->status = 'reject';
         $certificateRequest->save();
         return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
-    }
-
-    private function setValues(TemplateProcessor $templateProcessor, Model $certificateRequest, $certNumber): void
-    {
-        $templateProcessor->setValue('cert_no', "KZ29VVV00019826");
-        $templateProcessor->setValue('full_name_kz', sprintf("%s %s %s", $certificateRequest->last_name, $certificateRequest->first_name, $certificateRequest->middle_name));
-        $templateProcessor->setValue('full_name_ru', sprintf("%s %s %s", $certificateRequest->last_name, $certificateRequest->first_name, $certificateRequest->middle_name));
-        $templateProcessor->setValue('number_doc', $certNumber);
-        $templateProcessor->setValue('position_kz', $certificateRequest->specialty);
-        $templateProcessor->setValue('position_ru', $certificateRequest->specialty);
-        $templateProcessor->setValue('city_date_kz', sprintf("Астана қаласы %s.%s.%s жылы", now()->day, now()->month, now()->year));
-        $templateProcessor->setValue('city_date_ru', sprintf("город Астана %s.%s.%s года", now()->day, now()->month, now()->year));
     }
 }

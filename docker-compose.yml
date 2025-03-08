@@ -67,6 +67,26 @@ services:
         networks:
             - ecert-network
 
+    worker:
+        container_name: ecert_queue
+        image: ecert_app
+        command: php artisan queue:work --sleep=3 --timeout=3600
+        environment:
+            PHP_MEMORY_LIMIT: 512M
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.5'
+                    memory: 512M
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www/ecert
+        working_dir: /var/www/ecert
+        depends_on:
+            - mysql
+        networks:
+            - ecert-network
+
 networks:
     ecert-network:
 
