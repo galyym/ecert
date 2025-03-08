@@ -8,24 +8,15 @@ services:
         volumes:
             - ./docker/nginx/prod:/etc/nginx/conf.d
             - ./:/var/www/ecert
-            - ./data/certbot/conf:/etc/letsencrypt
-            - ./data/certbot/www:/var/www/certbot
+            - /etc/letsencrypt:/etc/letsencrypt:ro
+            - /etc/letsencrypt/live/vsestroi.kz/fullchain.pem:/etc/nginx/ssl/fullchain.pem
+            - /etc/letsencrypt/live/vsestroi.kz/privkey.pem:/etc/nginx/ssl/privkey.pem
+
         networks:
             - ecert-network
         depends_on:
             - app
         command: /bin/sh -c "nginx -g 'daemon off;'"
-
-    certbot:
-        image: certbot/certbot
-        volumes:
-            - ./data/certbot/conf:/etc/letsencrypt
-            - ./data/certbot/www:/var/www/certbot
-        networks:
-            - ecert-network
-        depends_on:
-            - nginx
-        command: certonly --webroot --webroot-path=/var/www/certbot --email ermek_ospanov@mail.ru --agree-tos --no-eff-email -d vsestroi.kz -d www.vsestroi.kz
 
     app:
         container_name: ecert_app
