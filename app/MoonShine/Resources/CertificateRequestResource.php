@@ -163,11 +163,6 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
         ];
     }
 
-    public function afterExported(mixed $item): mixed
-    {
-        dd(123);
-    }
-
     protected function detailButtons(): ListOf
     {
         if ($this->item->status !== 'confirmed') {
