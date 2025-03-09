@@ -44,16 +44,28 @@ class CertificateJob implements ShouldQueue
 
             // Замена текста в Google Docs
             $docsService = new Docs($client);
+            $driveService = new Drive($client);
+
+            $copy = new Drive\DriveFile([
+                'name' => 'Certificate Copy - ' . time()
+            ]);
+
+            $copiedFile = $driveService->files->copy(
+                $documentId,
+                $copy,
+                ['fields' => 'id']
+            );
+            $documentIdCopy = $copiedFile->id;
+
             $requests = $this->setValues($this->certificateRequest, $certNumber);
 
-
-            $docsService->documents->batchUpdate($documentId, new \Google\Service\Docs\BatchUpdateDocumentRequest([
+            $docsService->documents->batchUpdate($documentIdCopy, new \Google\Service\Docs\BatchUpdateDocumentRequest([
                 'requests' => $requests,
             ]));
 
             // Экспорт в PDF через Google Drive API
             $driveService = new Drive($client);
-            $response = $driveService->files->export($documentId, 'application/pdf', ['alt' => 'media']);
+            $response = $driveService->files->export($documentIdCopy, 'application/pdf', ['alt' => 'media']);
 
             if (!file_exists(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month))){
                 mkdir(Storage::disk('public')->path('generated/'.now()->year.'/'.now()->month), 0755, true);
@@ -64,6 +76,7 @@ class CertificateJob implements ShouldQueue
 
             // Сохранение PDF
             $isSuccess = Storage::disk('public')->put($pdfPath, $response->getBody());
+            $driveService->files->delete($documentIdCopy);
             if ($isSuccess) {
                 $this->certificateRequest->certificate_file = 'generated/'.now()->year.'/'.now()->month.'/'.$uuidFileName.'.pdf';
                 $this->certificateRequest->status = 'confirmed';
