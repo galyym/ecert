@@ -557,8 +557,8 @@
         positions.forEach(position => {
             if (activityType && position["type"] === activityType) {
                 const opt = document.createElement("option");
-                opt.value = position["name_kk"];
-                opt.textContent = position["name_kk"];
+                opt.value = position["name_ru"];
+                opt.textContent = position["name_ru"];
                 selectSpecialty.appendChild(opt);
             }
         });

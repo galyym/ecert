@@ -28,7 +28,7 @@ class Services extends TelegramButton
         $accountInfo = $query->getMessage()->getChat();
         $chatId = $accountInfo->getId();
 
-        $serviceText = \App\Models\Services::all()->first()->description_kk;
+        $serviceText = \App\Models\Services::all()->first()->description_ru;
 
         return Request::sendMessage([
             'chat_id' => $chatId,

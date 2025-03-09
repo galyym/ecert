@@ -292,8 +292,8 @@ class RegisterUserCommand extends UserCommand
         foreach ($positions as $position) {
             $buttonPositions[] = [
                 [
-                    'text' => $position->name_kk,
-                    'callback_data' => $position->name_kk,
+                    'text' => $position->name_ru,
+                    'callback_data' => $position->name_ru,
                     'resize_keyboard' => true
                 ]
             ];

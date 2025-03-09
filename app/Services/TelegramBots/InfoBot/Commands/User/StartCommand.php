@@ -58,7 +58,7 @@ class StartCommand extends UserCommand
 
         $startText = Start::all()->first();
         return $this->send(
-            $startText->name_kk,
+            $startText->name_ru,
             $chat_id,
             StartKeyboard::make()->getKeyboard()
         );
