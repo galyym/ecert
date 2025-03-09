@@ -85,11 +85,12 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
                 Text::make(__('certificate.workplace'), 'workplace'),
                 Text::make(__('certificate.sender_name'), 'sender_name'),
                 Text::make(__('certificate.document'), 'document'),
-                Text::make('Chat ID', 'chat_id')->disabled(),
+                Text::make('Chat ID', 'chat_id'),
                 Text::make('Статус', 'status'),
                 Text::make(__('certificate.certificate_number'), 'certificate_number')->disabled(),
                 File::make(__('certificate.certificate_file'), 'certificate_file')->removable(),
                 Text::make('User ID', 'user_id')->disabled(),
+                Text::make('Код доступа', 'access_code'),
             ])
         ];
     }
@@ -116,6 +117,7 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
             Text::make(__('certificate.certificate_number'), 'certificate_number')->disabled(),
             File::make(__('certificate.certificate_file'), 'certificate_file')->disk('public'),
             Text::make('User ID', 'user_id'),
+            Text::make('Код доступа', 'access_code'),
         ];
     }
 
@@ -158,6 +160,7 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
             Text::make(__('certificate.phone'), 'phone'),
             Text::make(__('certificate.workplace'), 'workplace'),
             Text::make(__('certificate.sender_name'), 'sender_name'),
+            Text::make('Код доступа', 'access_code'),
             Text::make(__('certificate.certificate_number'), 'certificate_number'),
             File::make(__('certificate.certificate_file'), 'certificate_file'),
         ];

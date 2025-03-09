@@ -25,6 +25,7 @@ class CertificateRequest extends Model
         'status',
         'certificate_number',
         'certificate_file',
-        'user_id'
+        'user_id',
+        'access_code'
     ];
 }

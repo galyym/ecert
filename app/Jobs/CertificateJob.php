@@ -93,6 +93,14 @@ class CertificateJob implements ShouldQueue
 
     private function setValues(Model $certificateRequest, $certNumber): array
     {
+        if ($certificateRequest->activity_type == 'ПД') {
+            $activityTypeRu = 'проектной';
+            $activityTypeKz = 'жобалау';
+        } else {
+            $activityTypeRu = 'строительной';
+            $activityTypeKz = 'құрылыс';
+        }
+
         return [
             new \Google\Service\Docs\Request([
                 'replaceAllText' => [
@@ -141,7 +149,19 @@ class CertificateJob implements ShouldQueue
                     'containsText' => ['text' => '${city_date_ru}', 'matchCase' => true],
                     'replaceText' => sprintf("город Астана %s.%s.%s года", now()->day, now()->month, now()->year),
                 ]
-            ])
+            ]),
+            new \Google\Service\Docs\Request([
+                'replaceAllText' => [
+                    'containsText' => ['text' => '${activity_type_ru}', 'matchCase' => true],
+                    'replaceText' => $activityTypeRu,
+                ]
+            ]),
+            new \Google\Service\Docs\Request([
+                'replaceAllText' => [
+                    'containsText' => ['text' => '${activity_type_kk}', 'matchCase' => true],
+                    'replaceText' => $activityTypeKz,
+                ]
+            ]),
         ];
     }
 }
