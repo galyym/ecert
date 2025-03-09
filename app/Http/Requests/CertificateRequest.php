@@ -30,7 +30,7 @@ class CertificateRequest extends FormRequest
             'requests.*.activity_type' => 'required|in:ПД,СМР',
             'requests.*.specialty' => 'required|string|max:255',
             'requests.*.phone' => 'required|string|max:20',
-            'requests.*.workplace' => 'required|string|max:255',
+            'requests.*.workplace' => 'nullable|string|max:255',
             'requests.*.sender_name' => 'required|string|max:255',
             'requests.*.documents' => 'nullable|array',
             'requests.*.documents.*.file' => 'file|max:5120', // 5MB
