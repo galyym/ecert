@@ -9,8 +9,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    libreoffice \
-    libreoffice-writer \
     libxml2-dev
 
 RUN apt install -y default-jre
@@ -51,16 +49,7 @@ RUN composer install \
 
 RUN composer dump-autoload  --no-scripts --optimize --no-dev
 
-# Создание директории для конфигурации LibreOffice
-RUN mkdir -p /var/www/.config/libreoffice
-RUN chown -R www-data:www-data /var/www/.config
-
 WORKDIR /var/www/ecert
-
-COPY ./docker/php-fpm/docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-RUN ln -s /usr/local/bin/docker-entrypoint.sh /
-ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 9000
 CMD ["php-fpm"]
