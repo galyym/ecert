@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\CertificateRequest;
+use App\Models\Position;
 use App\Models\Template;
 use Google\Client;
 use Google\Service\Docs;
@@ -101,6 +102,8 @@ class CertificateJob implements ShouldQueue
             $activityTypeKz = 'құрылыс';
         }
 
+        $specialty = Position::find($certificateRequest->specialty_id)->first();
+
         return [
             new \Google\Service\Docs\Request([
                 'replaceAllText' => [
@@ -129,25 +132,25 @@ class CertificateJob implements ShouldQueue
             new \Google\Service\Docs\Request([
                 'replaceAllText' => [
                     'containsText' => ['text' => '${position_kz}', 'matchCase' => true],
-                    'replaceText' => $certificateRequest->specialty,
+                    'replaceText' => $specialty->name_kk,
                 ]
             ]),
             new \Google\Service\Docs\Request([
                 'replaceAllText' => [
                     'containsText' => ['text' => '${position_ru}', 'matchCase' => true],
-                    'replaceText' => $certificateRequest->specialty,
+                    'replaceText' => $specialty->name_ru,
                 ]
             ]),
             new \Google\Service\Docs\Request([
                 'replaceAllText' => [
                     'containsText' => ['text' => '${city_date_kz}', 'matchCase' => true],
-                    'replaceText' => sprintf("Астана қаласы %s.%s.%s жылы", now()->day, now()->month, now()->year),
+                    'replaceText' => sprintf("Ақтау қаласы %02d.%02d.%s жылы", now()->day, now()->month, now()->year),
                 ]
             ]),
             new \Google\Service\Docs\Request([
                 'replaceAllText' => [
                     'containsText' => ['text' => '${city_date_ru}', 'matchCase' => true],
-                    'replaceText' => sprintf("город Астана %s.%s.%s года", now()->day, now()->month, now()->year),
+                    'replaceText' => sprintf("город Актау %02d.%02d.%s года", now()->day, now()->month, now()->year),
                 ]
             ]),
             new \Google\Service\Docs\Request([

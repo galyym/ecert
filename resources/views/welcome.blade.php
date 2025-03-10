@@ -557,7 +557,7 @@
         positions.forEach(position => {
             if (activityType && position["type"] === activityType) {
                 const opt = document.createElement("option");
-                opt.value = position["name_ru"];
+                opt.value = position["id"];
                 opt.textContent = position["name_ru"];
                 selectSpecialty.appendChild(opt);
             }
@@ -820,7 +820,9 @@
             const rows = document.querySelectorAll('#tableOrder tr');
 
             // Добавляем CSRF-токен
-            formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+            const refreshToken = await fetch('/refresh-csrf-token'); // Специальный маршрут
+            const { token } = await refreshToken.json();
+            formData.append('_token', token);
 
             // Собираем данные
             rows.forEach((row, index) => {
@@ -850,6 +852,7 @@
             });
 
             // Отправка данных
+            axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
             const response = await axios.post('{{ route("cert_request") }}', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'

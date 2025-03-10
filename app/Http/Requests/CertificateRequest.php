@@ -28,7 +28,7 @@ class CertificateRequest extends FormRequest
             'requests.*.middle_name' => 'nullable|string|max:255',
             'requests.*.iin' => 'required|digits:12',
             'requests.*.activity_type' => 'required|in:ПД,СМР',
-            'requests.*.specialty' => 'required|string|max:255',
+            'requests.*.specialty' => 'required',
             'requests.*.phone' => 'required|string|max:20',
             'requests.*.workplace' => 'nullable|string|max:255',
             'requests.*.sender_name' => 'required|string|max:255',

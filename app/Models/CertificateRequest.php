@@ -17,6 +17,7 @@ class CertificateRequest extends Model
         'iin',
         'activity_type',
         'specialty',
+        'specialty_id',
         'phone',
         'workplace',
         'sender_name',
@@ -28,4 +29,9 @@ class CertificateRequest extends Model
         'user_id',
         'access_code'
     ];
+
+    public function specialty(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Position::class, 'specialty_id', 'id');
+    }
 }

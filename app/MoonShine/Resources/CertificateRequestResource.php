@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Enums\Action;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Handlers\Handler;
 use MoonShine\Laravel\Http\Responses\MoonShineJsonResponse;
 use MoonShine\Laravel\MoonShineRequest;
@@ -80,7 +81,7 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
                 Text::make(__('certificate.patronymic'), 'middle_name'),
                 Text::make(__('certificate.iin'), 'iin'),
                 Text::make(__('certificate.activity_type'), 'activity_type'),
-                Text::make(__('certificate.specialty'), 'specialty'),
+                BelongsTo::make(__('certificate.specialty'), 'specialty', resource: PositionResource::class),
                 Text::make(__('certificate.phone'), 'phone'),
                 Text::make(__('certificate.workplace'), 'workplace'),
                 Text::make(__('certificate.sender_name'), 'sender_name'),
@@ -107,7 +108,7 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
             Text::make(__('certificate.patronymic'), 'middle_name'),
             Text::make(__('certificate.iin'), 'iin'),
             Text::make(__('certificate.activity_type'), 'activity_type'),
-            Text::make(__('certificate.specialty'), 'specialty'),
+            BelongsTo::make(__('certificate.specialty'), 'specialty', resource: PositionResource::class),
             Text::make(__('certificate.phone'), 'phone'),
             Text::make(__('certificate.workplace'), 'workplace'),
             Text::make(__('certificate.sender_name'), 'sender_name'),
@@ -156,7 +157,7 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
             Text::make(__('certificate.patronymic'), 'middle_name'),
             Text::make(__('certificate.iin'), 'iin'),
             Text::make(__('certificate.activity_type'), 'activity_type'),
-            Text::make(__('certificate.specialty'), 'specialty'),
+            BelongsTo::make(__('certificate.specialty'), 'specialty', resource: PositionResource::class),
             Text::make(__('certificate.phone'), 'phone'),
             Text::make(__('certificate.workplace'), 'workplace'),
             Text::make(__('certificate.sender_name'), 'sender_name'),

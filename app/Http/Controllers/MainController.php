@@ -25,6 +25,7 @@ class MainController extends Controller
                 'iin' => $value['iin'],
                 'activity_type' => $value['activity_type'],
                 'specialty' => $value['specialty'],
+                'specialty_id' => $value['specialty'],
                 'phone' => $value['phone'],
                 'workplace' => $value['workplace'] ?? null,
                 'sender_name' => $value['sender_name'] ?? null,
