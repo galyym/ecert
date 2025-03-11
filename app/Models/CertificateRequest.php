@@ -30,7 +30,7 @@ class CertificateRequest extends Model
         'access_code'
     ];
 
-    public function specialty(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function specialties()
     {
         return $this->belongsTo(Position::class, 'specialty_id', 'id');
     }

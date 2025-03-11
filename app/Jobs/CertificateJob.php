@@ -102,7 +102,7 @@ class CertificateJob implements ShouldQueue
             $activityTypeKz = 'құрылыс';
         }
 
-        $specialty = Position::find($certificateRequest->specialty_id)->first();
+        $specialty = Position::find($certificateRequest->specialty_id);
 
         return [
             new \Google\Service\Docs\Request([

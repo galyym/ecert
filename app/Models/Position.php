@@ -25,4 +25,9 @@ class Position extends Model
     {
         return $this->{'description_' . app()->getLocale()};
     }
+
+    public function certificate()
+    {
+        return $this->hasMany(Certificate::class, 'id', 'specialty_id');
+    }
 }
