@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CertificateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MainController extends Controller
 {
@@ -34,11 +35,29 @@ class MainController extends Controller
                 'chat_id' => 0
             ]);
 
-            if ($request->hasFile('document')) {
-                $file = $request->file('document');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads'), $filename);
-                $addRequest->document = $filename;
+            if (isset($value['documents']) && is_array($value['documents'])) {
+                $fileData = [];
+
+                foreach ($value['documents'] as $doc) {
+                    if (isset($doc['file']) && $doc['file'] instanceof \Illuminate\Http\UploadedFile) {
+                        $datePath = date('Y/m/d'); // Формируем путь по дате
+                        $uploadPath = Storage::disk('public')->path("uploads/{$datePath}");
+
+                        if (!file_exists($uploadPath)) {
+                            mkdir($uploadPath, 0777, true);
+                        }
+
+                        $filename = time() . '_' . uniqid() . '.' . $doc['file']->getClientOriginalExtension();
+                        $doc['file']->move($uploadPath, $filename);
+
+                        $fileData[] = [
+                            'name' => $doc['name'] ?? 'Без названия',
+                            'path' => "uploads/{$datePath}/{$filename}"
+                        ];
+                    }
+                }
+
+                $addRequest->document = $fileData;
                 $addRequest->save();
             }
         }

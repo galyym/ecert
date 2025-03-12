@@ -30,6 +30,10 @@ class CertificateRequest extends Model
         'access_code'
     ];
 
+    protected $casts = [
+        'document' => 'collection'
+    ];
+
     public function specialties()
     {
         return $this->belongsTo(Position::class, 'specialty_id', 'id');

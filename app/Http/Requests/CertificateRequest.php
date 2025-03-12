@@ -34,6 +34,7 @@ class CertificateRequest extends FormRequest
             'requests.*.sender_name' => 'required|string|max:255',
             'requests.*.documents' => 'nullable|array',
             'requests.*.documents.*.file' => 'file|max:5120', // 5MB
+            'requests.*.documents.*.name' => 'string',
         ];
     }
 

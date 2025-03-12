@@ -5,12 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources;
 
 use App\Jobs\CertificateJob;
-use App\Models\Template;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\CertificateRequest;
-
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use MoonShine\ImportExport\Contracts\HasImportExportContract;
 use MoonShine\ImportExport\Traits\ImportExportConcern;
 use MoonShine\Laravel\Enums\Action;
@@ -28,9 +23,8 @@ use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\UI\Fields\Json;
 use MoonShine\UI\Fields\Text;
-use PhpOffice\PhpWord\TemplateProcessor;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @extends ModelResource<CertificateRequest>
@@ -112,13 +106,16 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
             Text::make(__('certificate.phone'), 'phone'),
             Text::make(__('certificate.workplace'), 'workplace'),
             Text::make(__('certificate.sender_name'), 'sender_name'),
-            Text::make(__('certificate.document'), 'document'),
             Text::make('Chat ID', 'chat_id'),
             Text::make('Статус', 'status'),
             Text::make(__('certificate.certificate_number'), 'certificate_number')->disabled(),
             File::make(__('certificate.certificate_file'), 'certificate_file')->disk('public'),
             Text::make('User ID', 'user_id'),
             Text::make('Код доступа', 'access_code'),
+            Json::make('Документы', 'document')->fields([
+                    Text::make('Name', 'name'),
+                    File::make('Path', 'path')
+            ])
         ];
     }
 
