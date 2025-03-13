@@ -963,6 +963,11 @@
                                             ${new Date(cert.certificate_date).toLocaleDateString()}
                                         </div>
                                     ` : ''}
+
+                                    <div class="cert-specialty">
+                                        <strong>Специальность:</strong> ${cert.specialty || 'Не указано'}
+                                    </div>
+
                                     <a href="${cert.certificate_file}"
                                        class="certificate-link"
                                        download="Сертификат_${cert.certificate_number}.pdf">

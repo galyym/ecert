@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CertificateRequest;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -81,6 +82,7 @@ class MainController extends Controller
                     'certificate_number' => $value->certificate_number,
                     'certificate_date' => $value->certificate_date,
                     'certificate_file' => \Storage::disk('public')->url($value->certificate_file),
+                    'specialty' => Position::find($value->specialty_id)->name_ru ?? null,
                 ];
             }
         }
