@@ -2847,3 +2847,10 @@ section,
     padding: 1rem;
     border-radius: 0.5rem;
 }
+
+.btn-danger {
+    padding: 0.25rem 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    border-radius: 0.25rem;
+}

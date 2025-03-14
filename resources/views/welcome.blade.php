@@ -408,7 +408,6 @@
                     </thead>
                     <tbody id="tableOrder">
                     <tr id="row1">
-{{--                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
                         <td>1</td>
                         <td><input type="text" class="form-control" name="last_name" required></td>
                         <td><input type="text" class="form-control" name="first_name" required></td>
@@ -453,6 +452,13 @@
                                     onclick="addDocumentField(this)">
                                 + Добавить документ
                             </button>
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="removeRow(this)"
+                                    title="Удалить строку">×</button>
                         </td>
                     </tr>
                     </tbody>
@@ -662,6 +668,7 @@
         });
 
         table.appendChild(newRow);
+        // updateRowNumbers(); // Обновить нумерацию
     }
 
     // Сохранение данных
@@ -1082,6 +1089,31 @@
         }
     }
 
+</script>
+
+<script>
+    function removeRow(button) {
+        const row = button.closest('tr');
+        const rows = document.querySelectorAll('#tableOrder tr');
+
+        if (rows.length === 1) {
+            alert('Нельзя удалить последнюю строку!');
+            return;
+        }
+
+        if (confirm('Вы уверены, что хотите удалить эту строку?')) {
+            row.remove();
+            updateRowNumbers();
+        }
+    }
+
+    function updateRowNumbers() {
+        const rows = document.querySelectorAll('#tableOrder tr');
+        rows.forEach((row, index) => {
+            row.querySelector('td:first-child').textContent = index + 1;
+            row.id = `row${index + 1}`;
+        });
+    }
 </script>
 
 </body>
