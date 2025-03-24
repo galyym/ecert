@@ -151,6 +151,7 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
         return [
             ID::make(),
             Text::make(__('certificate.surname'), 'last_name'),
+            Text::make(__('certificate.name'), 'first_name'),
             Text::make(__('certificate.patronymic'), 'middle_name'),
             Text::make(__('certificate.iin'), 'iin'),
             Text::make(__('certificate.activity_type'), 'activity_type'),
