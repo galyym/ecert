@@ -38,23 +38,16 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a href="#company" class="active">Компания</a></li>
-                <li class="dropdown">
-                    <a href="#services"><span>Услуги</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                    <ul>
-                        <li><a href="#services-attestation">Аттестация и Сертификация</a></li>
-                        <li><a href="#features">Поиск аттестата</a></li>
-                    </ul>
-                </li>
-                <li><a href="#projects">Проекты</a></li>
-                <li><a href="#news">Новости</a></li>
-                <li><a href="#career">Карьера</a></li>
+                <li><a href="#hero" class="active">Главная страница</a></li>
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#features">Поиск аттестата</a></li>
+                <li><a href="#services">Услуги</a></li>
                 <li><a href="#contact">Контакты</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="btn-getstarted" href="#applicationModal">Оставить заявку</a>
+        <a class="btn-getstarted" href="{{ route('home') }}#about">Оставить заявку</a>
 
     </div>
 </header>
@@ -70,11 +63,14 @@
                 <div class="col-lg-6">
                     <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
                         <h1 class="mb-5">
-                            ТОО ВсеСтрой: Лидер в обучении и сертификации <span class="accent-text">строительных кадров</span>
+                            Аттестация инженерно- <br>
+                            технических <br>
+                            <span class="accent-text">работников</span>
                         </h1>
 
                         <p class="mb-4 mb-md-5">
-                            Повышаем квалификацию, строим будущее: комплексные решения для профессионалов строительной отрасли.
+                            Аттестация инженерно-технических работников,
+                            участвующих в процессе проектирования и строительства
                         </p>
                     </div>
                 </div>
@@ -134,24 +130,17 @@
     </section><!-- /Hero Section -->
 
     <!-- About Section -->
-    <section id="company" class="about section">
+    <section id="about" class="about section">
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
             <div class="row gy-4 align-items-center justify-content-between">
 
                 <div class="col-xl-5" data-aos="fade-up" data-aos-delay="200">
-                    <h2 class="about-title">О Компании ТОО ВсеСтрой</h2>
+                    <h2 class="about-title">НАША КОМАНДА — ВАША НАДЕЖНОСТЬ</h2>
                     <p class="about-description">ТОО ВсеСтрой — ваш надежный партнёр в сфере аттестации и сертификации с 2013 года. Несмотря на молодой возраст, мы уже заслужили доверие сотен компаний Казахстана благодаря профессионализму, оперативности и строгому соблюдению стандартов. Каждый наш эксперт проходит ежегодную аттестацию, чтобы гарантировать вам актуальные знания и соответствие международным стандартам.</p>
-                    <p class="about-description">Наша миссия - способствовать повышению профессионального уровня специалистов строительной отрасли Казахстана, внедряя передовые методики обучения и независимую оценку квалификаций. Мы ценим профессионализм, ответственность и стремление к развитию.</p>
 
-                    <h3 class="mt-4">Наша команда</h3>
-                    <p>В ТОО «ВсеСтрой» работает команда высококвалифицированных экспертов и преподавателей с многолетним опытом в строительной сфере. Мы гордимся нашими специалистами, которые готовы поделиться своими знаниями и помочь вам достичь новых профессиональных высот.</p>
-
-                    <h3 class="mt-4">Аккредитация и Партнерство</h3>
-                    <p>ТОО «ВсеСтрой» обладает всеми необходимыми государственными лицензиями и аккредитациями для проведения образовательной и сертификационной деятельности. Мы сотрудничаем с ведущими строительными компаниями и отраслевыми ассоциациями.</p>
-
-                    <div class="row feature-list-wrapper mt-4">
+                    <div class="row feature-list-wrapper">
                         <div class="col-md-6">
                             <ul class="feature-list">
                                 <li><i class="bi bi-check-circle-fill"></i> Аттестация за 1 рабочих дней</li>
@@ -168,7 +157,7 @@
                         </div>
                     </div>
 
-                    {{-- <div class="info-wrapper">
+                    <div class="info-wrapper">
                         <div class="row gy-4">
                             <div class="col-lg-7">
                                 <div class="contact-info d-flex align-items-center gap-2">
@@ -180,7 +169,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
 
                 <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
@@ -205,21 +194,21 @@
 
         <!-- Заголовок секции -->
         <div class="container section-title" data-aos="fade-up">
-            <h2>Наши Услуги</h2>
+            <h2>Услуги</h2>
             <p>Полный спектр услуг для юридических лиц и специалистов</p>
         </div>
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <div id="services-attestation" class="row g-4">
+            <div class="row g-4">
 
-                <!-- Карточка: Аттестация и Сертификация -->
+                <!-- Карточка: Аттестация -->
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-card">
                         <div class="icon-header d-flex align-items-center">
                             <div class="icon flex-shrink-0">
                                 <i class="bi bi-file-earmark-medical"></i>
                             </div>
-                            <h3>Аттестация и Сертификация</h3>
+                            <h3>Аттестация</h3>
                         </div>
                         <ul class="service-list">
                             <li>Аттестация инженерно-технических работников, участвующих в процессе проектирования и строительства</li>
@@ -286,7 +275,7 @@
                             <div class="icon flex-shrink-0">
                                 <i class="bi bi-shield-check"></i>
                             </div>
-                            <h3>Прочие Услуги</h3>
+                            <h3>Прочие</h3>
                         </div>
                         <ul class="service-list">
                             <li>Разработка декларации промышленной безопасности опасного производственного объекта (присвоения регистрационного шифра)</li>
@@ -327,42 +316,6 @@
 {{--            </div>--}}
 {{--        </div>--}}
 {{--    </section>--}}
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects section">
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Наши Проекты</h2>
-            <p>Здесь будет информация о наших успешно реализованных проектах и кейс-стади.</p>
-        </div>
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <!-- Placeholder content for projects -->
-            <p>Подробности о проектах скоро появятся...</p>
-        </div>
-    </section><!-- /Projects Section -->
-
-    <!-- News Section -->
-    <section id="news" class="news section light-background">
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Новости Компании</h2>
-            <p>Актуальные новости компании, статьи и полезная информация из мира строительства и образования.</p>
-        </div>
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <!-- Placeholder content for news -->
-            <p>Следите за нашими обновлениями!</p>
-        </div>
-    </section><!-- /News Section -->
-
-    <!-- Career Section -->
-    <section id="career" class="career section">
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Карьера в ТОО ВсеСтрой</h2>
-            <p>Присоединяйтесь к нашей команде! Информация об открытых вакансиях и условиях работы.</p>
-        </div>
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <!-- Placeholder content for career -->
-            <p>Информация о вакансиях будет размещена здесь.</p>
-        </div>
-    </section><!-- /Career Section -->
 
     <!-- Contact Section -->
     <section id="contact" class="contact section light-background">
@@ -414,29 +367,13 @@
                                 <p>ermek_ospanov@mail.ru</p>
                             </div>
                         </div>
-
-                        <!-- Часы работы -->
-                        <div class="info-item" data-aos="fade-up" data-aos-delay="600">
-                            <div class="icon-box">
-                                <i class="bi bi-clock"></i>
-                            </div>
-                            <div class="content">
-                                <h4>Часы работы</h4>
-                                <p>Понедельник - Пятница: 9:00 - 18:00</p>
-                                <p>Суббота, Воскресенье: Выходной</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Карта и Placeholder для формы -->
+                <!-- Карта -->
                 <div class="col-lg-7">
-                    <div data-aos="fade-up" data-aos-delay="300">
-                        <h4 class="mb-3">Отправьте нам сообщение</h4>
-                        <p class="mb-3">Форма для общих запросов будет добавлена здесь в ближайшее время. А пока вы можете связаться с нами по указанным контактам.</p>
-                    </div>
-                    <div class="map-container mt-4" data-aos="fade-up" data-aos-delay="400">
-                        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A2a8fd567db08c1b8152f2963fb3e4ad77faf6e94191026ee87b470e59794d943&amp;source=constructor" width="100%" height="300" frameborder="0"></iframe>
+                    <div class="map-container" data-aos="fade-up" data-aos-delay="300">
+                        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A2a8fd567db08c1b8152f2963fb3e4ad77faf6e94191026ee87b470e59794d943&amp;source=constructor" width="736" height="407" frameborder="0"></iframe>
                     </div>
                 </div>
 
@@ -572,66 +509,6 @@
 
 </main>
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="container footer-top">
-        <div class="row gy-4">
-            <div class="col-lg-4 col-md-6 footer-about">
-                <a href="{{ route('home') }}" class="logo d-flex align-items-center">
-                    <span class="sitename">ТОО ВсеСтрой</span>
-                </a>
-                <div class="footer-contact pt-3">
-                    <p>г. Актау, 29а мкр, 145</p>
-                    <p>БЦ "АБК", офис 103</p>
-                    <p class="mt-3"><strong>Телефон:</strong> <span>+7 (702) 912-23-00</span></p>
-                    <p><strong>Email:</strong> <span>ermek_ospanov@mail.ru</span></p>
-                </div>
-            </div>
-
-            <div class="col-lg-2 col-md-3 footer-links">
-                <h4>Полезные ссылки</h4>
-                <ul>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#hero">Главная</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#company">О Компании</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#services">Услуги</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#contact">Контакты</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#privacy-policy">Политика конфиденциальности (TBD)</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#terms-of-service">Условия использования (TBD)</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-2 col-md-3 footer-links">
-                <h4>Наши Услуги</h4>
-                <ul>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#services-attestation">Аттестация и Сертификация</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#services">Аккредитация</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#services">Обучение (курсы)</a></li>
-                    <li><i class="bi bi-chevron-right"></i> <a href="#features">Поиск аттестата</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-4 col-md-12 footer-social">
-                <h4>Мы в соцсетях</h4>
-                <p>Следите за нашими новостями и обновлениями в социальных сетях.</p>
-                <div class="social-links d-flex mt-4">
-                    <a href="#" class="me-2"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="container copyright text-center mt-4">
-        <p>&copy; <script>document.write(new Date().getFullYear())</script> ТОО ВсеСтрой. Все права защищены.</p>
-        <div class="credits">
-            <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> - This is to keep the original credits if any part of the styling/structure was inspired by it -->
-        </div>
-    </div>
-</footer><!-- End Footer -->
-
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
@@ -666,11 +543,8 @@
 <script>
     // Открытие модального окна
     document.querySelector('.btn-getstarted').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent default anchor behavior
-        const targetModal = this.getAttribute('href'); // Get the href attribute
-        if (targetModal && targetModal.startsWith('#')) {
-            document.getElementById(targetModal.substring(1)).style.display = 'block';
-        }
+        e.preventDefault();
+        document.getElementById('applicationModal').style.display = 'block';
     });
 
     // Закрытие модального окна
