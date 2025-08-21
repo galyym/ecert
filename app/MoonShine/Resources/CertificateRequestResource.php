@@ -25,6 +25,7 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Fields\Json;
+use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 
@@ -83,7 +84,7 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
                 Text::make(__('certificate.sender_name'), 'sender_name'),
                 Text::make(__('certificate.document'), 'document'),
                 Text::make('Chat ID', 'chat_id'),
-                Text::make('Статус', 'status'),
+                Select::make('Статус', 'status')->options(['confirmed' => 'confirmed', 'new' => 'new']),
                 Text::make(__('certificate.certificate_number'), 'certificate_number'),
                 File::make(__('certificate.certificate_file'), 'certificate_file')->removable(),
                 Text::make('User ID', 'user_id')->disabled(),
@@ -192,11 +193,13 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
             return MoonShineJsonResponse::make()->toast(__('certificate.certificate_exists'), ToastType::ERROR);
         }
 
-        if (in_array($certificateRequest->status, ['confirmed', 'new'])) {
+        if (in_array($certificateRequest->status, ['new'])) {
             CertificateJob::dispatch($certificateRequest);
             $certificateRequest->status = 'converting';
             $certificateRequest->save();
             return MoonShineJsonResponse::make()->toast("Ваш документ поставлен в очередь на конвертацию. Как только процесс завершится, мы вам сообщим.", ToastType::SUCCESS);
+        } elseif ($certificateRequest->status == 'confirmed'){
+            return MoonShineJsonResponse::make()->toast('Вы уже получили свой сертификат');
         }
         return MoonShineJsonResponse::make()->toast("Ваш документ уже в очереди на обработку. Как только конвертация завершится, мы вас оповестим.", ToastType::INFO);
     }

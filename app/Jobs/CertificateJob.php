@@ -41,8 +41,12 @@ class CertificateJob implements ShouldQueue
         $documentId = config('google.google.docs_id');
 
         try {
-            $certNumber = CertificateRequest::get('certificate_number')->sortByDesc('certificate_number')->first();
-            $certNumber = Str::padLeft(intval($certNumber->certificate_number) + 1, 5, '0');
+            if ($this->certificateRequest->status && $this->certificateRequest->certificate_number != 0) {
+                $certNumber = $this->certificateRequest->certificate_number;
+            } else {
+                $certNumber = CertificateRequest::get('certificate_number')->sortByDesc('certificate_number')->first();
+                $certNumber = Str::padLeft(intval($certNumber->certificate_number) + 1, 5, '0');
+            }
 
             // Замена текста в Google Docs
             $docsService = new Docs($client);
