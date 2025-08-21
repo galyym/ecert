@@ -11,8 +11,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     libxml2-dev
 
-RUN apt install -y default-jre
-
 # Установка расширений PHP
 RUN docker-php-ext-install bcmath \
     && docker-php-ext-install gd \

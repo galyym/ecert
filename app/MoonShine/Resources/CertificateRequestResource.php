@@ -17,6 +17,7 @@ use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Support\Enums\ToastType;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
+use MoonShine\UI\Components\Boolean;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\File;
@@ -24,6 +25,7 @@ use MoonShine\UI\Fields\ID;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Fields\Json;
+use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 
 /**
@@ -86,6 +88,8 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
                 File::make(__('certificate.certificate_file'), 'certificate_file')->removable(),
                 Text::make('User ID', 'user_id')->disabled(),
                 Text::make('Код доступа', 'access_code'),
+                Date::make('Updated date', 'created_at'),
+                Switcher::make('Use updated date', 'use_updated_at'),
             ])
         ];
     }

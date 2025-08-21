@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\CertificateRequest;
 use App\Models\Position;
 use App\Models\Template;
+use Carbon\Carbon;
 use Google\Client;
 use Google\Service\Docs;
 use Google\Service\Drive;
@@ -102,6 +103,12 @@ class CertificateJob implements ShouldQueue
             $activityTypeKz = 'құрылыс';
         }
 
+        if ($this->certificateRequest->use_updated_at) {
+            $date = Carbon::parse($this->certificateRequest->created_at);
+        } else {
+            $date = now();
+        }
+
         $specialty = Position::find($certificateRequest->specialty_id);
 
         return [
@@ -144,13 +151,13 @@ class CertificateJob implements ShouldQueue
             new \Google\Service\Docs\Request([
                 'replaceAllText' => [
                     'containsText' => ['text' => '${city_date_kz}', 'matchCase' => true],
-                    'replaceText' => sprintf("Ақтау қаласы %02d.%02d.%s жылы", now()->day, now()->month, now()->year),
+                    'replaceText' => sprintf("Ақтау қаласы %02d.%02d.%s жылы", $date->day, $date->month, $date->year),
                 ]
             ]),
             new \Google\Service\Docs\Request([
                 'replaceAllText' => [
                     'containsText' => ['text' => '${city_date_ru}', 'matchCase' => true],
-                    'replaceText' => sprintf("город Актау %02d.%02d.%s года", now()->day, now()->month, now()->year),
+                    'replaceText' => sprintf("город Актау %02d.%02d.%s года", $date->day, $date->month, $date->year),
                 ]
             ]),
             new \Google\Service\Docs\Request([
