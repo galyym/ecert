@@ -24,7 +24,7 @@ class PositionResource extends ModelResource
 
     protected string $title = 'Positions';
 
-    protected string $column = 'name_kk';
+    protected string $column = 'name_ru';
 
     /**
      * @return list<FieldContract>
