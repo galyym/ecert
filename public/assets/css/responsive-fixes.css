@@ -1,0 +1,72 @@
+/* Fixes for responsive layout and overflow */
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Responsive Typography */
+h1,
+.h1 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+h2,
+.h2 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* Hero Title Responsive */
+@media (max-width: 1200px) {
+    .hero-content h1 {
+        font-size: 3rem;
+        /* Немного меньше чем 3.5rem */
+    }
+}
+
+@media (max-width: 991px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-content h1 {
+        font-size: 2rem;
+        /* Еще меньше для мобильных */
+        line-height: 1.3;
+    }
+
+    .section-title h2 {
+        font-size: 1.75rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    /* Fix container padding on mobile */
+    .container,
+    .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.75rem;
+        /* Для очень маленьких экранов */
+    }
+
+    .section-title h2 {
+        font-size: 1.5rem;
+    }
+}

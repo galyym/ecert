@@ -20,10 +20,10 @@
                         участвующих в процессе проектирования и строительства
                     </p>
                     <div class="hero-buttons">
-                        <a href="#" onclick="event.preventDefault(); openCertificationModal();" class="btn btn-primary btn-lg me-3">
+                        <a href="#" onclick="event.preventDefault(); openCertificationModal();" class="btn btn-primary me-3">
                             <i class="bi bi-file-earmark-text"></i> Подать заявку
                         </a>
-                        <a href="#" onclick="event.preventDefault(); openSearchModal();" class="btn btn-outline-primary btn-lg">
+                        <a href="#" onclick="event.preventDefault(); openSearchModal();" class="btn btn-outline-primary">
                             <i class="bi bi-search"></i> Поиск сертификата
                         </a>
                     </div>
@@ -45,7 +45,7 @@
                         <i class="bi bi-trophy"></i>
                     </div>
                     <div class="stat-content">
-                        <h4>98% успешных аттестаций</h4>
+                        <p>98% успешных аттестаций</p>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                         <i class="bi bi-briefcase"></i>
                     </div>
                     <div class="stat-content">
-                        <h4>1 000+ сертифицированных инженеров</h4>
+                        <p>1 000+ сертифицированных инженеров</p>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                         <i class="bi bi-graph-up"></i>
                     </div>
                     <div class="stat-content">
-                        <h4>95% удовлетворенности клиентов</h4>
+                        <p>95% удовлетворенности клиентов</p>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                         <i class="bi bi-award"></i>
                     </div>
                     <div class="stat-content">
-                        <h4>5+ лет опыта</h4>
+                        <p>5+ лет опыта</p>
                     </div>
                 </div>
             </div>
@@ -218,7 +218,7 @@
                 <p>Свяжитесь с нами сегодня и получите профессиональную консультацию</p>
             </div>
             <div class="col-lg-4 text-lg-end">
-                <a href="#" onclick="event.preventDefault(); openCertificationModal();" class="btn btn-light btn-lg">
+                <a href="#" onclick="event.preventDefault(); openCertificationModal();" class="btn btn-light">
                     <i class="bi bi-file-earmark-text"></i> Подать заявку
                 </a>
             </div>

@@ -22,6 +22,7 @@
     <!-- Main CSS -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/modern.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/responsive-fixes.css') }}" rel="stylesheet">
     
     @stack('styles')
 </head>
