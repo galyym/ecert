@@ -162,19 +162,6 @@
                     </div>
                 @endif
 
-                <div class="info-wrapper">
-                    <div class="row gy-4">
-                        <div class="col-lg-7">
-                            <div class="contact-info d-flex align-items-center gap-2">
-                                <i class="bi bi-telephone-fill"></i>
-                                <div>
-                                    <p class="contact-label">Контакты</p>
-                                    <p class="contact-number">+7 (702) 912-23-00</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">

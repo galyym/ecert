@@ -2,8 +2,8 @@
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
         <!-- Logo -->
-        <a href="{{ route('home') }}" class="logo d-flex align-items-center me-auto me-xl-0">
-            <h1 class="sitename">ТОО ВсеСтрой</h1>
+        <a href="{{ route('home') }}" class="logo d-flex align-items-center">
+            <span class="sitename">ТОО ВсеСтрой</span>
         </a>
 
         <!-- Navigation -->
@@ -44,7 +44,11 @@
         </nav>
 
         <!-- Action Buttons Group -->
-        <div class="header-actions">
+        <div class="header-actions ms-auto">
+            <button class="btn-action btn-theme-toggle" onclick="toggleTheme()" title="Переключить тему">
+                <i class="bi bi-moon-stars theme-icon-dark"></i>
+                <i class="bi bi-sun theme-icon-light" style="display: none;"></i>
+            </button>
             <button class="btn-action btn-search" onclick="openSearchModal()" title="Поиск аттестата">
                 <i class="bi bi-search"></i>
                 <span class="btn-text d-none d-lg-inline">Поиск</span>

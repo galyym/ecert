@@ -133,13 +133,28 @@ body {
 }
 
 /* Навигация */
-.header .logo h1 {
+.header .logo .sitename {
   background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: 700;
   font-size: 1.8rem;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Адаптивные размеры логотипа */
+@media (max-width: 991px) {
+  .header .logo .sitename {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .header .logo .sitename {
+    font-size: 1.1rem;
+  }
 }
 
 .navmenu a {
@@ -264,6 +279,31 @@ body {
     min-width: 40px;
   }
 }
+
+/* Кнопка переключения темы */
+.btn-action.btn-theme-toggle {
+  background: rgba(44, 90, 160, 0.08);
+  color: var(--corporate-blue);
+  border: 1px solid rgba(44, 90, 160, 0.2);
+}
+
+.btn-action.btn-theme-toggle:hover {
+  background: var(--corporate-blue);
+  color: white;
+  border-color: var(--corporate-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(44, 90, 160, 0.25);
+}
+
+.btn-action.btn-theme-toggle i {
+  font-size: 1.1rem;
+  color: var(--corporate-blue);
+}
+
+.btn-action.btn-theme-toggle:hover i {
+  color: white;
+}
+
 
 
 /* Hero секция */
@@ -1513,5 +1553,783 @@ body.index-page {
   .application-table .form-select {
     font-size: 0.85rem;
     padding: 0.5rem;
+  }
+}
+
+/* ===================================================
+   ТЕМНАЯ ТЕМА
+   =================================================== */
+
+[data-theme="dark"] {
+  /* Темные цвета */
+  --dark-bg: #1a1a2e;
+  --dark-bg-secondary: #16213e;
+  --dark-bg-tertiary: #0f1419;
+  --dark-surface: #252b3b;
+  --dark-surface-hover: #2d3548;
+  --dark-border: #3a4556;
+  --dark-text: #e4e6eb;
+  --dark-text-secondary: #b0b3b8;
+  --dark-text-muted: #8a8d91;
+
+  /* Переопределяем корпоративные цвета для темной темы */
+  --corporate-blue: #4a7bc8;
+  --corporate-navy: #5a8fd8;
+  --corporate-light-blue: #6a9fdb;
+  --corporate-gray: #b0b3b8;
+  --corporate-light-gray: #252b3b;
+  --corporate-dark-gray: #e4e6eb;
+}
+
+/* Основные элементы в темной теме */
+[data-theme="dark"] body {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .header {
+  --background-color: var(--dark-bg-secondary);
+}
+
+[data-theme="dark"] .header .header-container {
+  background: var(--dark-surface);
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .header .logo h1 {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="dark"] .navmenu a {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .navmenu a:hover,
+[data-theme="dark"] .navmenu a.active {
+  color: var(--corporate-blue);
+}
+
+/* Кнопки в темной теме */
+[data-theme="dark"] .btn-action.btn-theme-toggle {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .btn-action.btn-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+[data-theme="dark"] .btn-action.btn-theme-toggle i {
+  color: white;
+}
+
+[data-theme="dark"] .btn-action.btn-search {
+  background: rgba(74, 123, 200, 0.1);
+  color: var(--corporate-blue);
+  border-color: rgba(74, 123, 200, 0.3);
+}
+
+[data-theme="dark"] .btn-action.btn-search:hover {
+  background: var(--corporate-blue);
+  color: white;
+}
+
+/* Hero секция */
+[data-theme="dark"] .hero {
+  background: linear-gradient(135deg, var(--dark-bg-secondary) 0%, var(--dark-bg-tertiary) 100%);
+}
+
+[data-theme="dark"] .hero-content h1,
+[data-theme="dark"] .hero-content p {
+  color: var(--dark-text);
+}
+
+/* Карточки */
+[data-theme="dark"] .card-modern,
+[data-theme="dark"] .service-card,
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .news-card {
+  background: var(--dark-surface);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card-modern:hover,
+[data-theme="dark"] .service-card:hover,
+[data-theme="dark"] .project-card:hover,
+[data-theme="dark"] .news-card:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .service-card h3,
+[data-theme="dark"] .news-title a {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .service-list li {
+  color: var(--dark-text-secondary);
+  border-bottom-color: var(--dark-border);
+}
+
+/* Статистика */
+[data-theme="dark"] .stats-row .stat-item {
+  background: var(--dark-surface);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .stats-row .stat-content h4 {
+  color: var(--dark-text);
+}
+
+/* Формы */
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background: var(--dark-surface);
+  border-color: var(--dark-border);
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  background: var(--dark-surface-hover);
+  border-color: var(--corporate-blue);
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: var(--dark-text-muted);
+}
+
+/* Модальные окна */
+[data-theme="dark"] .modal {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="dark"] .application-modal-body {
+  background: var(--dark-bg-secondary);
+}
+
+[data-theme="dark"] .application-info-banner {
+  background: linear-gradient(135deg, rgba(74, 123, 200, 0.15), rgba(74, 123, 200, 0.1));
+  border-left-color: var(--corporate-blue);
+}
+
+[data-theme="dark"] .application-info-banner span {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .application-table {
+  background: var(--dark-surface);
+}
+
+[data-theme="dark"] .application-table thead {
+  background: linear-gradient(135deg, var(--dark-surface-hover), var(--dark-surface));
+}
+
+[data-theme="dark"] .application-table thead th {
+  color: var(--dark-text);
+  border-bottom-color: var(--corporate-blue);
+}
+
+[data-theme="dark"] .application-table tbody tr:hover {
+  background: var(--dark-surface-hover);
+}
+
+[data-theme="dark"] .application-table tbody td {
+  border-bottom-color: var(--dark-border);
+}
+
+[data-theme="dark"] .application-table .form-control,
+[data-theme="dark"] .application-table .form-select {
+  background: var(--dark-bg-secondary);
+  border-color: var(--dark-border);
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .application-table .document-item {
+  background: var(--dark-bg-secondary);
+  border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .application-modal-footer {
+  background: var(--dark-surface);
+  border-top-color: var(--dark-border);
+}
+
+/* Футер */
+[data-theme="dark"] .footer {
+  background: var(--dark-bg-secondary);
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .footer h4,
+[data-theme="dark"] .footer .footer-about .logo span {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .footer .footer-links ul a {
+  color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] .footer .footer-links ul a:hover {
+  color: var(--corporate-blue);
+}
+
+/* Page header */
+[data-theme="dark"] .page-header {
+  background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, var(--dark-bg-secondary) 100%);
+}
+
+/* Секции */
+[data-theme="dark"] .section {
+  background: var(--dark-bg);
+}
+
+[data-theme="dark"] .section-title h2 {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .section-title p {
+  color: var(--dark-text-secondary);
+}
+
+/* Контакты */
+[data-theme="dark"] .contact-info .info-item {
+  background: var(--dark-surface);
+}
+
+[data-theme="dark"] .contact-info .content h4 {
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .contact-info .content p {
+  color: var(--dark-text-secondary);
+}
+
+/* Мобильное меню */
+[data-theme="dark"] .mobile-nav-active .navmenu {
+  background: rgba(26, 26, 46, 0.95);
+}
+
+[data-theme="dark"] .navmenu ul {
+  background: var(--dark-surface);
+}
+
+/* Плавный переход между темами */
+body,
+.header,
+.header .header-container,
+.card-modern,
+.service-card,
+.project-card,
+.news-card,
+.form-control,
+.form-select,
+.modal,
+.application-modal-body,
+.application-table,
+.footer {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Дополнительные стили для текстовых элементов в темной теме */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] li,
+[data-theme="dark"] a {
+  color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] a:hover {
+  color: var(--corporate-blue);
+}
+
+/* Специфичные классы */
+[data-theme="dark"] .about-title {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .about-description {
+  color: var(--dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .feature-list li {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .contact-label,
+[data-theme="dark"] .contact-number {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .news-content p,
+[data-theme="dark"] .project-content p {
+  color: var(--dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .news-meta,
+[data-theme="dark"] .project-meta {
+  color: var(--dark-text-muted) !important;
+}
+
+[data-theme="dark"] .news-date,
+[data-theme="dark"] .project-date,
+[data-theme="dark"] .project-category {
+  color: var(--dark-text-muted) !important;
+}
+
+[data-theme="dark"] .read-more {
+  color: var(--corporate-blue) !important;
+}
+
+[data-theme="dark"] .project-client {
+  color: var(--dark-text-secondary) !important;
+}
+
+/* Info box */
+[data-theme="dark"] .info-box {
+  background: var(--dark-surface);
+}
+
+[data-theme="dark"] .info-box h3 {
+  color: var(--dark-text) !important;
+}
+
+/* Experience badge */
+[data-theme="dark"] .experience-badge h3,
+[data-theme="dark"] .experience-badge p {
+  color: white !important;
+}
+
+/* Light background sections в темной теме */
+[data-theme="dark"] .light-background {
+  background: var(--dark-bg-secondary) !important;
+}
+
+/* Bootstrap text utilities override */
+[data-theme="dark"] .text-dark {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .text-muted {
+  color: var(--dark-text-muted) !important;
+}
+
+[data-theme="dark"] .text-secondary {
+  color: var(--dark-text-secondary) !important;
+}
+
+/* News card */
+[data-theme="dark"] .news-content h3 a {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .news-content h3 a:hover {
+  color: var(--corporate-blue) !important;
+}
+
+/* Project card */
+[data-theme="dark"] .project-content h3 a {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .project-content h3 a:hover {
+  color: var(--corporate-blue) !important;
+}
+
+/* Кнопки */
+[data-theme="dark"] .btn-outline-primary {
+  color: var(--corporate-blue);
+  border-color: var(--corporate-blue);
+}
+
+[data-theme="dark"] .btn-outline-primary:hover {
+  background: var(--corporate-blue);
+  color: white;
+}
+
+/* Map container */
+[data-theme="dark"] .map-container {
+  border-radius: 15px;
+  overflow: hidden;
+  filter: invert(90%) hue-rotate(180deg);
+}
+
+/* Breadcrumbs */
+[data-theme="dark"] .breadcrumb-item,
+[data-theme="dark"] .breadcrumb-item a {
+  color: var(--dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .breadcrumb-item.active {
+  color: var(--dark-text) !important;
+}
+
+/* Value items (ценности компании) */
+[data-theme="dark"] .value-item {
+  background: var(--dark-surface);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .value-item:hover {
+  background: var(--dark-surface-hover);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .value-item h3 {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .value-item p {
+  color: var(--dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .value-icon {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+}
+
+[data-theme="dark"] .value-icon i {
+  color: white;
+}
+
+/* Универсальные стили для всех белых блоков */
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .card,
+[data-theme="dark"] .box,
+[data-theme="dark"] .item {
+  background: var(--dark-surface) !important;
+}
+
+[data-theme="dark"] .border {
+  border-color: var(--dark-border) !important;
+}
+
+/* Все элементы с классом содержащим 'white' или 'light' */
+[data-theme="dark"] [class*="white"],
+[data-theme="dark"] [class*="light-bg"] {
+  background: var(--dark-surface) !important;
+}
+
+/* Team members, testimonials и другие возможные блоки */
+[data-theme="dark"] .team-member,
+[data-theme="dark"] .testimonial,
+[data-theme="dark"] .pricing-item,
+[data-theme="dark"] .faq-item {
+  background: var(--dark-surface);
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .team-member h4,
+[data-theme="dark"] .testimonial h4,
+[data-theme="dark"] .pricing-item h3,
+[data-theme="dark"] .faq-item h3 {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .team-member p,
+[data-theme="dark"] .testimonial p,
+[data-theme="dark"] .pricing-item p,
+[data-theme="dark"] .faq-item p {
+  color: var(--dark-text-secondary) !important;
+}
+
+/* Advantage cards (карточки преимуществ) */
+[data-theme="dark"] .advantage-card {
+  background: var(--dark-surface);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .advantage-card:hover {
+  background: var(--dark-surface-hover);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .advantage-card h4 {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .advantage-card p {
+  color: var(--dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .advantage-icon {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+}
+
+[data-theme="dark"] .advantage-icon i {
+  color: white;
+}
+
+/* Универсальные стили для всех карточек с суффиксами */
+[data-theme="dark"] [class$="-card"],
+[data-theme="dark"] [class$="-item"],
+[data-theme="dark"] [class$="-box"] {
+  background: var(--dark-surface);
+}
+
+[data-theme="dark"] [class$="-card"]:hover,
+[data-theme="dark"] [class$="-item"]:hover,
+[data-theme="dark"] [class$="-box"]:hover {
+  background: var(--dark-surface-hover);
+}
+
+/* Иконки в карточках */
+[data-theme="dark"] [class*="-icon"] {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+}
+
+[data-theme="dark"] [class*="-icon"] i {
+  color: white;
+}
+
+/* Заголовки и текст в любых карточках */
+[data-theme="dark"] [class$="-card"] h1,
+[data-theme="dark"] [class$="-card"] h2,
+[data-theme="dark"] [class$="-card"] h3,
+[data-theme="dark"] [class$="-card"] h4,
+[data-theme="dark"] [class$="-card"] h5,
+[data-theme="dark"] [class$="-card"] h6,
+[data-theme="dark"] [class$="-item"] h1,
+[data-theme="dark"] [class$="-item"] h2,
+[data-theme="dark"] [class$="-item"] h3,
+[data-theme="dark"] [class$="-item"] h4,
+[data-theme="dark"] [class$="-item"] h5,
+[data-theme="dark"] [class$="-item"] h6 {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] [class$="-card"] p,
+[data-theme="dark"] [class$="-item"] p {
+  color: var(--dark-text-secondary) !important;
+}
+
+/* Формы и их элементы */
+[data-theme="dark"] form {
+  background: var(--dark-surface) !important;
+}
+
+[data-theme="dark"] .contact-form,
+[data-theme="dark"] .form-wrapper,
+[data-theme="dark"] .form-container,
+[data-theme="dark"] .contact-form-wrapper,
+[data-theme="dark"] .map-wrapper {
+  background: var(--dark-surface) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .contact-form-wrapper h3,
+[data-theme="dark"] .map-wrapper h3 {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .contact-form-wrapper p,
+[data-theme="dark"] .map-wrapper p,
+[data-theme="dark"] .map-info p {
+  color: var(--dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .map-info {
+  background: var(--dark-bg-secondary) !important;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .map-info strong {
+  color: var(--dark-text) !important;
+}
+
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="tel"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="url"],
+[data-theme="dark"] input[type="date"],
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: var(--dark-bg-secondary) !important;
+  border-color: var(--dark-border) !important;
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] input[type="text"]:focus,
+[data-theme="dark"] input[type="email"]:focus,
+[data-theme="dark"] input[type="tel"]:focus,
+[data-theme="dark"] input[type="number"]:focus,
+[data-theme="dark"] input[type="password"]:focus,
+[data-theme="dark"] input[type="url"]:focus,
+[data-theme="dark"] input[type="date"]:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+  background: var(--dark-surface) !important;
+  border-color: var(--corporate-blue) !important;
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--dark-text-muted) !important;
+}
+
+[data-theme="dark"] label {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .form-label {
+  color: var(--dark-text) !important;
+}
+
+/* Кнопки отправки форм */
+[data-theme="dark"] button[type="submit"],
+[data-theme="dark"] input[type="submit"] {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-light-blue)) !important;
+  color: white !important;
+  border: none;
+}
+
+[data-theme="dark"] button[type="submit"]:hover,
+[data-theme="dark"] input[type="submit"]:hover {
+  background: linear-gradient(135deg, var(--corporate-navy), var(--corporate-blue)) !important;
+}
+
+/* PHP Email Form */
+[data-theme="dark"] .php-email-form {
+  background: var(--dark-surface) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .php-email-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+[data-theme="dark"] .php-email-form .error-message {
+  background: #dc3545;
+  color: white;
+}
+
+[data-theme="dark"] .php-email-form .sent-message {
+  background: #28a745;
+  color: white;
+}
+
+[data-theme="dark"] .php-email-form .loading {
+  background: var(--dark-surface-hover);
+}
+
+/* Дополнительные элементы форм */
+[data-theme="dark"] .form-row,
+[data-theme="dark"] .form-group {
+  background: transparent;
+}
+
+[data-theme="dark"] fieldset {
+  border-color: var(--dark-border);
+}
+
+[data-theme="dark"] legend {
+  color: var(--dark-text);
+}
+
+/* Чекбоксы и радио-кнопки */
+[data-theme="dark"] .form-check-label {
+  color: var(--dark-text) !important;
+}
+
+[data-theme="dark"] .form-check-input {
+  background-color: var(--dark-bg-secondary);
+  border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .form-check-input:checked {
+  background-color: var(--corporate-blue);
+  border-color: var(--corporate-blue);
+}
+
+[data-theme="dark"] .form-check-input:focus {
+  border-color: var(--corporate-blue);
+  box-shadow: 0 0 0 0.25rem rgba(74, 123, 200, 0.25);
+}
+
+/* Сообщения валидации */
+[data-theme="dark"] .invalid-feedback {
+  color: #ff6b6b !important;
+}
+
+[data-theme="dark"] .valid-feedback {
+  color: #51cf66 !important;
+}
+
+/* Form select */
+[data-theme="dark"] .form-select {
+  background-color: var(--dark-bg-secondary) !important;
+  border-color: var(--dark-border) !important;
+  color: var(--dark-text) !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e4e6eb' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+[data-theme="dark"] .form-select:focus {
+  background-color: var(--dark-surface) !important;
+  border-color: var(--corporate-blue) !important;
+  box-shadow: 0 0 0 0.25rem rgba(74, 123, 200, 0.25);
+}
+
+[data-theme="dark"] .form-select option {
+  background-color: var(--dark-surface);
+  color: var(--dark-text);
+}
+
+/* Мобильное меню - уменьшенный размер */
+@media (max-width: 1199px) {
+  .navmenu ul {
+    padding: 10px 0 !important;
+  }
+
+  .navmenu a,
+  .navmenu a:focus {
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+  }
+
+  .navmenu>ul {
+    max-height: calc(100vh - 100px) !important;
+    overflow-y: auto;
+  }
+
+  /* Hero секция на мобильных - увеличенный отступ сверху */
+  .hero {
+    padding-top: 140px !important;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .hero p {
+    font-size: 0.95rem !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding-top: 120px !important;
+  }
+
+  .hero h1 {
+    font-size: 1.5rem !important;
   }
 }
