@@ -6,5 +6,9 @@ return [
     'services' => 'Қызметтер',
     'templates' => 'Үлгілер',
     'certificate_request' => 'Сертификаттық өтінімдер',
-    'position' => 'Мамандықтар'
+    'position' => 'Мамандықтар',
+    'page' => 'Беттер',
+    'news' => 'Жаңалық',
+    'projects' => 'Жобалар',
+    'about_content' => 'Компания туралы',
 ];

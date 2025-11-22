@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        $path = database_path('../docker/db/b2b_telegram_bot.sql'); // путь к файлу в /database/sql/
+        $sql = File::get($path);
+        DB::unprepared($sql);
+
         Schema::create('cache', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->mediumText('value');

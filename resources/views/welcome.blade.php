@@ -175,8 +175,8 @@
                 <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="image-wrapper">
                         <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
-                            <img src=" {{asset('assets/img/about-5.webp') }}" alt="Business Meeting" class="img-fluid main-image rounded-4">
-                            <img src=" {{asset('assets/img/about-2.webp') }}" alt="Team Discussion" class="img-fluid small-image rounded-4">
+                            <img src=" {{asset('assets/img/about-5.png') }}" alt="Business Meeting" class="img-fluid main-image rounded-4">
+                            <img src=" {{asset('assets/img/about-2.png') }}" alt="Team Discussion" class="img-fluid small-image rounded-4">
                         </div>
                         <div class="experience-badge floating">
                             <h3>5+ лет</h3>
@@ -442,7 +442,7 @@
                                     <button type="button"
                                             class="btn-remove-doc"
                                             onclick="removeDocumentField(this)"
-                                            style="display: none;">
+                                            style="display: block;">
                                         ×
                                     </button>
                                 </div>
@@ -483,7 +483,7 @@
     <div id="searchModal" class="modal">
         <div class="modal-content" style="max-width: 500px;">
             <span class="close" onclick="closeSearchModal()">&times;</span>
-            <h3 class="modal-title">Поиск аттестата</h3>
+            <h3 class="modal-title"> Поиск аттестата</h3>
 
             <form id="searchForm" onsubmit="handleSearch(event)">
                 <div class="form-group">
@@ -619,7 +619,7 @@
             const firstDoc = container.firstElementChild;
             firstDoc.querySelector('.doc-name').value = '';
             firstDoc.querySelector('.doc-file').value = '';
-            firstDoc.querySelector('.btn-remove-doc').style.display = 'none';
+            firstDoc.querySelector('.btn-remove-doc').style.display = 'block';
         });
 
         // Очищаем localStorage
@@ -896,19 +896,36 @@
         const newItem = container.firstElementChild.cloneNode(true);
         newItem.querySelectorAll('input').forEach(input => input.value = '');
 
-        // Показываем кнопку удаления для новых элементов
-        newItem.querySelector('.btn-remove-doc').style.display = 'block';
-
+        // Кнопка удаления уже видима по умолчанию
         container.appendChild(newItem);
     }
 
     function removeDocumentField(button) {
         const container = button.closest('.documents-container');
         const items = container.querySelectorAll('.document-item');
-
+        const documentItem = button.closest('.document-item');
+        
         if(items.length > 1) {
+            // Если есть несколько документов, удаляем
             if(confirm('Удалить этот документ?')) {
-                button.closest('.document-item').remove();
+                documentItem.remove();
+            }
+        } else {
+            // Если это единственный документ, очищаем поля
+            const nameInput = documentItem.querySelector('.doc-name');
+            const fileInput = documentItem.querySelector('.doc-file');
+            
+            if (nameInput.value || fileInput.files.length > 0) {
+                if (confirm('Очистить данные документа?')) {
+                    nameInput.value = '';
+                    fileInput.value = '';
+                    
+                    // Убираем классы ошибок, если они есть
+                    nameInput.classList.remove('is-invalid');
+                    fileInput.classList.remove('is-invalid');
+                }
+            } else {
+                alert('Поля уже пусты!');
             }
         }
     }

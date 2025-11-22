@@ -1,0 +1,868 @@
+/* ===================================================
+   КОРПОРАТИВНЫЕ СТИЛИ ДЛЯ ТОО ВсеСтрой
+   =================================================== */
+
+/* Корпоративная цветовая схема */
+:root {
+  /* Основные корпоративные цвета */
+  --corporate-blue: #2c5aa0;
+  --corporate-navy: #1a3d6b;
+  --corporate-light-blue: #4a7bc8;
+  --corporate-accent: #0d83fd;
+  
+  /* Дополнительные цвета */
+  --corporate-gray: #6c757d;
+  --corporate-light-gray: #f8f9fa;
+  --corporate-dark-gray: #343a40;
+  --corporate-success: #28a745;
+  --corporate-warning: #ffc107;
+  --corporate-danger: #dc3545;
+  
+  /* Обновляем основные переменные */
+  --heading-color: var(--corporate-navy);
+  --accent-color: var(--corporate-blue);
+  --nav-hover-color: var(--corporate-accent);
+}
+
+/* Общие стили */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  padding-top: 80px; /* Компенсируем высоту фиксированного header */
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-title {
+  margin-bottom: 50px;
+}
+
+.section-title h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.section-title h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  border-radius: 2px;
+}
+
+.section-title p {
+  font-size: 1.1rem;
+  color: var(--corporate-gray);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Кнопки */
+.btn-primary {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-light-blue));
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 30px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--corporate-navy), var(--corporate-blue));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(44, 90, 160, 0.4);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--corporate-blue);
+  color: var(--corporate-blue);
+  font-weight: 600;
+  padding: 10px 28px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: var(--corporate-blue);
+  border-color: var(--corporate-blue);
+  transform: translateY(-2px);
+}
+
+/* Карточки */
+.card-modern {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: none;
+  overflow: hidden;
+}
+
+.card-modern:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Заголовки секций */
+.page-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--corporate-navy);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  font-size: 1.3rem;
+  color: var(--corporate-gray);
+  font-weight: 400;
+  margin-bottom: 2rem;
+}
+
+/* Навигация */
+.header .logo h1 {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.navmenu a {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--corporate-dark-gray);
+  transition: all 0.3s ease;
+}
+
+.navmenu a:hover,
+.navmenu a.active {
+  color: var(--corporate-blue);
+}
+
+.navmenu a::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--corporate-blue);
+  transition: width 0.3s ease;
+}
+
+.navmenu a:hover::before,
+.navmenu a.active::before {
+  width: 100%;
+}
+
+/* Hero секция */
+.hero {
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+  padding: 120px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, var(--corporate-accent), transparent);
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--corporate-navy);
+  line-height: 1.2;
+  margin-bottom: 2rem;
+}
+
+.hero-content .accent-text {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: var(--corporate-gray);
+  line-height: 1.7;
+}
+
+/* Статистика */
+.stats-row .stat-item {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--corporate-blue);
+}
+
+.stats-row .stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+}
+
+.stats-row .stat-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1rem;
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+}
+
+.stats-row .stat-content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--corporate-navy);
+  margin: 0;
+}
+
+/* Услуги */
+.service-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.service-card .icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--corporate-navy);
+  margin-bottom: 1rem;
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+}
+
+.service-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  color: var(--corporate-gray);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.service-list li:last-child {
+  border-bottom: none;
+}
+
+/* О компании */
+.about-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--corporate-navy);
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
+
+.about-description {
+  font-size: 1.1rem;
+  color: var(--corporate-gray);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+}
+
+.feature-list li {
+  padding: 0.8rem 0;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: var(--corporate-dark-gray);
+}
+
+.feature-list li i {
+  color: var(--corporate-success);
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  width: 20px;
+}
+
+.experience-badge {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(44, 90, 160, 0.3);
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  min-width: 200px;
+}
+
+.experience-badge h3 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.experience-badge p {
+  font-size: 1rem;
+  color: white;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* Контакты */
+.contact-info .info-item {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.contact-info .info-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+}
+
+.contact-info .icon-box {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contact-info .content h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--corporate-navy);
+  margin-bottom: 0.5rem;
+}
+
+.contact-info .content p {
+  color: var(--corporate-gray);
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Модальные окна */
+.modal {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--corporate-navy);
+  margin-bottom: 2rem;
+}
+
+.form-control,
+.form-select {
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--corporate-blue);
+  box-shadow: 0 0 0 0.2rem rgba(44, 90, 160, 0.15);
+}
+
+/* Заголовки страниц */
+.page-header {
+  background: linear-gradient(135deg, var(--corporate-blue) 0%, #1a5490 100%);
+  color: white;
+  padding: 6rem 0 4rem;
+  margin-top: -80px; /* Компенсируем padding-top у body */
+  padding-top: 140px; /* Добавляем отступ для header + дополнительный отступ */
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.page-header .breadcrumb {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+.page-header .breadcrumb-item a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+}
+
+.page-header .breadcrumb-item a:hover {
+  color: white;
+}
+
+.page-header .breadcrumb-item.active {
+  color: white;
+}
+
+.page-header .breadcrumb-item::before {
+  color: rgba(255,255,255,0.6);
+}
+
+/* Hero секция - корректировка для главной страницы */
+body.index-page {
+  padding-top: 0; /* Для главной страницы убираем padding-top */
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+  }
+  
+  .page-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .section {
+    padding: 60px 0;
+  }
+  
+  .section-title h2 {
+    font-size: 2rem;
+  }
+  
+  .service-card {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .btn-primary,
+  .btn-outline-primary {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Дополнительные утилиты */
+.text-corporate-blue { color: var(--corporate-blue) !important; }
+.text-corporate-navy { color: var(--corporate-navy) !important; }
+.bg-corporate-blue { background-color: var(--corporate-blue) !important; }
+.bg-corporate-navy { background-color: var(--corporate-navy) !important; }
+.bg-corporate-light { background-color: var(--corporate-light-gray) !important; }
+
+/* Градиентные фоны */
+.bg-gradient-corporate {
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+}
+
+.bg-gradient-corporate-light {
+  background: linear-gradient(135deg, #f8f9ff, #e8f2ff);
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* Детальные карточки услуг */
+.service-card-detailed {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 1px solid rgba(44, 90, 160, 0.1);
+}
+
+.service-card-detailed:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border-color: var(--corporate-blue);
+}
+
+.service-card-detailed .service-header {
+  margin-bottom: 1.5rem;
+}
+
+.service-card-detailed .service-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+
+.service-card-detailed .service-info h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--corporate-navy);
+  margin-bottom: 0.5rem;
+}
+
+.service-card-detailed .service-description {
+  color: var(--corporate-gray);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.service-card-detailed .service-features {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: var(--corporate-light-gray);
+  border-radius: 15px;
+}
+
+.service-card-detailed .service-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.service-card-detailed .service-features li {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  color: var(--corporate-dark-gray);
+  font-size: 0.9rem;
+}
+
+.service-card-detailed .service-features li i {
+  color: var(--corporate-success);
+  font-size: 1rem;
+  margin-right: 0.8rem;
+  width: 16px;
+}
+
+.service-card-detailed .service-footer {
+  margin-bottom: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.service-card-detailed .service-duration {
+  color: var(--corporate-gray);
+  font-size: 0.9rem;
+}
+
+.service-card-detailed .service-duration i {
+  color: var(--corporate-blue);
+  margin-right: 0.5rem;
+}
+
+.service-card-detailed .service-price {
+  color: var(--corporate-blue);
+  font-size: 1.1rem;
+}
+
+.service-card-detailed .service-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Карточки проектов */
+.project-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: none;
+  overflow: hidden;
+  height: 100%;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.project-image {
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+  height: 200px;
+  position: relative;
+}
+
+.project-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(44, 90, 160, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-image::after {
+  opacity: 1;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+.project-title a {
+  color: var(--corporate-navy);
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.project-title a:hover {
+  color: var(--corporate-blue);
+}
+
+.project-meta .badge {
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+}
+
+.project-client {
+  font-size: 0.9rem;
+}
+
+.project-status .badge {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 50px;
+}
+
+/* Карточки новостей */
+.news-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: none;
+  overflow: hidden;
+  height: 100%;
+}
+
+.news-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.news-image {
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+  height: 200px;
+  position: relative;
+}
+
+.news-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(44, 90, 160, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.news-card:hover .news-image::after {
+  opacity: 1;
+}
+
+.news-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.news-card:hover .news-image img {
+  transform: scale(1.05);
+}
+
+.news-title a {
+  color: var(--corporate-navy);
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.news-title a:hover {
+  color: var(--corporate-blue);
+}
+
+.news-meta {
+  font-size: 0.9rem;
+}
+
+/* Фильтры проектов */
+.projects-filters {
+  padding: 2rem 0;
+  background: var(--corporate-light-gray);
+}
+
+.filter-buttons .btn {
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.filter-buttons .btn.active {
+  background: var(--corporate-blue);
+  border-color: var(--corporate-blue);
+  color: white;
+}
+
+/* CTA секция */
+.cta.section {
+  padding: 4rem 0;
+}
+
+.cta h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--corporate-navy);
+  margin-bottom: 1rem;
+}
+
+.cta .lead {
+  font-size: 1.2rem;
+  color: var(--corporate-gray);
+}
+
+.cta-buttons .btn {
+  border-radius: 50px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Состояния "нет данных" */
+.no-projects,
+.no-news {
+  padding: 4rem 0;
+}
+
+.no-projects h3,
+.no-news h3 {
+  color: var(--corporate-navy);
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+/* Тени */
+.shadow-corporate {
+  box-shadow: 0 10px 40px rgba(44, 90, 160, 0.15) !important;
+}
+
+.shadow-corporate-hover:hover {
+  box-shadow: 0 20px 60px rgba(44, 90, 160, 0.2) !important;
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}

@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use App\MoonShine\Resources\AboutContentResource;
+use App\MoonShine\Resources\NewsResource;
+use App\MoonShine\Resources\PageResource;
+use App\MoonShine\Resources\ProjectResource;
+use App\MoonShine\Resources\ServiceResource;
 use App\MoonShine\Resources\TemplateResource;
 use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\ColorManager\ColorManager;
@@ -39,6 +44,7 @@ use App\MoonShine\Resources\MainResource;
 use App\MoonShine\Resources\ServicesResource;
 use App\MoonShine\Resources\CertificateRequestResource;
 use App\MoonShine\Resources\PositionResource;
+use App\MoonShine\Resources\ContactMessageResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -67,6 +73,14 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make(__('moonshine::menu.services'), ServicesResource::class),
                 MenuItem::make(__('moonshine::menu.templates'), TemplateResource::class),
                 MenuItem::make(__('moonshine::menu.position'), PositionResource::class),
+            ]),
+            MenuGroup::make('Меню', [
+                MenuItem::make(__('moonshine::menu.page'), PageResource::class),
+                MenuItem::make(__('moonshine::menu.services'), ServiceResource::class),
+                MenuItem::make(__('moonshine::menu.news'), NewsResource::class),
+                MenuItem::make(__('moonshine::menu.projects'), ProjectResource::class),
+                MenuItem::make(__('moonshine::menu.about_content'), AboutContentResource::class),
+                MenuItem::make('ContactMessages', ContactMessageResource::class),
             ]),
             MenuItem::make(__('moonshine::menu.certificate_request'), CertificateRequestResource::class),
         ];

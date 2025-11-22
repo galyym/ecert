@@ -17,6 +17,13 @@ use App\MoonShine\Resources\MainResource;
 use App\MoonShine\Resources\ServicesResource;
 use App\MoonShine\Resources\CertificateRequestResource;
 use App\MoonShine\Resources\PositionResource;
+// Новые ресурсы
+use App\MoonShine\Resources\PageResource;
+use App\MoonShine\Resources\ServiceResource;
+use App\MoonShine\Resources\NewsResource;
+use App\MoonShine\Resources\ProjectResource;
+use App\MoonShine\Resources\AboutContentResource;
+use App\MoonShine\Resources\ContactMessageResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -37,7 +44,14 @@ class MoonShineServiceProvider extends ServiceProvider
                 ServicesResource::class,
                 CertificateRequestResource::class,
                 PositionResource::class,
-                TemplateResource::class
+                TemplateResource::class,
+                // Новые ресурсы для корпоративного сайта
+                PageResource::class,
+                ServiceResource::class,
+                NewsResource::class,
+                ProjectResource::class,
+                AboutContentResource::class,
+                ContactMessageResource::class,
             ])
             ->pages([
                 ...$config->getPages(),
