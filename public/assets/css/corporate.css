@@ -1192,6 +1192,24 @@ body.index-page {
   text-align: center;
 }
 
+/* Выравниваем ячейку действий по правому краю */
+.application-table .actions-cell {
+  text-align: center;
+  padding-left: 1.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+/* Увеличиваем ширину колонки документов */
+.application-table td:nth-child(11) {
+  min-width: 400px;
+  width: 400px;
+}
+
+.application-table th:nth-child(11) {
+  min-width: 400px;
+  width: 400px;
+}
+
 /* Поля формы в таблице */
 .application-table .form-control,
 .application-table .form-select {
@@ -1220,10 +1238,12 @@ body.index-page {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .application-table .document-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
   gap: 0.5rem;
   align-items: center;
   padding: 0.5rem;
@@ -1233,21 +1253,20 @@ body.index-page {
 }
 
 .application-table .doc-name {
-  flex: 1;
-  min-width: 120px;
+  min-width: 130px;
 }
 
 .application-table .doc-file {
-  flex: 2;
   font-size: 0.85rem;
+  min-width: 150px;
 }
 
 .application-table .btn-remove-doc {
-  background: #dc3545;
-  color: white;
-  border: none;
-  width: 32px;
-  height: 32px;
+  background: transparent;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -1255,11 +1274,16 @@ body.index-page {
   cursor: pointer;
   transition: all 0.3s ease;
   flex-shrink: 0;
+  padding: 0;
 }
 
 .application-table .btn-remove-doc:hover {
-  background: #c82333;
-  transform: scale(1.1);
+  background: #dc3545;
+  color: white;
+}
+
+.application-table .btn-remove-doc i {
+  font-size: 0.75rem;
 }
 
 .application-table .btn-add-doc {
@@ -1294,23 +1318,25 @@ body.index-page {
   background: #dc3545;
   color: white;
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 .application-table .btn-remove-row:hover {
   background: #c82333;
-  transform: scale(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
 .application-table .btn-remove-row i {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 /* Footer модального окна */

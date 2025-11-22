@@ -18,7 +18,7 @@ function closeSearchModal() {
 }
 
 // Закрытие при клике вне окна
-window.addEventListener('click', function(event) {
+window.addEventListener('click', function (event) {
     const applicationModal = document.getElementById('applicationModal');
     const searchModal = document.getElementById('searchModal');
 
@@ -51,10 +51,10 @@ function updateSpecialtyOptions(selectActivity, selectSpecialty) {
 }
 
 // Обработка изменений в таблице заявок
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const tableOrder = document.getElementById('tableOrder');
     if (tableOrder) {
-        tableOrder.addEventListener('change', function(event) {
+        tableOrder.addEventListener('change', function (event) {
             if (event.target.classList.contains('activity_type')) {
                 const row = event.target.closest('tr');
                 const selectSpecialty = row.querySelector('.specialty');
@@ -97,11 +97,9 @@ function resetForm(isModal = false) {
         if (firstDoc) {
             const nameInput = firstDoc.querySelector('.doc-name');
             const fileInput = firstDoc.querySelector('.doc-file');
-            const removeBtn = firstDoc.querySelector('.btn-remove-doc');
 
             if (nameInput) nameInput.value = '';
             if (fileInput) fileInput.value = '';
-            if (removeBtn) removeBtn.style.display = 'none';
         }
     });
 
@@ -133,7 +131,7 @@ function addRow() {
 
     newRow.querySelectorAll('select').forEach(select => {
         select.selectedIndex = 0;
-        if(select.classList.contains('specialty')) {
+        if (select.classList.contains('specialty')) {
             select.innerHTML = '<option value="" disabled selected>Выберите</option>';
         }
     });
@@ -343,25 +341,46 @@ async function addOrder() {
 // Функции для работы с документами
 function addDocumentField(button) {
     const container = button.previousElementSibling;
-    const newItem = container.firstElementChild.cloneNode(true);
-    newItem.querySelectorAll('input').forEach(input => input.value = '');
+    if (!container) return;
 
-    // Показываем кнопку удаления для новых элементов
-    const removeBtn = newItem.querySelector('.btn-remove-doc');
-    if (removeBtn) {
-        removeBtn.style.display = 'block';
-    }
+    const newItem = container.firstElementChild.cloneNode(true);
+
+    // Очищаем все поля ввода
+    newItem.querySelectorAll('input').forEach(input => {
+        if (input.type === 'file') {
+            // Для file input нужно создать новый элемент
+            const newFileInput = input.cloneNode(true);
+            newFileInput.value = '';
+            input.parentNode.replaceChild(newFileInput, input);
+        } else {
+            input.value = '';
+        }
+    });
 
     container.appendChild(newItem);
 }
 
 function removeDocumentField(button) {
     const container = button.closest('.documents-container');
-    const items = container.querySelectorAll('.document-item');
+    if (!container) return;
 
-    if(items.length > 1) {
-        if(confirm('Удалить этот документ?')) {
-            button.closest('.document-item').remove();
+    const items = container.querySelectorAll('.document-item');
+    const documentItem = button.closest('.document-item');
+
+    if (items.length > 1) {
+        // Если документов больше одного - удаляем блок
+        documentItem.remove();
+    } else {
+        // Если документ один - очищаем его поля
+        const nameInput = documentItem.querySelector('.doc-name');
+        const fileInput = documentItem.querySelector('.doc-file');
+
+        if (nameInput) nameInput.value = '';
+        if (fileInput) {
+            // Для file input создаем новый элемент для полной очистки
+            const newFileInput = fileInput.cloneNode(true);
+            newFileInput.value = '';
+            fileInput.parentNode.replaceChild(newFileInput, fileInput);
         }
     }
 }
@@ -503,7 +522,7 @@ function showSearchError(input, message) {
     input.parentNode.appendChild(error);
 
     // Удаляем сообщение при новом вводе
-    input.addEventListener('input', function() {
+    input.addEventListener('input', function () {
         input.classList.remove('is-invalid');
         error.remove();
     }, { once: true });
