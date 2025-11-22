@@ -12,29 +12,41 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Nunito",  sans-serif;
-  --nav-font: "Inter",  sans-serif;
+  --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Nunito", sans-serif;
+  --nav-font: "Inter", sans-serif;
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 :root {
-  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #212529; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #2d465e; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #0d83fd; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
-  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+  --background-color: #ffffff;
+  /* Background color for the entire website, including individual sections */
+  --default-color: #212529;
+  /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #2d465e;
+  /* Color for headings, subheadings and title throughout the website */
+  --accent-color: #0d83fd;
+  /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --surface-color: #ffffff;
+  /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+  --contrast-color: #ffffff;
+  /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: #212529;  /* The default color of the main navmenu links */
-  --nav-hover-color: #0d83fd; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #212529; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #0d83fd; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-color: #212529;
+  /* The default color of the main navmenu links */
+  --nav-hover-color: #0d83fd;
+  /* Applied to main navmenu links when they are hovered over or active */
+  --nav-mobile-background-color: #ffffff;
+  /* Used as the background color for mobile navigation menu */
+  --nav-dropdown-background-color: #ffffff;
+  /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
+  --nav-dropdown-color: #212529;
+  /* Used for navigation links of the dropdown items in the navigation menu. */
+  --nav-dropdown-hover-color: #0d83fd;
+  /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
@@ -64,6 +76,7 @@ body {
   color: var(--default-color);
   background-color: var(--background-color);
   font-family: var(--default-font);
+  padding-top: 90px;
 }
 
 a {
@@ -145,55 +158,178 @@ h6 {
 .header {
   --background-color: rgba(255, 255, 255, 0);
   color: var(--default-color);
-  background-color: var(--background-color);
+  background: linear-gradient(135deg,
+      rgba(13, 131, 253, 0.03) 0%,
+      rgba(13, 131, 253, 0.01) 50%,
+      rgba(255, 255, 255, 0) 100%);
   padding: 20px 0;
-  transition: all 0.5s;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 997;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(13, 131, 253, 0.02) 50%,
+      transparent 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.scrolled .header {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(13, 131, 253, 0.1);
+  padding: 10px 0;
+}
+
+.scrolled .header::before {
+  opacity: 1;
 }
 
 .header .header-container {
-  background: var(--surface-color);
-  border-radius: 50px;
-  padding: 5px 25px;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 60px;
+  padding: 8px 30px;
+  box-shadow:
+    0 8px 32px rgba(13, 131, 253, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.header .header-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(13, 131, 253, 0.05),
+      transparent);
+  transition: left 0.6s ease;
+}
+
+.header .header-container:hover::before {
+  left: 100%;
 }
 
 .scrolled .header .header-container {
-  background: color-mix(in srgb, var(--surface-color), transparent 5%);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow:
+    0 12px 40px rgba(13, 131, 253, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 .header .logo {
   line-height: 1;
-  padding-left: 5px;
+  padding-left: 8px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header .logo:hover {
+  transform: translateY(-2px);
 }
 
 .header .logo img {
-  max-height: 36px;
-  margin-right: 8px;
+  max-height: 40px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.header .logo:hover img {
+  transform: scale(1.05);
 }
 
 .header .logo h1 {
-  font-size: 24px;
+  font-size: 26px;
   margin: 0;
-  font-weight: 500;
-  color: var(--heading-color);
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e3a8a 0%, #0d83fd 50%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  transition: all 0.3s ease;
+}
+
+.header .logo:hover h1 {
+  letter-spacing: 0px;
 }
 
 .header .btn-getstarted,
 .header .btn-getstarted:focus {
-  color: var(--contrast-color);
-  background: var(--accent-color);
-  font-size: 14px;
-  padding: 8px 20px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0d83fd 0%, #0066cc 100%);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 28px;
   margin: 0 0 0 30px;
   border-radius: 50px;
-  transition: 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 15px rgba(13, 131, 253, 0.3),
+    0 2px 8px rgba(13, 131, 253, 0.2);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.3px;
+}
+
+.header .btn-getstarted::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
+  transition: left 0.5s ease;
+}
+
+.header .btn-getstarted:hover::before {
+  left: 100%;
 }
 
 .header .btn-getstarted:hover,
 .header .btn-getstarted:focus:hover {
-  color: var(--contrast-color);
-  background: color-mix(in srgb, var(--accent-color), transparent 15%);
+  color: #ffffff;
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 25px rgba(13, 131, 253, 0.4),
+    0 4px 12px rgba(13, 131, 253, 0.3);
+}
+
+.header .btn-getstarted:active {
+  transform: translateY(0px);
+  box-shadow:
+    0 4px 15px rgba(13, 131, 253, 0.3),
+    0 2px 8px rgba(13, 131, 253, 0.2);
 }
 
 @media (max-width: 1200px) {
@@ -204,17 +340,24 @@ h6 {
   .header .header-container {
     margin-left: 10px;
     margin-right: 10px;
-    padding: 10px 5px 10px 15px;
+    padding: 12px 8px 12px 18px;
+    border-radius: 50px;
   }
 
   .header .logo {
     order: 1;
+    padding-left: 5px;
+  }
+
+  .header .logo h1 {
+    font-size: 20px;
   }
 
   .header .btn-getstarted {
     order: 2;
     margin: 0 10px 0 0;
-    padding: 6px 15px;
+    padding: 10px 20px;
+    font-size: 14px;
   }
 
   .header .navmenu {
@@ -237,6 +380,7 @@ h6 {
     display: flex;
     list-style: none;
     align-items: center;
+    gap: 4px;
   }
 
   .navmenu li {
@@ -246,15 +390,46 @@ h6 {
   .navmenu a,
   .navmenu a:focus {
     color: var(--nav-color);
-    padding: 18px 15px;
-    font-size: 16px;
+    padding: 14px 18px;
+    font-size: 15.5px;
     font-family: var(--nav-font);
-    font-weight: 400;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
-    transition: 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 30px;
+    position: relative;
+    letter-spacing: 0.2px;
+  }
+
+  .navmenu a::before {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        var(--nav-hover-color),
+        transparent);
+    border-radius: 2px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .navmenu a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+        rgba(13, 131, 253, 0.08),
+        rgba(13, 131, 253, 0.04));
+    border-radius: 30px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   .navmenu a i,
@@ -262,33 +437,67 @@ h6 {
     font-size: 12px;
     line-height: 0;
     margin-left: 5px;
-    transition: 0.3s;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .navmenu li:last-child a {
-    padding-right: 0;
+    padding-right: 18px;
   }
 
-  .navmenu li:hover>a,
+  .navmenu li:hover>a {
+    color: var(--nav-hover-color);
+    transform: translateY(-1px);
+  }
+
+  .navmenu li:hover>a::after {
+    opacity: 1;
+  }
+
+  .navmenu li:hover>a::before {
+    transform: translateX(-50%) scaleX(1);
+  }
+
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-hover-color);
+    font-weight: 600;
+    background: linear-gradient(135deg,
+        rgba(13, 131, 253, 0.1),
+        rgba(13, 131, 253, 0.06));
+    box-shadow:
+      inset 0 2px 4px rgba(13, 131, 253, 0.1),
+      0 2px 8px rgba(13, 131, 253, 0.08);
+  }
+
+  .navmenu .active::before {
+    transform: translateX(-50%) scaleX(1);
+    background: linear-gradient(90deg,
+        transparent,
+        var(--nav-hover-color),
+        transparent);
   }
 
   .navmenu .dropdown ul {
     margin: 0;
-    padding: 10px 0;
-    background: var(--nav-dropdown-background-color);
+    padding: 12px 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     display: block;
     position: absolute;
     visibility: hidden;
     left: 14px;
     top: 130%;
     opacity: 0;
-    transition: 0.3s;
-    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px;
     z-index: 99;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+    box-shadow:
+      0 12px 40px rgba(13, 131, 253, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    border: 1px solid rgba(13, 131, 253, 0.1);
+    min-width: 220px;
   }
 
   .navmenu .dropdown ul li {
@@ -296,10 +505,21 @@ h6 {
   }
 
   .navmenu .dropdown ul a {
-    padding: 10px 20px;
-    font-size: 15px;
+    padding: 12px 24px;
+    font-size: 14.5px;
     text-transform: none;
     color: var(--nav-dropdown-color);
+    border-radius: 10px;
+    margin: 0 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .navmenu .dropdown ul a::before {
+    display: none;
+  }
+
+  .navmenu .dropdown ul a::after {
+    border-radius: 10px;
   }
 
   .navmenu .dropdown ul a i {
@@ -310,6 +530,10 @@ h6 {
   .navmenu .dropdown ul .active:hover,
   .navmenu .dropdown ul li:hover>a {
     color: var(--nav-dropdown-hover-color);
+    background: linear-gradient(135deg,
+        rgba(13, 131, 253, 0.08),
+        rgba(13, 131, 253, 0.04));
+    transform: translateX(4px);
   }
 
   .navmenu .dropdown:hover>ul {
@@ -340,7 +564,15 @@ h6 {
     line-height: 0;
     margin-right: 10px;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 8px;
+    border-radius: 12px;
+    background: transparent;
+  }
+
+  .mobile-nav-toggle:hover {
+    background: rgba(13, 131, 253, 0.08);
+    transform: scale(1.05);
   }
 
   .navmenu {
@@ -353,28 +585,54 @@ h6 {
     list-style: none;
     position: absolute;
     inset: 60px 20px 20px 20px;
-    padding: 10px 0;
+    padding: 16px 0;
     margin: 0;
-    border-radius: 6px;
-    background-color: var(--nav-mobile-background-color);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     overflow-y: auto;
-    transition: 0.3s;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 9998;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+    box-shadow:
+      0 12px 40px rgba(13, 131, 253, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    border: 1px solid rgba(13, 131, 253, 0.1);
   }
 
   .navmenu a,
   .navmenu a:focus {
     color: var(--nav-dropdown-color);
-    padding: 10px 20px;
+    padding: 14px 24px;
     font-family: var(--nav-font);
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
-    transition: 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    margin: 4px 12px;
+    position: relative;
+    letter-spacing: 0.2px;
+  }
+
+  .navmenu a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 3px;
+    height: 60%;
+    background: linear-gradient(180deg,
+        transparent,
+        var(--nav-dropdown-hover-color),
+        transparent);
+    border-radius: 2px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .navmenu a i,
@@ -382,31 +640,60 @@ h6 {
     font-size: 12px;
     line-height: 0;
     margin-left: 5px;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: 0.3s;
-    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg,
+        rgba(13, 131, 253, 0.1),
+        rgba(13, 131, 253, 0.05));
   }
 
   .navmenu a i:hover,
   .navmenu a:focus i:hover {
-    background-color: var(--accent-color);
+    background: linear-gradient(135deg,
+        var(--accent-color),
+        color-mix(in srgb, var(--accent-color), black 15%));
     color: var(--contrast-color);
+    transform: rotate(90deg);
   }
 
-  .navmenu a:hover,
+  .navmenu a:hover {
+    color: var(--nav-dropdown-hover-color);
+    background: linear-gradient(135deg,
+        rgba(13, 131, 253, 0.08),
+        rgba(13, 131, 253, 0.04));
+    transform: translateX(4px);
+  }
+
+  .navmenu a:hover::before {
+    transform: translateY(-50%) scaleY(1);
+  }
+
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-dropdown-hover-color);
+    background: linear-gradient(135deg,
+        rgba(13, 131, 253, 0.12),
+        rgba(13, 131, 253, 0.06));
+    font-weight: 600;
+    box-shadow:
+      inset 0 2px 4px rgba(13, 131, 253, 0.1),
+      0 2px 8px rgba(13, 131, 253, 0.08);
+  }
+
+  .navmenu .active::before {
+    transform: translateY(-50%) scaleY(1);
   }
 
   .navmenu .active i,
   .navmenu .active:focus i {
-    background-color: var(--accent-color);
+    background: linear-gradient(135deg,
+        var(--accent-color),
+        color-mix(in srgb, var(--accent-color), black 15%));
     color: var(--contrast-color);
     transform: rotate(180deg);
   }
@@ -415,21 +702,24 @@ h6 {
     position: static;
     display: none;
     z-index: 99;
-    padding: 10px 0;
-    margin: 10px 20px;
-    background-color: var(--nav-dropdown-background-color);
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    box-shadow: none;
+    padding: 8px 0;
+    margin: 8px 20px;
+    background: rgba(13, 131, 253, 0.04);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(13, 131, 253, 0.1);
+    border-radius: 12px;
+    box-shadow: inset 0 2px 4px rgba(13, 131, 253, 0.05);
     transition: all 0.5s ease-in-out;
   }
 
   .navmenu .dropdown ul ul {
-    background-color: rgba(33, 37, 41, 0.1);
+    background: rgba(13, 131, 253, 0.06);
   }
 
   .navmenu .dropdown>.dropdown-active {
     display: block;
-    background-color: rgba(33, 37, 41, 0.03);
+    background: rgba(13, 131, 253, 0.04);
+    border-radius: 12px;
   }
 
   .mobile-nav-active {
@@ -444,18 +734,43 @@ h6 {
     right: 15px;
     margin-right: 0;
     z-index: 9999;
+    background: rgba(13, 131, 253, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-nav-active .mobile-nav-toggle:hover {
+    background: rgba(13, 131, 253, 0.3);
+    transform: rotate(90deg) scale(1.1);
   }
 
   .mobile-nav-active .navmenu {
     position: fixed;
     overflow: hidden;
     inset: 0;
-    background: rgba(33, 37, 41, 0.8);
-    transition: 0.3s;
+    background: rgba(30, 58, 138, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mobile-nav-active .navmenu>ul {
     display: block;
+    animation: slideInFromTop 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
@@ -717,7 +1032,7 @@ section,
 --------------------------------------------------------------*/
 .hero {
   position: relative;
-  padding-top: 160px;
+  padding-top: 100px;
   background: linear-gradient(135deg, color-mix(in srgb, var(--accent-color), transparent 95%) 50%, color-mix(in srgb, var(--accent-color), transparent 98%) 25%, transparent 50%);
 }
 
@@ -2330,527 +2645,551 @@ section,
 }
 
 .service-card {
-    padding: 30px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 30px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .icon-header .icon {
-    width: 50px;
-    height: 50px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
+  width: 50px;
+  height: 50px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
 }
 
 .icon-header .icon i {
-    font-size: 24px;
-    color: #2c3e50;
+  font-size: 24px;
+  color: #2c3e50;
 }
 
 .service-list {
-    padding-left: 20px;
-    margin-top: 15px;
+  padding-left: 20px;
+  margin-top: 15px;
 }
 
 .map-container {
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .info-box {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .icon-box {
-    width: 40px;
-    height: 40px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
+  width: 40px;
+  height: 40px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
 }
 
 .icon-box i {
-    color: #2c3e50;
-    font-size: 20px;
+  color: #2c3e50;
+  font-size: 20px;
 }
 
 /* Стили секции */
 .clients-section {
-    padding: 60px 0;
-    background: #f8f9fa;
+  padding: 60px 0;
+  background: #f8f9fa;
 }
 
 /* Контейнер для бегущей строки */
 .logos-scroll-container {
-    overflow: hidden;
-    position: relative;
-    margin: 0 -15px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 -15px;
 }
 
 /* Трек с логотипами */
 .logos-track {
-    display: flex;
-    width: max-content;
-    animation: scroll 40s linear infinite;
+  display: flex;
+  width: max-content;
+  animation: scroll 40s linear infinite;
 }
 
 /* Анимация */
 @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Стили логотипов */
 .logo-item {
-    padding: 0 15px;
-    flex-shrink: 0;
-    width: 180px;
-    display: flex;
-    align-items: center;
+  padding: 0 15px;
+  flex-shrink: 0;
+  width: 180px;
+  display: flex;
+  align-items: center;
 }
 
 .logo-item img {
-    max-width: 100%;
-    height: auto;
-    filter: grayscale(100%);
-    transition: 0.3s;
+  max-width: 100%;
+  height: auto;
+  filter: grayscale(100%);
+  transition: 0.3s;
 }
 
 .logo-item:hover img {
-    filter: grayscale(0);
+  filter: grayscale(0);
 }
 
 /* Модальное окно */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
-    background: #fff;
-    margin: 5% auto;
-    padding: 25px;
-    width: 90%;
-    max-width: 90vw;
-    border-radius: 10px;
-    position: relative;
-    overflow-x: auto;
+  background: #fff;
+  margin: 5% auto;
+  padding: 25px;
+  width: 90%;
+  max-width: 90vw;
+  border-radius: 10px;
+  position: relative;
+  overflow-x: auto;
 }
 
 .modal-scrollable {
-    max-height: 70vh;
-    overflow-y: auto;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .close {
-    position: absolute;
-    right: 25px;
-    top: 15px;
-    font-size: 28px;
-    cursor: pointer;
+  position: absolute;
+  right: 25px;
+  top: 15px;
+  font-size: 28px;
+  cursor: pointer;
 }
 
 /* Таблица */
 .responsive-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    min-width: 100%;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  min-width: 100%;
 }
 
 .responsive-table th,
 .responsive-table td {
-    padding: 12px;
-    border: 1px solid #dee2e6;
-    min-width: 120px;
-    white-space: nowrap;
-    text-align: left;
+  padding: 12px;
+  border: 1px solid #dee2e6;
+  min-width: 120px;
+  white-space: nowrap;
+  text-align: left;
 }
 
 .responsive-table input,
 .responsive-table select {
-    width: auto; /* Ширина подстраивается под содержимое */
-    min-width: 100px; /* Минимальная ширина для читаемости */
-    box-sizing: border-box; /* Учитываем padding и border в ширине */
+  width: auto;
+  /* Ширина подстраивается под содержимое */
+  min-width: 100px;
+  /* Минимальная ширина для читаемости */
+  box-sizing: border-box;
+  /* Учитываем padding и border в ширине */
 }
 
 .responsive-table th {
-    background: #f8f9fa;
-    font-weight: 600;
+  background: #f8f9fa;
+  font-weight: 600;
 }
 
 /* Элементы формы */
 .form-control {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
 }
 
 .form-select {
-    width: 100%;
-    padding: 8px;
-    background: white;
+  width: 100%;
+  padding: 8px;
+  background: white;
 }
 
 /* Кнопки */
 .modal-actions {
-    text-align: right;
-    margin-top: 20px;
+  text-align: right;
+  margin-top: 20px;
 }
 
 .btn {
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-left: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-left: 10px;
 }
 
 .btn-primary {
-    background: #2c3e50;
-    color: white;
-    border: none;
+  background: #2c3e50;
+  color: white;
+  border: none;
 }
 
 .btn-secondary {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
 }
 
 .modal-content {
-    width: 95%;
-    max-width: none;
-    margin: 2% auto;
-    height: 90vh;
+  width: 95%;
+  max-width: none;
+  margin: 2% auto;
+  height: 90vh;
 }
 
 .modal-scrollable {
-    max-height: 75vh;
-    overflow-x: auto;
+  max-height: 75vh;
+  overflow-x: auto;
 }
 
 .responsive-table {
-    min-width: 1200px;
+  min-width: 1200px;
 }
 
 .documents-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .document-item {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .doc-name {
-    flex: 1;
-    min-width: 120px;
+  flex: 1;
+  min-width: 120px;
 }
 
 .doc-file {
-    flex: 2;
+  flex: 2;
 }
 
 .btn-add-doc {
-    margin-top: 8px;
-    padding: 6px 12px;
-    background: #f8f9fa;
-    border: 1px dashed #ced4da;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.3s;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #f8f9fa;
+  border: 1px dashed #ced4da;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .btn-add-doc:hover {
-    background: #e9ecef;
+  background: #e9ecef;
 }
 
 .document-item {
-    position: relative;
-    padding: 8px;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
+  position: relative;
+  padding: 8px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
 }
 
 .document-item::after {
-    content: "Файл";
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6c757d;
-    pointer-events: none;
+  content: "Файл";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  pointer-events: none;
 }
 
 /* Стили для формы поиска */
 #searchModal .modal-content {
-    padding: 30px;
-    text-align: center;
+  padding: 30px;
+  text-align: center;
 }
 
 .form-group {
-    margin: 25px 0;
+  margin: 25px 0;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 500;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 
 #searchModal input {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    text-align: center;
-    letter-spacing: 2px;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 2px;
 }
 
 .document-item {
-    position: relative;
-    margin-bottom: 10px;
+  position: relative;
+  margin-bottom: 10px;
 }
 
 .btn-remove-doc {
-    position: absolute;
-    right: -30px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #ff4444;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    display: none; /* Скрываем для первого элемента */
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  display: none;
+  /* Скрываем для первого элемента */
 }
 
 .document-item:not(:first-child) .btn-remove-doc {
-    display: block; /* Показываем для добавленных элементов */
+  display: block;
+  /* Показываем для добавленных элементов */
 }
 
 .btn-remove-doc {
-    background: #ff4444;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    transition: background 0.3s;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
 .btn-remove-doc:hover {
-    background: #cc0000;
+  background: #cc0000;
 }
 
 .responsive-table td:nth-child(7) {
-    max-width: 250px; /* Фиксированная максимальная ширина */
-    min-width: 150px; /* Минимальная ширина */
-    width: 200px; /* Желаемая ширина */
+  max-width: 250px;
+  /* Фиксированная максимальная ширина */
+  min-width: 150px;
+  /* Минимальная ширина */
+  width: 200px;
+  /* Желаемая ширина */
 }
 
 /* Стили для выпадающего списка */
 .specialty {
-    max-width: 100% !important; /* Ограничение по ширине ячейки */
-    white-space: normal !important; /* Разрешаем перенос текста */
-    word-wrap: break-word; /* Перенос длинных слов */
+  max-width: 100% !important;
+  /* Ограничение по ширине ячейки */
+  white-space: normal !important;
+  /* Разрешаем перенос текста */
+  word-wrap: break-word;
+  /* Перенос длинных слов */
 }
 
 /* Стили для опций в выпадающем списке */
 .specialty option {
-    white-space: normal; /* Перенос текста в опциях */
-    overflow-wrap: break-word; /* Перенос длинных слов */
+  white-space: normal;
+  /* Перенос текста в опциях */
+  overflow-wrap: break-word;
+  /* Перенос длинных слов */
 }
 
 @media (max-width: 768px) {
-    .responsive-table td:nth-child(7) {
-        max-width: 180px;
-        min-width: 120px;
-        width: 150px;
-    }
+  .responsive-table td:nth-child(7) {
+    max-width: 180px;
+    min-width: 120px;
+    width: 150px;
+  }
 
-    .specialty {
-        font-size: 14px; /* Уменьшаем размер шрифта */
-    }
+  .specialty {
+    font-size: 14px;
+    /* Уменьшаем размер шрифта */
+  }
 }
 
-     /* Стили секции */
- .clients-section {
-     padding: 60px 0;
-     background: #f8f9fa;
- }
+/* Стили секции */
+.clients-section {
+  padding: 60px 0;
+  background: #f8f9fa;
+}
 
 /* Контейнер для бегущей строки */
 .logos-scroll-container {
-    overflow: hidden;
-    position: relative;
-    margin: 0 -15px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 -15px;
 }
 
 /* Трек с логотипами */
 .logos-track {
-    display: inline-flex;
-    animation: scroll 30s linear infinite;
-    will-change: transform;
+  display: inline-flex;
+  animation: scroll 30s linear infinite;
+  will-change: transform;
 }
 
 /* Анимация для оригинальных + клонированных логотипов */
 @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Стили логотипов */
 .logo-item {
-    padding: 0 15px;
-    flex-shrink: 0;
-    width: 180px;
-    display: flex;
-    align-items: center;
-    transition: 0.3s;
+  padding: 0 15px;
+  flex-shrink: 0;
+  width: 180px;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
 }
 
 .logo-item img {
-    max-width: 100%;
-    height: auto;
-    filter: grayscale(100%);
-    transition: 0.3s;
+  max-width: 100%;
+  height: auto;
+  filter: grayscale(100%);
+  transition: 0.3s;
 }
 
 .logo-item:hover img {
-    filter: grayscale(0);
+  filter: grayscale(0);
 }
 
 .modal-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .modal-actions .btn {
-    flex: 1 1 auto;
-    min-width: 200px;
+  flex: 1 1 auto;
+  min-width: 200px;
 }
 
 @media (max-width: 768px) {
-    .modal-actions .btn {
-        min-width: 100%;
-    }
+  .modal-actions .btn {
+    min-width: 100%;
+  }
 }
 
 /* Добавьте в ваш CSS-файл */
 .is-invalid {
-    border-color: #dc3545 !important;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right calc(0.375em + 0.1875rem) center;
-    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  border-color: #dc3545 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
 }
 
 .error-message {
-    font-size: 0.875em;
-    margin-top: 0.25rem;
+  font-size: 0.875em;
+  margin-top: 0.25rem;
 }
 
 /* Стили для результатов поиска */
 .search-results-container {
-    display: none;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin: 20px auto;
-    max-width: 800px;
-    padding: 20px;
+  display: none;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
 }
 
 .cert-result {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .cert-result p {
-    margin-bottom: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 
 .badge {
-    padding: 0.4em 0.75em;
-    border-radius: 0.25rem;
+  padding: 0.4em 0.75em;
+  border-radius: 0.25rem;
 }
 
 /* Стили для модального окна поиска */
 .search-results {
-    max-height: 60vh;
-    overflow-y: auto;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .certificate-item {
-    padding: 1rem;
-    border: 1px solid #dee2e6;
-    border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
 }
 
 .certificate-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .certificate-link {
-    color: #0d6efd;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: color 0.3s;
+  color: #0d6efd;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.3s;
 }
 
 .certificate-link:hover {
-    color: #0a58ca;
-    text-decoration: underline;
+  color: #0a58ca;
+  text-decoration: underline;
 }
 
 .cert-date {
-    color: #6c757d;
-    font-size: 0.9em;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  color: #6c757d;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .bi-file-pdf {
-    color: #dc3545;
-    font-size: 1.2em;
+  color: #dc3545;
+  font-size: 1.2em;
 }
 
 .alert {
-    padding: 1rem;
-    border-radius: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 
 .btn-danger {
-    padding: 0.25rem 0.5rem;
-    font-size: 1.25rem;
-    line-height: 1;
-    border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 0.25rem;
 }

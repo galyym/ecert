@@ -159,9 +159,9 @@ body {
 
 /* Hero Section */
 .hero {
-    padding: 120px 0 var(--spacing-2xl);
+    padding: 80px 0 var(--spacing-2xl);
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    margin-top: 80px;
+    margin-top: 0;
 }
 
 .hero-content h1 {
@@ -635,7 +635,7 @@ body {
 
 @media (max-width: 767px) {
     .hero {
-        padding: 80px 0 var(--spacing-xl);
+        padding: 60px 0 var(--spacing-xl);
     }
 
     .hero-content h1 {
