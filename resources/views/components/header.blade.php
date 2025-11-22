@@ -39,20 +39,21 @@
                         Контакты
                     </a>
                 </li>
-                <li class="search-item">
-                    <a href="#" onclick="openSearchModal(); return false;" title="Поиск аттестата">
-                        <i class="bi bi-search"></i>
-                    </a>
-                </li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <!-- CTA Button -->
-        <a class="btn-getstarted" href="#" onclick="openApplicationModal(); return false;">
-            <span class="d-none d-md-inline">Оставить заявку</span>
-            <i class="bi bi-pencil-square d-md-none" style="font-size: 1.2rem;"></i>
-        </a>
+        <!-- Action Buttons Group -->
+        <div class="header-actions">
+            <button class="btn-action btn-search" onclick="openSearchModal()" title="Поиск аттестата">
+                <i class="bi bi-search"></i>
+                <span class="btn-text d-none d-lg-inline">Поиск</span>
+            </button>
+            <button class="btn-action btn-primary-action" onclick="openApplicationModal()" title="Оставить заявку">
+                <i class="bi bi-pencil-square"></i>
+                <span class="btn-text d-none d-lg-inline">Оставить заявку</span>
+            </button>
+        </div>
 
     </div>
 </header>
