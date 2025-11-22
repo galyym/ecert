@@ -52,7 +52,8 @@
 
         <!-- CTA Button -->
         <a class="btn-getstarted" href="#" onclick="openApplicationModal(); return false;">
-            Оставить заявку
+            <span class="d-none d-md-inline">Оставить заявку</span>
+            <i class="bi bi-pencil-square d-md-none" style="font-size: 1.2rem;"></i>
         </a>
 
     </div>

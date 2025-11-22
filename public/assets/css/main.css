@@ -234,6 +234,19 @@ h6 {
   }
 }
 
+@media (max-width: 575px) {
+  .header .logo h1 {
+    font-size: 18px;
+  }
+
+  .header .btn-getstarted {
+    padding: 6px 12px;
+    margin-left: 10px;
+  }
+}
+
+
+
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
