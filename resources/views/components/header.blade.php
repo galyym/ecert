@@ -39,11 +39,9 @@
                         Контакты
                     </a>
                 </li>
-                <li>
-                    <a href="#" onclick="openSearchModal(); return false;">
-                        <div>
-                            <i class="bi bi-search"></i> Поиск аттестата
-                        </div>
+                <li class="search-item">
+                    <a href="#" onclick="openSearchModal(); return false;" title="Поиск аттестата">
+                        <i class="bi bi-search"></i>
                     </a>
                 </li>
             </ul>

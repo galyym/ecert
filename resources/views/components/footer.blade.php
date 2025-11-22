@@ -69,8 +69,5 @@
             <strong class="px-1 sitename">ТОО ВсеСтрой</strong>
             <span>Все права защищены</span>
         </p>
-        <div class="credits">
-            Разработано с <i class="bi bi-heart-fill text-danger"></i> для качественной аттестации
-        </div>
     </div>
 </footer>

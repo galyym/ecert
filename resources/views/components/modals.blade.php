@@ -96,29 +96,47 @@
 </div>
 
 <!-- Модальное окно поиска аттестата -->
+<!-- Модальное окно поиска аттестата -->
 <div id="searchModal" class="modal">
-    <div class="modal-content" style="max-width: 500px;">
-        <span class="close" onclick="closeSearchModal()">&times;</span>
-        <h3 class="modal-title">Поиск аттестата</h3>
-
-        <form id="searchForm" onsubmit="handleSearch(event)">
-            <div class="form-group">
-                <label>Введите ИИН:</label>
-                <input type="text"
-                       class="form-control"
-                       name="iin"
-                       pattern="\\d{12}"
-                       maxlength="12"
-                       placeholder="000000000000"
-                       required>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; overflow: hidden;">
+            <div class="modal-header border-0 p-4 bg-light">
+                <h3 class="modal-title fs-4 fw-bold text-corporate-navy mb-0">
+                    <i class="bi bi-search text-corporate-blue me-2"></i>
+                    Поиск аттестата
+                </h3>
+                <button type="button" class="btn-close" onclick="closeSearchModal()" aria-label="Close"></button>
             </div>
 
-            <div class="modal-actions">
-                <button type="submit" class="btn btn-primary">
-                    Поиск
-                </button>
+            <div class="modal-body p-4 p-md-5">
+                <form id="searchForm" onsubmit="handleSearch(event)">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-person-vcard text-corporate-blue" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h4 class="fw-bold text-corporate-navy">Проверка аттестата</h4>
+                        <p class="text-muted small">Введите ИИН сотрудника для получения информации</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="iinInput" class="form-label text-muted fw-bold d-block text-center mb-2">ИИН сотрудника (12 цифр)</label>
+                        <input type="text"
+                               class="form-control form-control-lg border-2"
+                               id="iinInput"
+                               name="iin"
+                               pattern="\d{12}"
+                               maxlength="12"
+                               placeholder="Введите ИИН"
+                               style="border-radius: 12px; font-size: 1.2rem; letter-spacing: 2px; text-align: center;"
+                               required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-corporate-hover">
+                        Проверить статус
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
