@@ -49,7 +49,7 @@
                             <td><input type="text" class="form-control" name="last_name" placeholder="Иванов" required></td>
                             <td><input type="text" class="form-control" name="first_name" placeholder="Иван" required></td>
                             <td><input type="text" class="form-control" name="middle_name" placeholder="Иванович"></td>
-                            <td><input type="text" class="form-control" name="iin" pattern="\\d{12}" placeholder="123456789012" required></td>
+                            <td><input type="text" class="form-control" name="iin" pattern="\d{12}" maxlength="12" placeholder="123456789012" oninput="this.value = this.value.replace(/\D/g, '').substring(0, 12)" required></td>
                             <td>
                                 <select class="form-select activity_type" name="activity_type" required>
                                     <option value="" disabled selected>Выберите</option>
@@ -62,7 +62,15 @@
                                     <option value="" disabled selected>Выберите</option>
                                 </select>
                             </td>
-                            <td><input type="tel" class="form-control" name="phone" placeholder="+7 (___) ___-__-__" required></td>
+                            <td>
+                                <input type="tel" 
+                                       class="form-control phone-mask" 
+                                       name="phone" 
+                                       placeholder="+7 (___) ___-__-__" 
+                                       maxlength="18"
+                                       oninput="formatPhone(this)"
+                                       required>
+                            </td>
                             <td><input type="text" class="form-control" name="workplace" placeholder="Название компании"></td>
                             <td><input type="text" class="form-control" name="sender_name" placeholder="ФИО отправителя" required></td>
                             <td>
@@ -158,6 +166,7 @@
                                maxlength="12"
                                placeholder="Введите ИИН"
                                style="border-radius: 12px; font-size: 1.2rem; letter-spacing: 2px; text-align: center;"
+                               oninput="this.value = this.value.replace(/\D/g, '').substring(0, 12)"
                                required>
                     </div>
                     <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-corporate-hover">
@@ -178,4 +187,42 @@
 
 @push('scripts')
 <script src="{{ asset('assets/js/modals.js') }}"></script>
+<script>
+    function formatPhone(input) {
+        let value = input.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
+        let formattedValue = '';
+        
+        // Если ничего не введено, очищаем
+        if (!value) {
+            input.value = '';
+            return;
+        }
+
+        // Если первая цифра 7, 8 или другая - всегда начинаем с 7
+        if (['7', '8'].includes(value[0])) {
+            value = value.substring(1);
+        }
+        
+        // Ограничиваем длину до 10 цифр (без кода страны)
+        value = value.substring(0, 10);
+
+        // Формируем маску
+        formattedValue = '+7';
+        
+        if (value.length > 0) {
+            formattedValue += ' (' + value.substring(0, 3);
+        }
+        if (value.length >= 4) {
+            formattedValue += ') ' + value.substring(3, 6);
+        }
+        if (value.length >= 7) {
+            formattedValue += '-' + value.substring(6, 8);
+        }
+        if (value.length >= 9) {
+            formattedValue += '-' + value.substring(8, 10);
+        }
+
+        input.value = formattedValue;
+    }
+</script>
 @endpush
