@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CertificateRequest;
 use App\Models\Position;
+use App\Models\Service;
+use App\Models\News;
+use App\Models\Project;
+use App\Models\AboutContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,8 +15,75 @@ class MainController extends Controller
 {
     public function index()
     {
-        $positions = \App\Models\Position::all()->toArray();
-        return view('welcome')->with('positions', $positions);
+        $positions = Position::all()->toArray();
+        
+        // Получаем данные для главной страницы
+        $heroContent = AboutContent::getBySection('hero');
+        $aboutContent = AboutContent::getBySection('about');
+        $statistics = AboutContent::getBySection('statistics');
+        
+        // Получаем активные услуги
+        $services = Service::where('is_active', true)
+            ->orderBy('sort_order')
+            ->take(4)
+            ->get();
+            
+        // Получаем последние новости
+        $latestNews = News::published()
+            ->orderBy('published_at', 'desc')
+            ->take(3)
+            ->get();
+            
+        // Получаем рекомендуемые проекты
+        $featuredProjects = Project::featured()
+            ->published()
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+        
+        return view('pages.home', compact(
+            'positions',
+            'heroContent', 
+            'aboutContent',
+            'statistics',
+            'services',
+            'latestNews',
+            'featuredProjects'
+        ));
+    }
+    
+    public function about()
+    {
+        $aboutContent = AboutContent::getBySection('about');
+        $teamContent = AboutContent::getBySection('team');
+        $historyContent = AboutContent::getBySection('history');
+        $missionContent = AboutContent::getBySection('mission');
+        $certificatesContent = AboutContent::getBySection('certificates');
+        
+        return view('pages.about', compact(
+            'aboutContent',
+            'teamContent', 
+            'historyContent',
+            'missionContent',
+            'certificatesContent'
+        ));
+    }
+    
+    public function services()
+    {
+        $services = Service::where('is_active', true)
+            ->orderBy('category')
+            ->orderBy('sort_order')
+            ->get()
+            ->groupBy('category');
+            
+        return view('pages.services', compact('services'));
+    }
+    
+    public function contact()
+    {
+        $positions = Position::all()->toArray();
+        return view('pages.contact', compact('positions'));
     }
 
     public function certRequest(CertificateRequest $request)
