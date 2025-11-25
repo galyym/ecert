@@ -29,7 +29,7 @@ class CertificateRequest extends FormRequest
             'requests.*.iin' => 'required|digits:12',
             'requests.*.activity_type' => 'required|in:ПД,СМР',
             'requests.*.specialty' => 'required',
-            'requests.*.phone' => 'required|string|max:20',
+            'requests.*.phone' => 'nullable|string|max:20|default:0',
             'requests.*.workplace' => 'nullable|string|max:255',
             'requests.*.sender_name' => 'required|string|max:255',
             'requests.*.documents' => 'nullable|array',
@@ -41,7 +41,53 @@ class CertificateRequest extends FormRequest
     public function messages()
     {
         return [
-            'requests.*.documents.*.file.max' => 'Максимальные размер файла ',
+            // Общие сообщения для массива заявок
+            'requests.required' => 'Необходимо добавить хотя бы одну заявку',
+            'requests.array' => 'Неверный формат данных заявок',
+            
+            // Фамилия
+            'requests.*.last_name.required' => 'Поле "Фамилия" обязательно для заполнения',
+            'requests.*.last_name.string' => 'Фамилия должна быть текстом',
+            'requests.*.last_name.max' => 'Фамилия не должна превышать 255 символов',
+            
+            // Имя
+            'requests.*.first_name.required' => 'Поле "Имя" обязательно для заполнения',
+            'requests.*.first_name.string' => 'Имя должно быть текстом',
+            'requests.*.first_name.max' => 'Имя не должно превышать 255 символов',
+            
+            // Отчество
+            'requests.*.middle_name.string' => 'Отчество должно быть текстом',
+            'requests.*.middle_name.max' => 'Отчество не должно превышать 255 символов',
+            
+            // ИИН
+            'requests.*.iin.required' => 'Поле "ИИН" обязательно для заполнения',
+            'requests.*.iin.digits' => 'ИИН должен состоять из 12 цифр',
+            
+            // Вид деятельности
+            'requests.*.activity_type.required' => 'Необходимо выбрать вид деятельности',
+            'requests.*.activity_type.in' => 'Выбран недопустимый вид деятельности. Допустимые значения: ПД, СМР',
+            
+            // Специальность
+            'requests.*.specialty.required' => 'Необходимо выбрать специальность',
+            
+            // Телефон
+            'requests.*.phone.string' => 'Телефон должен быть текстом',
+            'requests.*.phone.max' => 'Телефон не должен превышать 20 символов',
+            
+            // Место работы
+            'requests.*.workplace.string' => 'Место работы должно быть текстом',
+            'requests.*.workplace.max' => 'Место работы не должно превышать 255 символов',
+            
+            // Отправитель
+            'requests.*.sender_name.required' => 'Поле "Отправитель" обязательно для заполнения',
+            'requests.*.sender_name.string' => 'Имя отправителя должно быть текстом',
+            'requests.*.sender_name.max' => 'Имя отправителя не должно превышать 255 символов',
+            
+            // Документы
+            'requests.*.documents.array' => 'Неверный формат документов',
+            'requests.*.documents.*.file.file' => 'Загруженный документ должен быть файлом',
+            'requests.*.documents.*.file.max' => 'Максимальный размер файла - 20 МБ',
+            'requests.*.documents.*.name.string' => 'Название документа должно быть текстом',
         ];
     }
 }

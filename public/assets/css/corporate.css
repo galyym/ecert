@@ -1150,6 +1150,10 @@ body.index-page {
 .application-modal-body {
   padding: 2rem 2.5rem;
   background: #f8f9fa;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Информационный баннер */

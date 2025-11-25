@@ -99,7 +99,7 @@ class MainController extends Controller
                 'activity_type' => $value['activity_type'],
                 'specialty' => $value['specialty'],
                 'specialty_id' => $value['specialty'],
-                'phone' => $value['phone'],
+                'phone' => $value['phone'] ?? 0,
                 'workplace' => $value['workplace'] ?? null,
                 'sender_name' => $value['sender_name'] ?? null,
                 'document' => $value['document'] ?? null,

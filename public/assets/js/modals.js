@@ -1,20 +1,24 @@
 // Модальные окна
 function openApplicationModal() {
     document.getElementById('applicationModal').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Блокируем прокрутку основной страницы
     loadFormData(); // Загружаем сохраненные данные
 }
 
 function closeApplicationModal() {
     saveFormData(); // Сохраняем данные перед закрытием
     document.getElementById('applicationModal').style.display = 'none';
+    document.body.style.overflow = ''; // Восстанавливаем прокрутку основной страницы
 }
 
 function openSearchModal() {
     document.getElementById('searchModal').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Блокируем прокрутку основной страницы
 }
 
 function closeSearchModal() {
     document.getElementById('searchModal').style.display = 'none';
+    document.body.style.overflow = ''; // Восстанавливаем прокрутку основной страницы
 }
 
 // Закрытие при клике вне окна
@@ -206,7 +210,6 @@ function validateForm() {
             iin: 'ИИН должен состоять из 12 цифр',
             activity_type: 'Выберите вид деятельности',
             specialty: 'Выберите специальность',
-            phone: 'Телефон обязателен для заполнения',
             sender_name: 'Поле "Отправитель" обязательно для заполнения',
             workplace: 'Поле "Место работы" обязательно для заполнения',
         };
