@@ -36,7 +36,7 @@
                             <th class="col-required">* ИИН</th>
                             <th class="col-required">* Вид деятельности</th>
                             <th class="col-required">* Специальность</th>
-                            <th class="col-required">* Телефон</th>
+                            <th>Телефон</th>
                             <th>Место работы</th>
                             <th class="col-required">* Отправитель</th>
                             <th>Документ</th>
@@ -68,8 +68,7 @@
                                        name="phone" 
                                        placeholder="+7 (___) ___-__-__" 
                                        maxlength="18"
-                                       oninput="formatPhone(this)"
-                                       required>
+                                       oninput="formatPhone(this)">
                             </td>
                             <td><input type="text" class="form-control" name="workplace" placeholder="Название компании"></td>
                             <td><input type="text" class="form-control" name="sender_name" placeholder="ФИО отправителя" required></td>
