@@ -145,18 +145,18 @@
                 <button type="button" class="btn-close" onclick="closeSearchModal()" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body p-4 p-md-5">
+            <div class="modal-body p-3 p-md-4">
                 <form id="searchForm" onsubmit="handleSearch(event)">
-                    <div class="text-center mb-4">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-3" style="width: 80px; height: 80px;">
-                            <i class="bi bi-person-vcard text-corporate-blue" style="font-size: 2.5rem;"></i>
+                    <div class="text-center mb-2">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-2" style="width: 60px; height: 60px;">
+                            <i class="bi bi-person-vcard text-corporate-blue" style="font-size: 2rem;"></i>
                         </div>
-                        <h4 class="fw-bold text-corporate-navy">Проверка аттестата</h4>
-                        <p class="text-muted small">Введите ИИН сотрудника для получения информации</p>
+                        <h4 class="fw-bold text-corporate-navy mb-1">Проверить аттестат</h4>
+                        <p class="text-muted small mb-0">Введите ИИН сотрудника</p>
                     </div>
 
-                    <div class="mb-4">
-                        <label for="iinInput" class="form-label text-muted fw-bold d-block text-center mb-2">ИИН сотрудника (12 цифр)</label>
+                    <div class="mb-3">
+                        <label for="iinInput" class="form-label text-muted fw-bold d-block text-center mb-1">ИИН сотрудника</label>
                         <input type="text"
                             class="form-control form-control-lg border-2"
                             id="iinInput"
@@ -168,7 +168,7 @@
                             oninput="this.value = this.value.replace(/\D/g, '').substring(0, 12)"
                             required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-corporate-hover">
+                    <button type="submit" class="btn btn-primary w-100 py-2 rounded-pill fw-bold shadow-corporate-hover">
                         Проверить статус
                         <i class="bi bi-arrow-right ms-2"></i>
                     </button>

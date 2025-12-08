@@ -458,10 +458,10 @@ async function handleSearch(e) {
             resultsDiv.innerHTML = `
                 <div class="certificate-list">
                     ${result.data.map(cert => `
-                        <div class="certificate-item mb-3 p-3 border rounded">
+                        <div class="certificate-item mb-2 p-3 border rounded">
                             <div class="certificate-info">
                                 ${cert.certificate_date ? `
-                                    <div class="cert-date mb-2">
+                                    <div class="cert-date mb-1">
                                         <i class="bi bi-calendar"></i>
                                         <strong>Дата выдачи:</strong> ${new Date(cert.certificate_date).toLocaleDateString()}
                                     </div>
@@ -472,14 +472,15 @@ async function handleSearch(e) {
                                 </div>
 
                                 <a href="${cert.certificate_file}"
-                                   class="btn btn-primary btn-sm"
+                                   class="btn btn-primary w-100 py-2"
                                    download="Сертификат_${cert.certificate_number}.pdf">
-                                    <i class="bi bi-file-pdf"></i>
-                                    Скачать сертификат (${cert.certificate_number})
+                                    <i class="bi bi-file-pdf me-2"></i>
+                                    Скачать сертификат
                                 </a>
                             </div>
                         </div>
                     `).join('')}
+                    <div style="height: 100px;"></div> <!-- Отступ для прокрутки -->
                 </div>
             `;
         } else {
