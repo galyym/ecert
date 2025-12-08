@@ -211,4 +211,10 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
         $certificateRequest->save();
         return MoonShineJsonResponse::make()->toast("Success", ToastType::SUCCESS);
     }
+
+    protected function search(): array
+
+    {
+        return ['iin', 'phone', 'certificate_number', 'last_name', 'first_name'];
+    }
 }
