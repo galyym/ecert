@@ -2091,7 +2091,7 @@ body,
 }
 
 /* Иконки в карточках */
-[data-theme="dark"] [class*="-icon"] {
+[data-theme="dark"] [class*="-icon"]:not(.theme-icon-dark):not(.theme-icon-light) {
   background: linear-gradient(135deg, var(--corporate-blue), var(--corporate-accent));
 }
 
