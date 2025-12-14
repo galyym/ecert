@@ -180,7 +180,7 @@
 
 @if(isset($positions))
 <script>
-    const positions = @json($positions);
+    const positions = {!! json_encode($positions) !!};
 </script>
 @endif
 

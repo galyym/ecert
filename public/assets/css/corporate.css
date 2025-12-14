@@ -1583,6 +1583,10 @@ body.index-page {
   --corporate-gray: #b0b3b8;
   --corporate-light-gray: #252b3b;
   --corporate-dark-gray: #e4e6eb;
+
+  /* Переопределение переменных main.css для корректного отображения */
+  --surface-color: var(--dark-surface);
+  --background-color: var(--dark-bg);
 }
 
 /* Основные элементы в темной теме */
