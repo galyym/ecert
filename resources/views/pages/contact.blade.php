@@ -377,7 +377,9 @@
     }
 
     .hours-list {
-        space-y: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 
     .hours-item {

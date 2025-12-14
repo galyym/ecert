@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'ТОО ВсеСтрой - Профессиональная аттестация и сертификация')
-@section('meta_description', 'Аттестация инженерно-технических работников, участвующих в процессе проектирования и строительства. 98% успешных аттестаций с 2013 года.')
+@section('title', __('messages.company_name') . ' - ' . __('messages.about_company_title'))
+@section('meta_description', __('messages.about_company_desc'))
 @section('body_class', 'index-page')
 
 @section('content')
@@ -291,8 +291,7 @@
                         </div>
                         <div class="content">
                             <h4>{{ __('messages.our_address') }}</h4>
-                            <p>г. Актау, 29а мкр, 145</p>
-                            <p>БЦ "АБК", офис 103</p>
+                            <p>{!! __('messages.address_text') !!}</p>
                         </div>
                     </div>
 

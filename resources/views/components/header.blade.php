@@ -93,6 +93,11 @@
                             <i class="bi bi-check-circle-fill me-2"></i> Қазақша
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}" href="{{ route('lang.switch', 'en') }}">
+                            <i class="bi bi-check-circle-fill me-2"></i> English
+                        </a>
+                    </li>
                 </ul>
             </div>
 

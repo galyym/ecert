@@ -181,13 +181,27 @@
 
 @if(isset($positions))
 <script>
-    const positions = {
-        !!json_encode($positions) !!
-    };
+    const positions = @json($positions);
 </script>
 @endif
 
 @push('scripts')
+<script>
+    // Localized messages for JS
+    window.messages = {
+        delete_row_confirm: "{{ __('messages.delete_row_confirm') ?? 'Are you sure you want to delete this row?' }}",
+        delete_doc_confirm: "{{ __('messages.delete_doc_confirm') ?? 'Are you sure you want to delete this document?' }}",
+        fill_required: "{{ __('messages.fill_required') ?? 'Please fill in all required fields' }}",
+        choose: "{{ __('messages.choose') }}",
+        document_name: "{{ __('messages.document_name') }}",
+        delete_document: "{{ __('messages.delete_document') }}",
+        add_document: "{{ __('messages.add_document') }}",
+        delete_row: "{{ __('messages.delete_row') }}",
+        iin_invalid: "{{ __('messages.iin_invalid') ?? 'Invalid IIN' }}",
+        error_title: "{{ __('messages.error') ?? 'Error' }}",
+        success_title: "{{ __('messages.success') ?? 'Success' }}",
+    };
+</script>
 <script src="{{ asset('assets/js/modals.js') }}"></script>
 <script>
     function formatPhone(input) {

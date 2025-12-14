@@ -39,7 +39,7 @@ Route::get('/refresh-csrf-token', function () {
 
 // Смена языка
 Route::get('lang/{locale}', function ($locale) {
-    if (in_array($locale, ['ru', 'kk'])) {
+    if (in_array($locale, ['ru', 'kk', 'en'])) {
         session(['locale' => $locale]);
     }
     return redirect()->back();

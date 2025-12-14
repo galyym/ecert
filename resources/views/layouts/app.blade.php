@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>@yield('title', 'ТОО ВсеСтрой - Аттестация и сертификация')</title>
-    <meta name="description" content="@yield('meta_description', 'Профессиональная аттестация инженерно-технических работников. Качественные услуги сертификации с 2013 года.')">
+    <title>@yield('title', __('messages.company_name') . ' - ' . __('messages.certification'))</title>
+    <meta name="description" content="@yield('meta_description', __('messages.company_description'))">
     <meta name="keywords" content="@yield('meta_keywords', 'аттестация, сертификация, инженеры, строительство, промышленная безопасность')">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -27,7 +27,7 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
-    
+
     <!-- Corporate CSS -->
     <link href="{{ asset('assets/css/corporate.css') }}" rel="stylesheet">
 

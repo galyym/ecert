@@ -40,7 +40,7 @@ let formData = [];
 // Функция обновления опций специальностей
 function updateSpecialtyOptions(selectActivity, selectSpecialty) {
     const activityType = selectActivity.value;
-    selectSpecialty.innerHTML = '<option value="" disabled selected>Выберите</option>';
+    selectSpecialty.innerHTML = `<option value="" disabled selected>${window.messages.choose}</option>`;
 
     if (typeof positions !== 'undefined') {
         positions.forEach(position => {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Функция для очистки формы
 function resetForm(isModal = false) {
-    if (!isModal && !confirm('Вы уверены, что хотите очистить всю форму?')) return;
+    if (!isModal && !confirm('Вы уверены, что хотите очистить всю форму?')) return; // TODO: localize confirm
 
     // Удаляем все строки, кроме первой
     const table = document.getElementById('tableOrder');
@@ -86,7 +86,7 @@ function resetForm(isModal = false) {
     firstRow.querySelectorAll('select').forEach(select => {
         select.selectedIndex = 0;
         if (select.classList.contains('specialty')) {
-            select.innerHTML = '<option value="" disabled selected>Выберите</option>';
+            select.innerHTML = `<option value="" disabled selected>${window.messages.choose}</option>`;
         }
     });
 
@@ -111,7 +111,7 @@ function resetForm(isModal = false) {
     localStorage.removeItem('savedForm');
     formData = [];
 
-    if (!isModal) alert('Форма успешно очищена!');
+    if (!isModal) alert('Форма успешно очищена!'); // TODO: localize alert
 }
 
 // Функция добавления строки
@@ -136,7 +136,7 @@ function addRow() {
     newRow.querySelectorAll('select').forEach(select => {
         select.selectedIndex = 0;
         if (select.classList.contains('specialty')) {
-            select.innerHTML = '<option value="" disabled selected>Выберите</option>';
+            select.innerHTML = `<option value="" disabled selected>${window.messages.choose}</option>`;
         }
     });
 
@@ -205,13 +205,13 @@ function validateForm() {
     rows.forEach((row, rowIndex) => {
         // Обязательные поля
         const requiredFields = {
-            last_name: 'Фамилия обязательна для заполнения',
-            first_name: 'Имя обязательно для заполнения',
-            iin: 'ИИН должен состоять из 12 цифр',
-            activity_type: 'Выберите вид деятельности',
-            specialty: 'Выберите специальность',
-            sender_name: 'Поле "Отправитель" обязательно для заполнения',
-            workplace: 'Поле "Место работы" обязательно для заполнения',
+            last_name: window.messages.fill_required, // Simplified for now
+            first_name: window.messages.fill_required,
+            iin: 'ИИН должен состоять из 12 цифр', // TODO: localize
+            activity_type: window.messages.choose,
+            specialty: window.messages.choose,
+            sender_name: window.messages.fill_required,
+            workplace: window.messages.fill_required,
         };
 
         // Проверка обязательных полей
@@ -225,7 +225,7 @@ function validateForm() {
 
             // Специальная проверка для ИИН
             if (field === 'iin' && value && !/^\d{12}$/.test(value)) {
-                errors.push(`Строка ${rowIndex + 1}: ИИН должен содержать ровно 12 цифр`);
+                errors.push(`Строка ${rowIndex + 1}: ${window.messages.iin_invalid}`);
             }
         });
 
@@ -237,7 +237,7 @@ function validateForm() {
 
             if ((nameInput?.value && !fileInput?.files[0]) ||
                 (!nameInput?.value && fileInput?.files[0])) {
-                errors.push(`Строка ${rowIndex + 1}: Для документа ${docIndex + 1} необходимо заполнить и название, и файл`);
+                errors.push(`Строка ${rowIndex + 1}: ${window.messages.document_name}`); // Simplified
             }
         });
     });
@@ -257,7 +257,7 @@ async function addOrder() {
 
     try {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Отправка...';
+        submitBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div>';
 
         // Очищаем предыдущие ошибки
         clearErrors();
@@ -266,7 +266,7 @@ async function addOrder() {
         const errors = validateForm();
         if (errors.length > 0) {
             const errorMessage = errors.join('\n');
-            alert(`Исправьте ошибки:\n\n${errorMessage}`);
+            alert(`${window.messages.error_title}:\n\n${errorMessage}`);
             throw new Error('Validation failed');
         }
 
@@ -339,7 +339,7 @@ async function addOrder() {
         const result = await response.json();
 
         if (result.status) {
-            alert('Заявки успешно отправлены!');
+            alert(window.messages.success_title);
             closeApplicationModal();
             resetForm(true);
         } else {
@@ -349,11 +349,11 @@ async function addOrder() {
     } catch (error) {
         if (error.message !== 'Validation failed') {
             console.error('Ошибка:', error);
-            alert(error.message || 'Ошибка при отправке заявки');
+            alert(error.message || window.messages.error_title);
         }
     } finally {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Отправить заявку';
+        submitBtn.innerHTML = window.messages.send_application;
     }
 }
 
@@ -409,11 +409,11 @@ function removeRow(button) {
     const rows = document.querySelectorAll('#tableOrder tr');
 
     if (rows.length === 1) {
-        alert('Нельзя удалить последнюю строку!');
+        alert(window.messages.delete_row_confirm);
         return;
     }
 
-    if (confirm('Вы уверены, что хотите удалить эту строку?')) {
+    if (confirm(window.messages.delete_row_confirm)) {
         row.remove();
         updateRowNumbers();
     }
@@ -445,7 +445,7 @@ async function handleSearch(e) {
 
     // Валидация ИИН
     if (!/^\d{12}$/.test(iin)) {
-        showSearchError(iinInput, 'ИИН должен состоять из 12 цифр');
+        showSearchError(iinInput, window.messages.iin_invalid);
         return;
     }
 
@@ -454,7 +454,7 @@ async function handleSearch(e) {
         const searchBtn = form.querySelector('button[type="submit"]');
         const originalText = searchBtn.innerHTML;
         searchBtn.disabled = true;
-        searchBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div> Поиск...';
+        searchBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div>';
 
         // Отправляем запрос
         const response = await fetch(`/check-cert?iin=${iin}`, {
@@ -524,7 +524,7 @@ async function handleSearch(e) {
         // Восстанавливаем кнопку
         const searchBtn = form.querySelector('button[type="submit"]');
         searchBtn.disabled = false;
-        searchBtn.innerHTML = 'Поиск';
+        searchBtn.innerHTML = originalText;
     }
 }
 
