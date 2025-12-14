@@ -33,9 +33,19 @@ Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');
 // API маршруты (сохраняем существующий функционал)
 Route::post('cert-request', [MainController::class, 'certRequest'])->name('cert_request');
 Route::get('check-cert', [MainController::class, 'checkCert']);
-Route::get('/refresh-csrf-token', function() {
+Route::get('/refresh-csrf-token', function () {
     return response()->json(['token' => csrf_token()]);
 });
+
+// Смена языка
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, ['ru', 'kk', 'en'])) {
+        session(['locale' => $locale]);
+        // Set cookie for 1 year to persist preference
+        return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 365));
+    }
+    return redirect()->back();
+})->name('lang.switch');
 
 // Контактная форма
 Route::post('/contact-message', [ContactController::class, 'store'])->name('contact.store');

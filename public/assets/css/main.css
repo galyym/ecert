@@ -601,6 +601,29 @@ h6 {
   font-size: 13px;
 }
 
+.footer-lang-switcher {
+  font-size: 14px;
+}
+
+.footer-lang-switcher .lang-link {
+  color: var(--default-color);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-lang-switcher .lang-link:hover {
+  opacity: 1;
+  color: var(--accent-color);
+}
+
+.footer-lang-switcher .lang-link.active {
+  opacity: 1;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
 /*--------------------------------------------------------------
 # Scroll Top Button
 --------------------------------------------------------------*/
