@@ -97,7 +97,7 @@
                     <h3>{{ __('messages.location_title') }}</h3>
                     <div class="map-container">
                         <iframe
-                            src="https://yandex.ru/map-widget/v1/?um=constructor%3A2a8fd567db08c1b8152f2963fb3e4ad77faf6e94191026ee87b470e59794d943&amp;source=constructor"
+                            src="https://yandex.ru/map-widget/v1/?um=constructor%3A2a8fd567db08c1b8152f2963fb3e4ad77faf6e94191026ee87b470e59794d943&amp;source=constructor&amp;lang=en_US"
                             width="100%"
                             height="400"
                             frameborder="0"

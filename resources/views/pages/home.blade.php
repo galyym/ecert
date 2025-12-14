@@ -319,7 +319,7 @@
 
             <div class="col-lg-7">
                 <div class="map-container" data-aos="fade-up" data-aos-delay="300">
-                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A2a8fd567db08c1b8152f2963fb3e4ad77faf6e94191026ee87b470e59794d943&amp;source=constructor" width="100%" height="407" frameborder="0"></iframe>
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A2a8fd567db08c1b8152f2963fb3e4ad77faf6e94191026ee87b470e59794d943&amp;source=constructor&amp;lang=en_US" width="100%" height="407" frameborder="0"></iframe>
                 </div>
             </div>
         </div>
