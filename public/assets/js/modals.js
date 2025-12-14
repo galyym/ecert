@@ -274,7 +274,23 @@ async function addOrder() {
         const rows = document.querySelectorAll('#tableOrder tr');
 
         // Добавляем CSRF-токен
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+        try {
+            // Пытаемся обновить токен перед отправкой
+            const tokenResponse = await fetch('/refresh-csrf-token');
+            if (tokenResponse.ok) {
+                const tokenData = await tokenResponse.json();
+                if (tokenData.token) {
+                    csrfToken = tokenData.token;
+                    // Обновляем мета-тег для будущих запросов
+                    document.querySelector('meta[name="csrf-token"]')?.setAttribute('content', csrfToken);
+                }
+            }
+        } catch (e) {
+            console.warn('Не удалось обновить CSRF токен:', e);
+        }
+
         if (csrfToken) {
             formData.append('_token', csrfToken);
         }
