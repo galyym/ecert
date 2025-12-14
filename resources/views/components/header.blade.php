@@ -43,15 +43,45 @@
                 <!-- Mobile Only Actions (Inside Menu) -->
                 <li class="d-xl-none mt-4">
                     <div class="mobile-actions d-flex flex-column gap-3 align-items-center w-100 px-3">
-                        <div class="d-flex gap-3 w-100 justify-content-center">
-                            <button class="btn-action btn-theme-toggle" onclick="toggleTheme()" title="{{ __('messages.toggle_theme') }}">
+                        <div class="d-flex gap-3 justify-content-center" style="flex-shrink: 0;">
+                            <button class="btn-action btn-theme-toggle" onclick="toggleTheme()" title="{{ __('messages.toggle_theme') }}" style="width: 44px; height: 44px;">
                                 <i class="bi bi-moon-stars theme-icon-dark"></i>
                                 <i class="bi bi-sun theme-icon-light" style="display: none;"></i>
                             </button>
-                            <button class="btn-action btn-search" onclick="openSearchModal()" title="{{ __('messages.search_certificate') }}">
+                            <button class="btn-action btn-search" onclick="openSearchModal()" title="{{ __('messages.search_certificate') }}" style="width: 44px; height: 44px;">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
+
+                        <!-- Language Switcher for Mobile - Separate Row -->
+                        <div class="dropdown lang-dropdown w-100">
+                            <button class="btn-action btn-lang-toggle dropdown-toggle w-100 justify-content-center" type="button" id="mobileLangDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('messages.choose') }}">
+                                @php
+                                $locales = ['ru' => 'Русский', 'kk' => 'Қазақша', 'en' => 'English'];
+                                $currentLocale = app()->getLocale();
+                                @endphp
+                                <i class="bi bi-globe me-2"></i>
+                                <span>{{ $locales[$currentLocale] ?? strtoupper($currentLocale) }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="mobileLangDropdown">
+                                <li>
+                                    <a class="dropdown-item {{ $currentLocale == 'ru' ? 'active' : '' }}" href="{{ route('lang.switch', 'ru') }}">
+                                        <i class="bi bi-check-circle-fill me-2"></i> Русский
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item {{ $currentLocale == 'kk' ? 'active' : '' }}" href="{{ route('lang.switch', 'kk') }}">
+                                        <i class="bi bi-check-circle-fill me-2"></i> Қазақша
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item {{ $currentLocale == 'en' ? 'active' : '' }}" href="{{ route('lang.switch', 'en') }}">
+                                        <i class="bi bi-check-circle-fill me-2"></i> English
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
                         <button class="btn-action btn-primary-action w-100 justify-content-center" onclick="openApplicationModal()">
                             <i class="bi bi-pencil-square"></i>
                             <span class="btn-text">{{ __('messages.submit_application') }}</span>

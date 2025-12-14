@@ -11,7 +11,7 @@
                     </div>
                     <div class="modal-title-wrapper">
                         <h2 class="modal-title mb-0">{{ __('messages.application_title') }}</h2>
-                        <p class="modal-subtitle mb-0">{{ __('messages.application_subtitle') }}</p>
+                        <p class="modal-subtitle mb-0 d-none d-sm-block">{{ __('messages.application_subtitle') }}</p>
                     </div>
                 </div>
                 <button type="button" class="btn-close-modern" onclick="closeApplicationModal()" aria-label="Close">
@@ -21,7 +21,7 @@
 
             <!-- Modal Body -->
             <div class="modal-body application-modal-body">
-                <div class="application-info-banner">
+                <div class="application-info-banner d-none d-sm-flex">
                     <i class="bi bi-info-circle"></i>
                     <span>{{ __('messages.fields_required') }}</span>
                 </div>
@@ -33,12 +33,12 @@
                                 <th class="col-number">№</th>
                                 <th class="col-required">* {{ __('messages.last_name') }}</th>
                                 <th class="col-required">* {{ __('messages.first_name') }}</th>
-                                <th>{{ __('messages.middle_name') }}</th>
+                                <th class="d-none d-md-table-cell">{{ __('messages.middle_name') }}</th>
                                 <th class="col-required">* {{ __('messages.iin') }}</th>
                                 <th class="col-required">* {{ __('messages.activity_type') }}</th>
                                 <th class="col-required">* {{ __('messages.specialty') }}</th>
-                                <th>{{ __('messages.phone') }}</th>
-                                <th>{{ __('messages.workplace') }}</th>
+                                <th class="d-none d-md-table-cell">{{ __('messages.phone') }}</th>
+                                <th class="d-none d-md-table-cell">{{ __('messages.workplace') }}</th>
                                 <th class="col-required">* {{ __('messages.sender') }}</th>
                                 <th>{{ __('messages.document') }}</th>
                                 <th class="col-actions">{{ __('messages.actions') }}</th>
@@ -49,7 +49,7 @@
                                 <td class="row-number">1</td>
                                 <td><input type="text" class="form-control" name="last_name" placeholder="{{ __('messages.last_name') }}" required></td>
                                 <td><input type="text" class="form-control" name="first_name" placeholder="{{ __('messages.first_name') }}" required></td>
-                                <td><input type="text" class="form-control" name="middle_name" placeholder="{{ __('messages.middle_name') }}"></td>
+                                <td class="d-none d-md-table-cell"><input type="text" class="form-control" name="middle_name" placeholder="{{ __('messages.middle_name') }}"></td>
                                 <td><input type="text" class="form-control" name="iin" pattern="\d{12}" maxlength="12" placeholder="123456789012" oninput="this.value = this.value.replace(/\D/g, '').substring(0, 12)" required></td>
                                 <td>
                                     <select class="form-select activity_type" name="activity_type" required>
@@ -63,7 +63,7 @@
                                         <option value="" disabled selected>{{ __('messages.choose') }}</option>
                                     </select>
                                 </td>
-                                <td>
+                                <td class="d-none d-md-table-cell">
                                     <input type="tel"
                                         class="form-control phone-mask"
                                         name="phone"
@@ -71,7 +71,7 @@
                                         maxlength="18"
                                         oninput="formatPhone(this)">
                                 </td>
-                                <td><input type="text" class="form-control" name="workplace" placeholder="{{ __('messages.company_name') }}"></td>
+                                <td class="d-none d-md-table-cell"><input type="text" class="form-control" name="workplace" placeholder="{{ __('messages.company_name') }}"></td>
                                 <td><input type="text" class="form-control" name="sender_name" placeholder="{{ __('messages.sender_full_name') }}" required></td>
                                 <td>
                                     <div class="documents-container">
@@ -115,17 +115,17 @@
 
             <!-- Modal Footer -->
             <div class="modal-footer application-modal-footer">
-                <div class="footer-actions-left">
-                    <button type="button" class="btn btn-outline-secondary" onclick="addRow()">
-                        <i class="bi bi-plus-circle"></i> {{ __('messages.add_row') }}
+                <div class="footer-actions-left d-flex gap-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm-mobile" onclick="addRow()" title="{{ __('messages.add_row') }}">
+                        <i class="bi bi-plus-circle"></i> <span class="d-none d-sm-inline">{{ __('messages.add_row') }}</span>
                     </button>
-                    <button type="button" class="btn btn-outline-danger" onclick="resetForm()">
-                        <i class="bi bi-eraser"></i> {{ __('messages.clear_form') }}
+                    <button type="button" class="btn btn-outline-danger btn-sm-mobile" onclick="resetForm()" title="{{ __('messages.clear_form') }}">
+                        <i class="bi bi-eraser"></i> <span class="d-none d-sm-inline">{{ __('messages.clear_form') }}</span>
                     </button>
                 </div>
                 <div class="footer-actions-right">
-                    <button type="button" class="btn btn-primary btn-submit" onclick="addOrder()">
-                        <i class="bi bi-send"></i> {{ __('messages.send_application') }}
+                    <button type="button" class="btn btn-primary btn-submit btn-sm-mobile" onclick="addOrder()">
+                        <i class="bi bi-send"></i> <span>{{ __('messages.send_application') }}</span>
                     </button>
                 </div>
             </div>
