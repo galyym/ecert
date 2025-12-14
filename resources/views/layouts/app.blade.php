@@ -6,8 +6,66 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>@yield('title', __('messages.company_name') . ' - ' . __('messages.certification'))</title>
     <meta name="description" content="@yield('meta_description', __('messages.company_description'))">
-    <meta name="keywords" content="@yield('meta_keywords', 'аттестация, сертификация, инженеры, строительство, промышленная безопасность')">
+    <meta name="keywords" content="@yield('meta_keywords', 'аттестация, сертификация, инженеры, строительство, промышленная безопасность, ТОО ВсеСтрой, Казахстан')">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="author" content="ТОО ВсеСтрой">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Hreflang tags for multilingual SEO -->
+    @php
+    $currentUrl = url()->current();
+    $baseUrl = 'https://vsestroi.kz';
+    $currentPath = parse_url($currentUrl, PHP_URL_PATH) ?? '/';
+    @endphp
+    <link rel="alternate" hreflang="kk" href="{{ $baseUrl . $currentPath }}?lang=kk">
+    <link rel="alternate" hreflang="ru" href="{{ $baseUrl . $currentPath }}?lang=ru">
+    <link rel="alternate" hreflang="en" href="{{ $baseUrl . $currentPath }}?lang=en">
+    <link rel="alternate" hreflang="x-default" href="{{ $baseUrl . $currentPath }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', __('messages.company_name') . ' - ' . __('messages.certification'))">
+    <meta property="og:description" content="@yield('meta_description', __('messages.company_description'))">
+    <meta property="og:image" content="{{ asset('assets/img/og-image.jpg') }}">
+    <meta property="og:locale" content="{{ app()->getLocale() == 'kk' ? 'kk_KZ' : (app()->getLocale() == 'ru' ? 'ru_RU' : 'en_US') }}">
+    <meta property="og:site_name" content="ТОО ВсеСтрой">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="@yield('title', __('messages.company_name') . ' - ' . __('messages.certification'))">
+    <meta name="twitter:description" content="@yield('meta_description', __('messages.company_description'))">
+    <meta name="twitter:image" content="{{ asset('assets/img/og-image.jpg') }}">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "ТОО ВсеСтрой",
+            "alternateName": "VseStroi",
+            "url": "https://vsestroi.kz",
+            "logo": "{{ asset('assets/img/logo.png') }}",
+            "description": "{{ __('messages.company_description') }}",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ __('messages.address') }}",
+                "addressLocality": "Алматы",
+                "addressCountry": "KZ"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+7-700-912-2300",
+                "contactType": "customer service",
+                "availableLanguage": ["Kazakh", "Russian", "English"]
+            },
+            "sameAs": []
+        }
+    </script>
 
     <!-- Favicon -->
     <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
