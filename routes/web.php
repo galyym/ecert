@@ -41,6 +41,8 @@ Route::get('/refresh-csrf-token', function () {
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['ru', 'kk', 'en'])) {
         session(['locale' => $locale]);
+        // Set cookie for 1 year to persist preference
+        return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 365));
     }
     return redirect()->back();
 })->name('lang.switch');

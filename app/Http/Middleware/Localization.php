@@ -18,8 +18,17 @@ class Localization
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Session::has('locale')) {
-            App::setLocale(Session::get('locale'));
+        // Check cookie first (persists across browser sessions)
+        $locale = $request->cookie('locale');
+
+        // Fall back to session if no cookie
+        if (!$locale && Session::has('locale')) {
+            $locale = Session::get('locale');
+        }
+
+        // Set locale if valid
+        if ($locale && in_array($locale, ['ru', 'kk', 'en'])) {
+            App::setLocale($locale);
         }
 
         return $next($request);

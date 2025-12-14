@@ -65,11 +65,6 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="mobileLangDropdown">
                                 <li>
-                                    <a class="dropdown-item {{ $currentLocale == 'ru' ? 'active' : '' }}" href="{{ route('lang.switch', 'ru') }}">
-                                        <i class="bi bi-check-circle-fill me-2"></i> Русский
-                                    </a>
-                                </li>
-                                <li>
                                     <a class="dropdown-item {{ $currentLocale == 'kk' ? 'active' : '' }}" href="{{ route('lang.switch', 'kk') }}">
                                         <i class="bi bi-check-circle-fill me-2"></i> Қазақша
                                     </a>
@@ -77,6 +72,11 @@
                                 <li>
                                     <a class="dropdown-item {{ $currentLocale == 'en' ? 'active' : '' }}" href="{{ route('lang.switch', 'en') }}">
                                         <i class="bi bi-check-circle-fill me-2"></i> English
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item {{ $currentLocale == 'ru' ? 'active' : '' }}" href="{{ route('lang.switch', 'ru') }}">
+                                        <i class="bi bi-check-circle-fill me-2"></i> Русский
                                     </a>
                                 </li>
                             </ul>
@@ -114,11 +114,6 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
                     <li>
-                        <a class="dropdown-item {{ app()->getLocale() == 'ru' ? 'active' : '' }}" href="{{ route('lang.switch', 'ru') }}">
-                            <i class="bi bi-check-circle-fill me-2"></i> Русский
-                        </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item {{ app()->getLocale() == 'kk' ? 'active' : '' }}" href="{{ route('lang.switch', 'kk') }}">
                             <i class="bi bi-check-circle-fill me-2"></i> Қазақша
                         </a>
@@ -126,6 +121,11 @@
                     <li>
                         <a class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}" href="{{ route('lang.switch', 'en') }}">
                             <i class="bi bi-check-circle-fill me-2"></i> English
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item {{ app()->getLocale() == 'ru' ? 'active' : '' }}" href="{{ route('lang.switch', 'ru') }}">
+                            <i class="bi bi-check-circle-fill me-2"></i> Русский
                         </a>
                     </li>
                 </ul>

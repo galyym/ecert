@@ -68,11 +68,11 @@
             <span>{{ __('messages.all_rights_reserved') }}</span>
         </p>
         <div class="footer-lang-switcher mt-2">
-            <a href="{{ route('lang.switch', 'ru') }}" class="lang-link {{ app()->getLocale() == 'ru' ? 'active' : '' }}">Русский</a>
-            <span class="mx-2">|</span>
             <a href="{{ route('lang.switch', 'kk') }}" class="lang-link {{ app()->getLocale() == 'kk' ? 'active' : '' }}">Қазақша</a>
             <span class="mx-2">|</span>
             <a href="{{ route('lang.switch', 'en') }}" class="lang-link {{ app()->getLocale() == 'en' ? 'active' : '' }}">English</a>
+            <span class="mx-2">|</span>
+            <a href="{{ route('lang.switch', 'ru') }}" class="lang-link {{ app()->getLocale() == 'ru' ? 'active' : '' }}">Русский</a>
         </div>
     </div>
 </footer>
