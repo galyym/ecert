@@ -1,5 +1,5 @@
 <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center">
 
         <!-- 1. Logo (Left aligned) -->
         <a href="{{ route('home') }}" class="logo d-flex align-items-center me-0">
@@ -7,7 +7,10 @@
             <span class="sitename ms-2">{{ __('messages.brand_name') }}</span>
         </a>
 
-        <!-- 2. Navigation (Centered) -->
+        <!-- 2. Mobile Toggle (Visible only on mobile, next to logo) -->
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+        <!-- 3. Navigation (Centered) -->
         <nav id="navmenu" class="navmenu mx-auto">
             <ul>
                 <li>
@@ -91,9 +94,6 @@
                 </li>
             </ul>
         </nav>
-
-        <!-- 3. Mobile Toggle (Visible only on mobile, Right aligned) -->
-        <i class="mobile-nav-toggle d-xl-none bi bi-list ms-auto"></i>
 
         <!-- 4. Desktop Actions (Visible only on desktop, Right aligned) -->
         <div class="header-actions d-none d-xl-flex">
