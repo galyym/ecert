@@ -5,7 +5,7 @@
             <!-- Company Info -->
             <div class="col-lg-4 col-md-6 footer-about">
                 <a href="{{ route('home') }}" class="logo d-flex align-items-center">
-                    <span class="sitename">ТОО ВсеСтрой</span>
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="ТОО ВсеСтрой" style="max-height: 48px;">
                 </a>
                 <div class="footer-contact pt-3">
                     <p class="mt-3">

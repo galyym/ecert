@@ -3,7 +3,7 @@
 
         <!-- 1. Logo (Left aligned) -->
         <a href="{{ route('home') }}" class="logo d-flex align-items-center me-0">
-            <span class="sitename">ТОО ВсеСтрой</span>
+            <img src="{{ asset('assets/img/logo.png') }}" alt="ТОО ВсеСтрой" style="max-height: 48px;">
         </a>
 
         <!-- 2. Navigation (Centered) -->
