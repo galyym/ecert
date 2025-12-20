@@ -5,7 +5,8 @@
             <!-- Company Info -->
             <div class="col-lg-4 col-md-6 footer-about">
                 <a href="{{ route('home') }}" class="logo d-flex align-items-center">
-                    <span class="sitename">ТОО ВсеСтрой</span>
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="{{ __('messages.brand_name') }}" style="max-height: 48px;">
+                    <span class="sitename ms-2">{{ __('messages.brand_name') }}</span>
                 </a>
                 <div class="footer-contact pt-3">
                     <p class="mt-3">
@@ -64,7 +65,7 @@
     <div class="container copyright text-center mt-4">
         <p>
             © <span>{{ date('Y') }}</span>
-            <strong class="px-1 sitename">ТОО ВсеСтрой</strong>
+            <strong class="px-1 sitename">{{ __('messages.brand_name') }}</strong>
             <span>{{ __('messages.all_rights_reserved') }}</span>
         </p>
         <div class="footer-lang-switcher mt-2">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('messages.company_name') . ' - ' . __('messages.about_company_title'))
+@section('title', __('messages.brand_name') . ' - ' . __('messages.about_company_title'))
 @section('meta_description', __('messages.about_company_desc'))
 @section('body_class', 'index-page')
 

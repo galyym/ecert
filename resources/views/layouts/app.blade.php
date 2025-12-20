@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>@yield('title', __('messages.company_name') . ' - ' . __('messages.certification'))</title>
+    <title>@yield('title', __('messages.brand_name') . ' - ' . __('messages.certification'))</title>
     <meta name="description" content="@yield('meta_description', __('messages.company_description'))">
-    <meta name="keywords" content="@yield('meta_keywords', 'аттестация, сертификация, инженеры, строительство, промышленная безопасность, ТОО ВсеСтрой, Казахстан')">
+    <meta name="keywords" content="@yield('meta_keywords', 'аттестация, сертификация, инженеры, строительство, промышленная безопасность, ' . __('messages.brand_name') . ', Казахстан')">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="author" content="ТОО ВсеСтрой">
+    <meta name="author" content="{{ __('messages.brand_name') }}">
     <meta name="robots" content="index, follow">
 
     <!-- Canonical URL -->
@@ -28,16 +28,16 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title', __('messages.company_name') . ' - ' . __('messages.certification'))">
+    <meta property="og:title" content="@yield('title', __('messages.brand_name') . ' - ' . __('messages.certification'))">
     <meta property="og:description" content="@yield('meta_description', __('messages.company_description'))">
     <meta property="og:image" content="{{ asset('assets/img/og-image.jpg') }}">
     <meta property="og:locale" content="{{ app()->getLocale() == 'kk' ? 'kk_KZ' : (app()->getLocale() == 'ru' ? 'ru_RU' : 'en_US') }}">
-    <meta property="og:site_name" content="ТОО ВсеСтрой">
+    <meta property="og:site_name" content="{{ __('messages.brand_name') }}">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title" content="@yield('title', __('messages.company_name') . ' - ' . __('messages.certification'))">
+    <meta name="twitter:title" content="@yield('title', __('messages.brand_name') . ' - ' . __('messages.certification'))">
     <meta name="twitter:description" content="@yield('meta_description', __('messages.company_description'))">
     <meta name="twitter:image" content="{{ asset('assets/img/og-image.jpg') }}">
 
@@ -46,7 +46,7 @@
         {
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "ТОО ВсеСтрой",
+            "name": "{{ __('messages.brand_name') }}",
             "alternateName": "VseStroi",
             "url": "https://vsestroi.kz",
             "logo": "{{ asset('assets/img/logo.png') }}",

@@ -257,4 +257,5 @@ return [
     'iin_invalid' => 'Invalid IIN',
     'error' => 'Error',
     'success' => 'Success',
+    'brand_name' => 'VseStroi',
 ];

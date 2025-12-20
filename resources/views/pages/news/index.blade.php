@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Новости - ТОО ВсеСтрой')
-@section('meta_description', 'Актуальные новости и события ТОО ВсеСтрой. Следите за обновлениями в сфере аттестации и сертификации.')
+@section('title', __('messages.news') . ' - ' . __('messages.brand_name'))
+@section('meta_description', __('messages.brand_name') . ' - ' . __('messages.latest_news_desc'))
 
 @section('content')
 

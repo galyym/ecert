@@ -170,6 +170,13 @@ h6 {
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Desktop layout */
+@media (min-width: 1201px) {
+  .header .header-container {
+    justify-content: space-between;
+  }
+}
+
 .scrolled .header .header-container {
   background: color-mix(in srgb, var(--surface-color), transparent 5%);
 }
@@ -217,31 +224,45 @@ h6 {
     margin-left: 10px;
     margin-right: 10px;
     padding: 10px 5px 10px 15px;
+    display: flex;
+    align-items: center;
   }
 
   .header .logo {
     order: 1;
+    flex-shrink: 0;
+    margin-right: 15px;
   }
 
-  .header .btn-getstarted {
+  .header .mobile-nav-toggle {
     order: 2;
-    margin: 0 10px 0 0;
-    padding: 6px 15px;
+    flex-shrink: 0;
+    margin-left: auto;
   }
 
   .header .navmenu {
     order: 3;
+    margin-left: 0;
+    margin-right: 0;
+    position: absolute;
+  }
+
+  .header .header-actions {
+    order: 4;
   }
 }
 
 @media (max-width: 575px) {
-  .header .logo h1 {
-    font-size: 18px;
+  .header .logo {
+    padding-left: 0;
   }
 
-  .header .btn-getstarted {
-    padding: 6px 12px;
-    margin-left: 10px;
+  .header .logo img {
+    max-height: 32px;
+  }
+
+  .header .logo .sitename {
+    font-size: 1rem;
   }
 }
 
