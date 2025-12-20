@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'О компании - ТОО ВсеСтрой')
-@section('meta_description', 'ТОО ВсеСтрой - профессиональная аттестация и сертификация с 2013 года. Наша команда экспертов обеспечивает качественные услуги и соблюдение всех стандартов.')
+@section('title', __('messages.about_company') . ' - ' . __('messages.brand_name'))
+@section('meta_description', __('messages.brand_name') . ' - ' . __('messages.about_company_title'))
 
 @section('content')
 

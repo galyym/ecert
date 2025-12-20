@@ -257,4 +257,5 @@ return [
     'iin_invalid' => 'ЖСН дұрыс емес',
     'error' => 'Қате',
     'success' => 'Сәтті',
+    'brand_name' => 'ВсеСтрой',
 ];

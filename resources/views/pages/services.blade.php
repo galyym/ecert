@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Услуги - ТОО ВсеСтрой')
+@section('title', __('messages.services') . ' - ' . __('messages.brand_name'))
 @section('meta_description', 'Полный спектр услуг аттестации и сертификации: аттестация инженерно-технических работников, аккредитация организаций, обучение специалистов.')
 
 @section('content')

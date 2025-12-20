@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Контакты - ТОО ВсеСтрой')
-@section('meta_description', 'Свяжитесь с ТОО ВсеСтрой по вопросам аттестации и сертификации. Телефон: +7 (702) 912-23-00. Адрес: г. Актау, 29а мкр, 145, БЦ АБК, офис 103.')
+@section('title', __('messages.contacts') . ' - ' . __('messages.brand_name'))
+@section('meta_description', __('messages.brand_name') . ' - ' . __('messages.contact_us_desc'))
 
 @section('content')
 
