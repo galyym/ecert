@@ -157,7 +157,7 @@ function saveFormData() {
 
     rows.forEach((row, index) => {
         const docs = [];
-        row.querySelectorAll('.document-item').forEach(doc => {
+        row.querySelectorAll('.document-item-wrapper').forEach(doc => {
             const nameInput = doc.querySelector('.doc-name');
             const fileInput = doc.querySelector('.doc-file');
             if (nameInput && fileInput) {
@@ -230,7 +230,7 @@ function validateForm() {
         });
 
         // Проверка документов
-        const docItems = row.querySelectorAll('.document-item');
+        const docItems = row.querySelectorAll('.document-item-wrapper');
         docItems.forEach((doc, docIndex) => {
             const nameInput = doc.querySelector('.doc-name');
             const fileInput = doc.querySelector('.doc-file');
@@ -311,12 +311,14 @@ async function addOrder() {
             });
 
             // Документы
-            row.querySelectorAll('.document-item').forEach((doc, docIndex) => {
+            row.querySelectorAll('.document-item-wrapper').forEach((doc, docIndex) => {
                 const nameInput = doc.querySelector('.doc-name');
                 const fileInput = doc.querySelector('.doc-file');
 
-                if (nameInput?.value && fileInput?.files[0]) {
-                    formData.append(`requests[${index}][documents][${docIndex}][name]`, nameInput.value.trim());
+                // Отправляем документ если есть файл (имя опционально)
+                if (fileInput?.files && fileInput.files[0]) {
+                    const docName = nameInput?.value?.trim() || fileInput.files[0].name;
+                    formData.append(`requests[${index}][documents][${docIndex}][name]`, docName);
                     formData.append(`requests[${index}][documents][${docIndex}][file]`, fileInput.files[0]);
                 }
             });
@@ -362,7 +364,15 @@ function addDocumentField(button) {
     const container = button.previousElementSibling;
     if (!container) return;
 
-    const newItem = container.firstElementChild.cloneNode(true);
+    const firstItem = container.querySelector('.document-item-wrapper');
+    if (!firstItem) return;
+
+    const newItem = firstItem.cloneNode(true);
+
+    // Генерируем уникальный ID для нового file input
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 1000);
+    const newId = `docFile_${timestamp}_${random}`;
 
     // Очищаем все поля ввода
     newItem.querySelectorAll('input').forEach(input => {
@@ -370,21 +380,41 @@ function addDocumentField(button) {
             // Для file input нужно создать новый элемент
             const newFileInput = input.cloneNode(true);
             newFileInput.value = '';
+            newFileInput.id = newId;
             input.parentNode.replaceChild(newFileInput, input);
+
+            // Обновляем label для нового file input
+            const label = newItem.querySelector('.file-input-label');
+            if (label) {
+                label.setAttribute('for', newId);
+                label.classList.remove('file-selected');
+                const fileNameText = label.querySelector('.file-name-text');
+                if (fileNameText) {
+                    fileNameText.textContent = window.messages?.choose_file || 'Выбрать файл';
+                }
+                const icon = label.querySelector('i');
+                if (icon) {
+                    icon.className = 'bi bi-upload';
+                }
+            }
         } else {
             input.value = '';
+            input.title = '';
         }
     });
 
     container.appendChild(newItem);
+
+    // Инициализируем обработчик для нового file input
+    initFileInputHandler(newItem.querySelector('.doc-file'));
 }
 
 function removeDocumentField(button) {
     const container = button.closest('.documents-container');
     if (!container) return;
 
-    const items = container.querySelectorAll('.document-item');
-    const documentItem = button.closest('.document-item');
+    const items = container.querySelectorAll('.document-item-wrapper');
+    const documentItem = button.closest('.document-item-wrapper');
 
     if (items.length > 1) {
         // Если документов больше одного - удаляем блок
@@ -393,16 +423,88 @@ function removeDocumentField(button) {
         // Если документ один - очищаем его поля
         const nameInput = documentItem.querySelector('.doc-name');
         const fileInput = documentItem.querySelector('.doc-file');
+        const fileLabel = documentItem.querySelector('.file-input-label');
 
-        if (nameInput) nameInput.value = '';
+        if (nameInput) {
+            nameInput.value = '';
+            nameInput.title = '';
+        }
+
         if (fileInput) {
             // Для file input создаем новый элемент для полной очистки
             const newFileInput = fileInput.cloneNode(true);
             newFileInput.value = '';
             fileInput.parentNode.replaceChild(newFileInput, fileInput);
+
+            // Инициализируем обработчик для нового file input
+            initFileInputHandler(newFileInput);
+        }
+
+        if (fileLabel) {
+            fileLabel.classList.remove('file-selected');
+            const fileNameText = fileLabel.querySelector('.file-name-text');
+            if (fileNameText) {
+                fileNameText.textContent = window.messages?.choose_file || 'Выбрать файл';
+            }
+            const icon = fileLabel.querySelector('i');
+            if (icon) {
+                icon.className = 'bi bi-upload';
+            }
         }
     }
 }
+
+// Инициализация обработчика изменения файла
+function initFileInputHandler(fileInput) {
+    if (!fileInput) return;
+
+    fileInput.addEventListener('change', function () {
+        const container = this.closest('.file-input-container');
+        if (!container) return;
+
+        const label = container.querySelector('.file-input-label');
+        const fileNameText = label?.querySelector('.file-name-text');
+        const icon = label?.querySelector('i');
+
+        if (this.files && this.files.length > 0) {
+            const fileName = this.files[0].name;
+            if (fileNameText) {
+                fileNameText.textContent = fileName;
+                fileNameText.title = fileName;
+            }
+            if (label) {
+                label.classList.add('file-selected');
+            }
+            if (icon) {
+                icon.className = 'bi bi-check-circle-fill';
+            }
+        } else {
+            if (fileNameText) {
+                fileNameText.textContent = window.messages?.choose_file || 'Выбрать файл';
+                fileNameText.title = '';
+            }
+            if (label) {
+                label.classList.remove('file-selected');
+            }
+            if (icon) {
+                icon.className = 'bi bi-upload';
+            }
+        }
+    });
+}
+
+// Инициализация при загрузке страницы - обновление title для doc-name и обработчики файлов
+document.addEventListener('DOMContentLoaded', function () {
+    // Инициализируем все существующие file inputs
+    document.querySelectorAll('.doc-file').forEach(initFileInputHandler);
+
+    // Добавляем обработчик для обновления title при вводе названия документа
+    document.addEventListener('input', function (e) {
+        if (e.target.classList.contains('doc-name')) {
+            e.target.title = e.target.value;
+        }
+    });
+});
 
 function removeRow(button) {
     const row = button.closest('tr');
