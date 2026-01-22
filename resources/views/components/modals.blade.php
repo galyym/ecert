@@ -211,6 +211,7 @@
         iin_invalid: "{{ __('messages.iin_invalid') ?? 'Invalid IIN' }}",
         error_title: "{{ __('messages.error') ?? 'Error' }}",
         success_title: "{{ __('messages.success') ?? 'Success' }}",
+        send_application: '<i class="bi bi-send"></i> <span>{{ __("messages.send_application") ?? "Отправить заявку" }}</span>',
     };
 </script>
 <script src="{{ asset('assets/js/modals.js') }}"></script>
