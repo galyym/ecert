@@ -869,13 +869,22 @@
                     });
 
                     // Документы
-                    row.querySelectorAll('.document-item').forEach((doc, docIndex) => {
+                    const docWrappers = row.querySelectorAll('.document-item-wrapper');
+                    console.log('Found document wrappers:', docWrappers.length);
+
+                    docWrappers.forEach((doc, docIndex) => {
                         const nameInput = doc.querySelector('.doc-name');
                         const fileInput = doc.querySelector('.doc-file');
 
-                        if (nameInput.value && fileInput.files[0]) {
-                            formData.append(`requests[${index}][documents][${docIndex}][name]`, nameInput.value.trim());
+                        console.log('Doc', docIndex, '- nameInput:', nameInput, 'fileInput:', fileInput);
+                        console.log('Doc', docIndex, '- name value:', nameInput?.value, 'files:', fileInput?.files);
+
+                        // Отправляем документ если есть файл (имя опционально)
+                        if (fileInput && fileInput.files && fileInput.files[0]) {
+                            const docName = nameInput?.value?.trim() || fileInput.files[0].name;
+                            formData.append(`requests[${index}][documents][${docIndex}][name]`, docName);
                             formData.append(`requests[${index}][documents][${docIndex}][file]`, fileInput.files[0]);
+                            console.log('Added document:', docName, fileInput.files[0]);
                         }
                     });
                 });
@@ -960,8 +969,7 @@
 
             if (items.length > 1) {
                 // If there are multiple documents, remove
-                if (confirm('{{ __('
-                        messages.delete_document ') }}?')) {
+                if (confirm('{{ __("messages.delete_document") }}?')) {
                     documentItem.remove();
                 }
             } else {
@@ -972,8 +980,7 @@
                 const fileNameText = documentItem.querySelector('.file-name-text');
 
                 if (nameInput.value || fileInput.files.length > 0) {
-                    if (confirm('{{ __('
-                            messages.clear_document_data ') ?? "Деректерді тазалау керек пе?" }}?')) {
+                    if (confirm('{{ __("messages.clear_document_data") ?? "Деректерді тазалау керек пе?" }}?')) {
                         nameInput.value = '';
                         nameInput.title = '';
                         fileInput.value = '';
@@ -987,8 +994,7 @@
                             }
                         }
                         if (fileNameText) {
-                            fileNameText.textContent = '{{ __('
-                            messages.choose_file ') ?? "Файлды таңдаңыз" }}';
+                            fileNameText.textContent = '{{ __("messages.choose_file") ?? "Файлды таңдаңыз" }}';
                         }
 
                         // Remove error classes
@@ -996,8 +1002,7 @@
                         fileInput.classList.remove('is-invalid');
                     }
                 } else {
-                    alert('{{ __('
-                        messages.fields_already_empty ') ?? "Өрістер бос!" }}');
+                    alert('{{ __("messages.fields_already_empty") ?? "Өрістер бос!" }}');
                 }
             }
         }
@@ -1026,8 +1031,7 @@
                     }
                 } else {
                     if (fileNameSpan) {
-                        fileNameSpan.textContent = '{{ __('
-                        messages.choose_file ') ?? "Файлды таңдаңыз" }}';
+                        fileNameSpan.textContent = '{{ __("messages.choose_file") ?? "Файлды таңдаңыз" }}';
                         fileNameSpan.title = '';
                     }
                     if (label) {

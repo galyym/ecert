@@ -157,7 +157,7 @@ function saveFormData() {
 
     rows.forEach((row, index) => {
         const docs = [];
-        row.querySelectorAll('.document-item').forEach(doc => {
+        row.querySelectorAll('.document-item-wrapper').forEach(doc => {
             const nameInput = doc.querySelector('.doc-name');
             const fileInput = doc.querySelector('.doc-file');
             if (nameInput && fileInput) {
@@ -230,7 +230,7 @@ function validateForm() {
         });
 
         // Проверка документов
-        const docItems = row.querySelectorAll('.document-item');
+        const docItems = row.querySelectorAll('.document-item-wrapper');
         docItems.forEach((doc, docIndex) => {
             const nameInput = doc.querySelector('.doc-name');
             const fileInput = doc.querySelector('.doc-file');
@@ -311,12 +311,14 @@ async function addOrder() {
             });
 
             // Документы
-            row.querySelectorAll('.document-item').forEach((doc, docIndex) => {
+            row.querySelectorAll('.document-item-wrapper').forEach((doc, docIndex) => {
                 const nameInput = doc.querySelector('.doc-name');
                 const fileInput = doc.querySelector('.doc-file');
 
-                if (nameInput?.value && fileInput?.files[0]) {
-                    formData.append(`requests[${index}][documents][${docIndex}][name]`, nameInput.value.trim());
+                // Отправляем документ если есть файл (имя опционально)
+                if (fileInput?.files && fileInput.files[0]) {
+                    const docName = nameInput?.value?.trim() || fileInput.files[0].name;
+                    formData.append(`requests[${index}][documents][${docIndex}][name]`, docName);
                     formData.append(`requests[${index}][documents][${docIndex}][file]`, fileInput.files[0]);
                 }
             });
