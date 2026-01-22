@@ -75,20 +75,30 @@
                                 <td><input type="text" class="form-control" name="sender_name" placeholder="{{ __('messages.sender_full_name') }}" required></td>
                                 <td>
                                     <div class="documents-container">
-                                        <div class="document-item">
-                                            <input type="text"
-                                                class="form-control doc-name"
-                                                placeholder="{{ __('messages.document_name') }}"
-                                                name="docName[]">
-                                            <input type="file"
-                                                class="form-control doc-file"
-                                                name="docFile[]"
-                                                accept="image/*,.pdf">
+                                        <div class="document-item-wrapper">
+                                            <div class="document-item-content">
+                                                <input type="text"
+                                                    class="form-control doc-name"
+                                                    placeholder="{{ __('messages.document_name') }}"
+                                                    name="docName[]"
+                                                    title="">
+                                                <div class="file-input-container">
+                                                    <input type="file"
+                                                        class="form-control doc-file"
+                                                        name="docFile[]"
+                                                        accept="image/*,.pdf"
+                                                        id="docFile_1_1">
+                                                    <label for="docFile_1_1" class="file-input-label">
+                                                        <i class="bi bi-upload"></i>
+                                                        <span class="file-name-text">{{ __('messages.choose_file') ?? 'Выбрать файл' }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                             <button type="button"
                                                 class="btn-remove-doc"
                                                 onclick="removeDocumentField(this)"
                                                 title="{{ __('messages.delete_document') }}">
-                                                <i class="bi bi-trash"></i>
+                                                <i class="bi bi-x-lg"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -193,6 +203,7 @@
         delete_doc_confirm: "{{ __('messages.delete_doc_confirm') ?? 'Are you sure you want to delete this document?' }}",
         fill_required: "{{ __('messages.fill_required') ?? 'Please fill in all required fields' }}",
         choose: "{{ __('messages.choose') }}",
+        choose_file: "{{ __('messages.choose_file') ?? 'Выбрать файл' }}",
         document_name: "{{ __('messages.document_name') }}",
         delete_document: "{{ __('messages.delete_document') }}",
         add_document: "{{ __('messages.add_document') }}",

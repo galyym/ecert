@@ -1539,6 +1539,154 @@ body.index-page {
   font-size: 1rem;
 }
 
+/* ===================================================
+   REDESIGNED DOCUMENT UPLOAD SECTION
+   =================================================== */
+
+/* Document item wrapper - главный контейнер */
+.application-table .document-item-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.application-table .document-item-wrapper:hover {
+  border-color: var(--corporate-blue);
+  background: #f1f5fd;
+}
+
+/* Контент документа - горизонтальный ряд */
+.application-table .document-item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  min-width: 0;
+  align-items: center;
+}
+
+/* Инпут названия документа */
+.application-table .document-item-content .doc-name {
+  flex: 1;
+  min-width: 100px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: white;
+  transition: all 0.3s ease;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.application-table .document-item-content .doc-name:focus {
+  border-color: var(--corporate-blue);
+  box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+  outline: none;
+}
+
+/* Контейнер для кастомного file input */
+.application-table .file-input-container {
+  position: relative;
+  flex: 1.2;
+  min-width: 120px;
+}
+
+.application-table .file-input-container .doc-file {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.application-table .file-input-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  border: 1px dashed #ced4da;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  color: #6c757d;
+  min-height: 38px;
+  overflow: hidden;
+}
+
+.application-table .file-input-label:hover {
+  border-color: var(--corporate-blue);
+  background: #f8f9fa;
+  color: var(--corporate-blue);
+}
+
+.application-table .file-input-label i {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.application-table .file-input-label .file-name-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Состояние когда файл выбран */
+.application-table .file-input-label.file-selected {
+  border-style: solid;
+  border-color: #28a745;
+  background: #d4edda;
+  color: #155724;
+}
+
+.application-table .file-input-label.file-selected i {
+  color: #28a745;
+}
+
+/* Кнопка удаления документа - отдельная и понятная */
+.application-table .document-item-wrapper .btn-remove-doc {
+  position: static !important;
+  transform: none !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: #fff5f5;
+  color: #dc3545;
+  border: 1px solid #f8d7da;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  flex-shrink: 0;
+  align-self: center;
+  right: auto !important;
+  top: auto !important;
+}
+
+.application-table .document-item-wrapper .btn-remove-doc:hover {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+  transform: scale(1.05) !important;
+}
+
+.application-table .document-item-wrapper .btn-remove-doc i {
+  font-size: 0.85rem;
+}
+
 /* Кнопка удаления строки */
 .application-table .btn-remove-row {
   background: #dc3545;
@@ -1958,9 +2106,50 @@ body.index-page {
   color: var(--dark-text);
 }
 
-[data-theme="dark"] .application-table .document-item {
+[data-theme="dark"] .application-table .document-item-wrapper {
   background: var(--dark-bg-secondary);
   border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .application-table .document-item-wrapper:hover {
+  background: var(--dark-surface-hover);
+  border-color: var(--corporate-blue);
+}
+
+[data-theme="dark"] .application-table .document-item-content .doc-name {
+  background: var(--dark-bg-tertiary);
+  border-color: var(--dark-border);
+  color: var(--dark-text);
+}
+
+[data-theme="dark"] .application-table .file-input-label {
+  background: var(--dark-bg-tertiary);
+  border-color: var(--dark-border);
+  color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] .application-table .file-input-label:hover {
+  background: var(--dark-surface-hover);
+  border-color: var(--corporate-blue);
+  color: var(--corporate-blue);
+}
+
+[data-theme="dark"] .application-table .file-input-label.file-selected {
+  background: rgba(40, 167, 69, 0.2);
+  border-color: #28a745;
+  color: #5cb85c;
+}
+
+[data-theme="dark"] .application-table .document-item-wrapper .btn-remove-doc {
+  background: rgba(220, 53, 69, 0.1);
+  color: #e57373;
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+[data-theme="dark"] .application-table .document-item-wrapper .btn-remove-doc:hover {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
 }
 
 [data-theme="dark"] .application-modal-footer {

@@ -40,6 +40,7 @@ return [
     'add_document' => 'Add Document',
     'delete_document' => 'Delete Document',
     'delete_row' => 'Delete Row',
+    'choose_file' => 'Choose File',
     'company_name' => 'Company Name',
 
     // Footer

@@ -40,6 +40,7 @@ return [
     'add_document' => 'Добавить документ',
     'delete_document' => 'Удалить документ',
     'delete_row' => 'Удалить строку',
+    'choose_file' => 'Выбрать файл',
     'company_name' => 'Название компании',
 
     // Footer

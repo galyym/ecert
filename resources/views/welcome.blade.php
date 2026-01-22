@@ -431,27 +431,37 @@
                                 <td><input type="text" class="form-control" name="sender_name" required></td>
                                 <td>
                                     <div class="documents-container">
-                                        <div class="document-item">
-                                            <input type="text"
-                                                class="form-control doc-name"
-                                                placeholder="Название документа"
-                                                name="docName[]">
-                                            <input type="file"
-                                                class="form-control doc-file"
-                                                name="docFile[]"
-                                                accept="image/*,.pdf">
+                                        <div class="document-item-wrapper">
+                                            <div class="document-item-content">
+                                                <input type="text"
+                                                    class="form-control doc-name"
+                                                    placeholder="{{ __('messages.document_name') }}"
+                                                    name="docName[]"
+                                                    title="">
+                                                <div class="file-input-container">
+                                                    <input type="file"
+                                                        class="form-control doc-file"
+                                                        name="docFile[]"
+                                                        accept="image/*,.pdf"
+                                                        id="docFile_1_1">
+                                                    <label for="docFile_1_1" class="file-input-label">
+                                                        <i class="bi bi-upload"></i>
+                                                        <span class="file-name-text">{{ __('messages.choose_file') ?? 'Выбрать файл' }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                             <button type="button"
                                                 class="btn-remove-doc"
                                                 onclick="removeDocumentField(this)"
-                                                style="display: block;">
-                                                ×
+                                                title="{{ __('messages.delete_document') }}">
+                                                <i class="bi bi-x-lg"></i>
                                             </button>
                                         </div>
                                     </div>
                                     <button type="button"
                                         class="btn-add-doc"
                                         onclick="addDocumentField(this)">
-                                        + Добавить документ
+                                        <i class="bi bi-plus-circle"></i> {{ __('messages.add_document') }}
                                     </button>
                                 </td>
 
@@ -896,42 +906,151 @@
 
         function addDocumentField(button) {
             const container = button.previousElementSibling;
-            const newItem = container.firstElementChild.cloneNode(true);
-            newItem.querySelectorAll('input').forEach(input => input.value = '');
+            const existingItems = container.querySelectorAll('.document-item-wrapper');
+            const newIndex = existingItems.length + 1;
+            const rowIndex = button.closest('tr') ?
+                Array.from(button.closest('tbody').querySelectorAll('tr')).indexOf(button.closest('tr')) + 1 : 1;
+            const uniqueId = `docFile_${rowIndex}_${newIndex}`;
 
-            // Кнопка удаления уже видима по умолчанию
+            const newItem = document.createElement('div');
+            newItem.className = 'document-item-wrapper';
+            newItem.innerHTML = `
+                <div class="document-item-content">
+                    <input type="text"
+                        class="form-control doc-name"
+                        placeholder="{{ __('messages.document_name') }}"
+                        name="docName[]"
+                        title="">
+                    <div class="file-input-container">
+                        <input type="file"
+                            class="form-control doc-file"
+                            name="docFile[]"
+                            accept="image/*,.pdf"
+                            id="${uniqueId}">
+                        <label for="${uniqueId}" class="file-input-label">
+                            <i class="bi bi-upload"></i>
+                            <span class="file-name-text">{{ __('messages.choose_file') ?? 'Файлды таңдаңыз' }}</span>
+                        </label>
+                    </div>
+                </div>
+                <button type="button"
+                    class="btn-remove-doc"
+                    onclick="removeDocumentField(this)"
+                    title="{{ __('messages.delete_document') }}">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            `;
+
             container.appendChild(newItem);
+
+            // Initialize file input handler for the new item
+            initFileInputHandler(newItem.querySelector('.doc-file'));
+
+            // Add title updater for doc-name
+            const docNameInput = newItem.querySelector('.doc-name');
+            docNameInput.addEventListener('input', function() {
+                this.title = this.value;
+            });
         }
 
         function removeDocumentField(button) {
             const container = button.closest('.documents-container');
-            const items = container.querySelectorAll('.document-item');
-            const documentItem = button.closest('.document-item');
+            const items = container.querySelectorAll('.document-item-wrapper');
+            const documentItem = button.closest('.document-item-wrapper');
 
             if (items.length > 1) {
-                // Если есть несколько документов, удаляем
-                if (confirm('Удалить этот документ?')) {
+                // If there are multiple documents, remove
+                if (confirm('{{ __('
+                        messages.delete_document ') }}?')) {
                     documentItem.remove();
                 }
             } else {
-                // Если это единственный документ, очищаем поля
+                // If this is the only document, clear the fields
                 const nameInput = documentItem.querySelector('.doc-name');
                 const fileInput = documentItem.querySelector('.doc-file');
+                const fileLabel = documentItem.querySelector('.file-input-label');
+                const fileNameText = documentItem.querySelector('.file-name-text');
 
                 if (nameInput.value || fileInput.files.length > 0) {
-                    if (confirm('Очистить данные документа?')) {
+                    if (confirm('{{ __('
+                            messages.clear_document_data ') ?? "Деректерді тазалау керек пе?" }}?')) {
                         nameInput.value = '';
+                        nameInput.title = '';
                         fileInput.value = '';
 
-                        // Убираем классы ошибок, если они есть
+                        // Reset file input label
+                        if (fileLabel) {
+                            fileLabel.classList.remove('file-selected');
+                            const icon = fileLabel.querySelector('i');
+                            if (icon) {
+                                icon.className = 'bi bi-upload';
+                            }
+                        }
+                        if (fileNameText) {
+                            fileNameText.textContent = '{{ __('
+                            messages.choose_file ') ?? "Файлды таңдаңыз" }}';
+                        }
+
+                        // Remove error classes
                         nameInput.classList.remove('is-invalid');
                         fileInput.classList.remove('is-invalid');
                     }
                 } else {
-                    alert('Поля уже пусты!');
+                    alert('{{ __('
+                        messages.fields_already_empty ') ?? "Өрістер бос!" }}');
                 }
             }
         }
+
+        // File input handler function
+        function initFileInputHandler(fileInput) {
+            if (!fileInput) return;
+
+            fileInput.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                const fileNameSpan = label ? label.querySelector('.file-name-text') : null;
+                const icon = label ? label.querySelector('i') : null;
+
+                if (this.files && this.files.length > 0) {
+                    const fileName = this.files[0].name;
+                    if (fileNameSpan) {
+                        fileNameSpan.textContent = fileName.length > 20 ?
+                            fileName.substring(0, 17) + '...' : fileName;
+                        fileNameSpan.title = fileName;
+                    }
+                    if (label) {
+                        label.classList.add('file-selected');
+                    }
+                    if (icon) {
+                        icon.className = 'bi bi-check-lg';
+                    }
+                } else {
+                    if (fileNameSpan) {
+                        fileNameSpan.textContent = '{{ __('
+                        messages.choose_file ') ?? "Файлды таңдаңыз" }}';
+                        fileNameSpan.title = '';
+                    }
+                    if (label) {
+                        label.classList.remove('file-selected');
+                    }
+                    if (icon) {
+                        icon.className = 'bi bi-upload';
+                    }
+                }
+            });
+        }
+
+        // Initialize existing file inputs on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.doc-file').forEach(initFileInputHandler);
+
+            // Add title updater for existing doc-name inputs
+            document.querySelectorAll('.doc-name').forEach(function(input) {
+                input.addEventListener('input', function() {
+                    this.title = this.value;
+                });
+            });
+        });
     </script>
 
     <script>

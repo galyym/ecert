@@ -40,6 +40,7 @@ return [
     'add_document' => 'Құжат қосу',
     'delete_document' => 'Құжатты өшіру',
     'delete_row' => 'Қатарды өшіру',
+    'choose_file' => 'Файлды таңдаңыз',
     'company_name' => 'Компания атауы',
 
     // Footer
