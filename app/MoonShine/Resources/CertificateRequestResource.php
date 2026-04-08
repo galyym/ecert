@@ -82,7 +82,13 @@ class CertificateRequestResource extends ModelResource implements HasImportExpor
                 Text::make(__('certificate.phone'), 'phone'),
                 Text::make(__('certificate.workplace'), 'workplace'),
                 Text::make(__('certificate.sender_name'), 'sender_name'),
-                Text::make(__('certificate.document'), 'document'),
+                Json::make(__('certificate.document'), 'document')
+                    ->fields([
+                        Text::make('Название', 'name'),
+                        File::make('Файл', 'path')->disk('public'),
+                    ])
+                    ->creatable()
+                    ->removable(),
                 Text::make('Chat ID', 'chat_id'),
                 Select::make('Статус', 'status')->options(['confirmed' => 'confirmed', 'new' => 'new']),
                 Text::make(__('certificate.certificate_number'), 'certificate_number'),
